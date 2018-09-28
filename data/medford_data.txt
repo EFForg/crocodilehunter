@@ -1,0 +1,4353 @@
+$ ./CellSearch --freq-start 715e6 --freq-end 768e6
+LTE CellSearch (release) beginning. 1.0 to 1.1.0: OpenCL/TDD/HACKRF/bladeRF/ext-LNB added by Jiao Xianjun(putaoshu@gmail.com)
+  PPM: 0
+  correction: 1
+Found Rafael Micro R820T tuner
+[R82XX] PLL not locked!
+RTLSDR device FOUND!
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+Use  HW  begin with 715MHz actual 715MHz 1.92e+06MHz
+    Search frequency: 715 to 768 MHz
+with freq correction: 0 kHz
+    Search PSS at fo: -60 to 55 kHz
+
+Examining center frequency 715 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0444047 avg abs(imag) 0.0446528
+Hit        PAR [4.41113 4.8098]dB
+PSS XCORR  cost 2.21513s
+
+Examining center frequency 715.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0453073 avg abs(imag) 0.0457066
+Hit        PAR [4.58084 4.69882]dB
+PSS XCORR  cost 2.01097s
+
+Examining center frequency 715.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0439127 avg abs(imag) 0.0439395
+Hit        PAR [5.40212 4.75441]dB
+PSS XCORR  cost 2.30653s
+
+Examining center frequency 715.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0438281 avg abs(imag) 0.0438113
+Hit        PAR [4.52342 4.41712]dB
+PSS XCORR  cost 2.00767s
+
+Examining center frequency 715.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0442059 avg abs(imag) 0.0441106
+Hit        PAR [4.7764 4.32867]dB
+PSS XCORR  cost 2.15829s
+
+Examining center frequency 715.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0448339 avg abs(imag) 0.0447142
+Hit        PAR [4.03697 3.863]dB
+PSS XCORR  cost 1.93232s
+
+Examining center frequency 715.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0451121 avg abs(imag) 0.0452914
+Hit        PAR [3.54946 3.91225]dB
+PSS XCORR  cost 2.22458s
+
+Examining center frequency 715.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0449715 avg abs(imag) 0.0453886
+Hit        PAR [3.48589 3.64868]dB
+PSS XCORR  cost 2.56384s
+
+Examining center frequency 715.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0478349 avg abs(imag) 0.0477415
+Hit        PAR [3.78265 3.64458]dB
+PSS XCORR  cost 3.57012s
+
+Examining center frequency 715.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0485206 avg abs(imag) 0.0485204
+Hit        PAR [3.59438 3.81848]dB
+PSS XCORR  cost 4.33289s
+
+Examining center frequency 716 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0550549 avg abs(imag) 0.0550229
+Hit        PAR [4.14455 3.32951]dB
+PSS XCORR  cost 3.65129s
+
+Examining center frequency 716.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0567219 avg abs(imag) 0.0565898
+Hit        PAR [3.26358 3.78135]dB
+PSS XCORR  cost 2.21597s
+
+Examining center frequency 716.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0595744 avg abs(imag) 0.059939
+Hit        PAR [3.61001 3.58404]dB
+PSS XCORR  cost 3.30614s
+
+Examining center frequency 716.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0669271 avg abs(imag) 0.0665995
+Hit        PAR [3.74418 3.69752]dB
+PSS XCORR  cost 2.51822s
+
+Examining center frequency 716.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0651411 avg abs(imag) 0.0652519
+Hit        PAR [3.95943 3.82191]dB
+PSS XCORR  cost 4.83017s
+
+Examining center frequency 716.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0672263 avg abs(imag) 0.0673423
+Hit        PAR [3.54102 3.58741]dB
+PSS XCORR  cost 1.98997s
+
+Examining center frequency 716.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0666983 avg abs(imag) 0.0665022
+Hit        PAR [3.8782 4.08478]dB
+PSS XCORR  cost 2.67701s
+
+Examining center frequency 716.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.071434 avg abs(imag) 0.0709825
+Hit        PAR [3.85226 3.54008]dB
+PSS XCORR  cost 2.59819s
+
+Examining center frequency 716.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0710992 avg abs(imag) 0.070874
+Hit        PAR [3.36204 3.73183]dB
+PSS XCORR  cost 2.22295s
+
+Examining center frequency 716.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0722951 avg abs(imag) 0.0721683
+Hit        PAR [3.63383 3.77937]dB
+PSS XCORR  cost 2.20171s
+
+Examining center frequency 717 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0704981 avg abs(imag) 0.0704988
+Hit        PAR [3.8922 3.70351]dB
+PSS XCORR  cost 3.58529s
+
+Examining center frequency 717.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0707244 avg abs(imag) 0.0706149
+Hit        PAR [3.94248 3.81661]dB
+PSS XCORR  cost 1.89007s
+
+Examining center frequency 717.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0644008 avg abs(imag) 0.0645205
+Hit        PAR [3.86779 4.2301]dB
+PSS XCORR  cost 2.80355s
+
+Examining center frequency 717.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0647982 avg abs(imag) 0.0644575
+Hit        PAR [3.65277 4.18306]dB
+PSS XCORR  cost 2.22389s
+
+Examining center frequency 717.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0596284 avg abs(imag) 0.0595457
+Hit        PAR [4.58996 4.40129]dB
+PSS XCORR  cost 2.24938s
+
+Examining center frequency 717.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0561091 avg abs(imag) 0.0561441
+Hit        PAR [4.56782 4.07826]dB
+PSS XCORR  cost 1.96915s
+
+Examining center frequency 717.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0526694 avg abs(imag) 0.0525959
+Hit        PAR [4.32747 4.60842]dB
+PSS XCORR  cost 3.70038s
+
+Examining center frequency 717.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0511686 avg abs(imag) 0.0515716
+Hit        PAR [4.3967 3.99896]dB
+PSS XCORR  cost 2.34144s
+
+Examining center frequency 717.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0499277 avg abs(imag) 0.0499559
+Hit        PAR [3.9589 3.91265]dB
+PSS XCORR  cost 2.02653s
+
+Examining center frequency 717.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0527894 avg abs(imag) 0.0528835
+Hit        PAR [4.08363 3.98744]dB
+PSS XCORR  cost 2.35929s
+
+Examining center frequency 718 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0837359 avg abs(imag) 0.0836523
+Hit        PAR [5.03244 5.12097]dB
+PSS XCORR  cost 2.24873s
+
+Examining center frequency 718.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0666113 avg abs(imag) 0.066849
+Hit        PAR [7.54502 8.3394]dB
+PSS XCORR  cost 2.5025s
+
+Examining center frequency 718.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0775555 avg abs(imag) 0.077524
+Hit        PAR [8.90717 9.43472]dB
+PSS XCORR  cost 2.70103s
+Hit  num peaks 5
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+
+Examining center frequency 718.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0801602 avg abs(imag) 0.080344
+Hit        PAR [9.30462 9.2919]dB
+PSS XCORR  cost 2.03678s
+Hit  num peaks 6
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+try peak 5 tdd_flag 0
+try peak 5 tdd_flag 1
+
+Examining center frequency 718.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0883847 avg abs(imag) 0.0883703
+Hit        PAR [11.0751 10.259]dB
+PSS XCORR  cost 1.92126s
+Hit  num peaks 7
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+try peak 5 tdd_flag 0
+try peak 5 tdd_flag 1
+try peak 6 tdd_flag 0
+try peak 6 tdd_flag 1
+
+Examining center frequency 718.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.153132 avg abs(imag) 0.152997
+Hit        PAR [7.62034 6.9207]dB
+PSS XCORR  cost 2.00992s
+
+Examining center frequency 718.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.16743 avg abs(imag) 0.167716
+Hit        PAR [7.4722 8.03137]dB
+PSS XCORR  cost 2.13724s
+
+Examining center frequency 718.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.113201 avg abs(imag) 0.113355
+Hit        PAR [9.94676 10.6498]dB
+PSS XCORR  cost 2.47317s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 718.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.220099 avg abs(imag) 0.219251
+Hit        PAR [7.72957 7.39163]dB
+PSS XCORR  cost 2.47985s
+
+Examining center frequency 718.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.275745 avg abs(imag) 0.275361
+Hit        PAR [5.36383 6.26792]dB
+PSS XCORR  cost 2.59193s
+
+Examining center frequency 719 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.205738 avg abs(imag) 0.204552
+Hit        PAR [7.87111 6.68182]dB
+PSS XCORR  cost 2.74573s
+
+Examining center frequency 719.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.144325 avg abs(imag) 0.144271
+Hit        PAR [10.4453 10.0288]dB
+PSS XCORR  cost 2.74363s
+Hit  num peaks 0
+
+Examining center frequency 719.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.140732 avg abs(imag) 0.141182
+Hit        PAR [9.31898 9.93762]dB
+PSS XCORR  cost 4.04513s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 719.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.349175 avg abs(imag) 0.350193
+Hit        PAR [4.92063 4.44344]dB
+PSS XCORR  cost 2.21196s
+
+Examining center frequency 719.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.17763 avg abs(imag) 0.177228
+Hit        PAR [7.63136 8.3807]dB
+PSS XCORR  cost 2.10961s
+
+Examining center frequency 719.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.197399 avg abs(imag) 0.197179
+Hit        PAR [8.53999 8.20571]dB
+PSS XCORR  cost 2.87505s
+Hit  num peaks 0
+
+Examining center frequency 719.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.229044 avg abs(imag) 0.229251
+Hit        PAR [5.58431 5.95684]dB
+PSS XCORR  cost 3.09201s
+
+Examining center frequency 719.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.177303 avg abs(imag) 0.176811
+Hit        PAR [9.47569 8.73089]dB
+PSS XCORR  cost 3.47727s
+
+Examining center frequency 719.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.161525 avg abs(imag) 0.160963
+Hit        PAR [8.68886 9.23388]dB
+PSS XCORR  cost 1.82028s
+Hit  num peaks 0
+
+Examining center frequency 719.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.16082 avg abs(imag) 0.161016
+Hit        PAR [8.80364 9.91442]dB
+PSS XCORR  cost 2.4372s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 720 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.163609 avg abs(imag) 0.163958
+Hit        PAR [9.14406 9.93815]dB
+PSS XCORR  cost 2.59121s
+Hit  num peaks 0
+
+Examining center frequency 720.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.143488 avg abs(imag) 0.143505
+Hit        PAR [10.713 11.6025]dB
+PSS XCORR  cost 2.26025s
+Hit  num peaks 5
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+
+Examining center frequency 720.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.165701 avg abs(imag) 0.165356
+Hit        PAR [9.21257 10.1755]dB
+PSS XCORR  cost 2.29762s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 720.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.154736 avg abs(imag) 0.154513
+Hit        PAR [10.4425 10.2887]dB
+PSS XCORR  cost 2.57664s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 720.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.150327 avg abs(imag) 0.150131
+Hit        PAR [9.69076 9.92473]dB
+PSS XCORR  cost 2.36378s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 720.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.149547 avg abs(imag) 0.149851
+Hit        PAR [10.2419 10.4948]dB
+PSS XCORR  cost 2.54909s
+Hit  num peaks 5
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+
+Examining center frequency 720.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.1333 avg abs(imag) 0.133899
+Hit        PAR [10.352 10.4584]dB
+PSS XCORR  cost 2.2559s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 720.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.150242 avg abs(imag) 0.15033
+Hit        PAR [9.57425 9.72908]dB
+PSS XCORR  cost 3.42924s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 720.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.142449 avg abs(imag) 0.14253
+Hit        PAR [9.90542 10.1443]dB
+PSS XCORR  cost 2.54759s
+Hit  num peaks 0
+
+Examining center frequency 720.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.222098 avg abs(imag) 0.221003
+Hit        PAR [6.93991 6.74988]dB
+PSS XCORR  cost 2.27873s
+
+Examining center frequency 721 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.182202 avg abs(imag) 0.182492
+Hit        PAR [9.38751 9.21746]dB
+PSS XCORR  cost 2.40639s
+Hit  num peaks 0
+
+Examining center frequency 721.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.135284 avg abs(imag) 0.134964
+Hit        PAR [9.80298 10.7276]dB
+PSS XCORR  cost 1.9958s
+Hit  num peaks 0
+
+Examining center frequency 721.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.131589 avg abs(imag) 0.131451
+Hit        PAR [10.9888 10.212]dB
+PSS XCORR  cost 2.45984s
+Hit  num peaks 0
+
+Examining center frequency 721.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.13776 avg abs(imag) 0.137949
+Hit        PAR [10.2626 10.9374]dB
+PSS XCORR  cost 3.75748s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 721.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.135328 avg abs(imag) 0.13513
+Hit        PAR [11.5253 10.9645]dB
+PSS XCORR  cost 2.82799s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 721.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.141385 avg abs(imag) 0.141306
+Hit        PAR [9.95537 10.2833]dB
+PSS XCORR  cost 2.68863s
+Hit  num peaks 0
+
+Examining center frequency 721.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.231094 avg abs(imag) 0.232232
+Hit        PAR [8.16394 8.49952]dB
+PSS XCORR  cost 3.54749s
+
+Examining center frequency 721.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.232688 avg abs(imag) 0.23252
+Hit        PAR [6.9887 6.22601]dB
+PSS XCORR  cost 2.54688s
+
+Examining center frequency 721.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.143146 avg abs(imag) 0.143274
+Hit        PAR [10.4252 11.437]dB
+PSS XCORR  cost 2.29414s
+Hit  num peaks 7
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+try peak 5 tdd_flag 0
+try peak 5 tdd_flag 1
+try peak 6 tdd_flag 0
+try peak 6 tdd_flag 1
+
+Examining center frequency 721.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.156391 avg abs(imag) 0.156476
+Hit        PAR [9.92118 10.2292]dB
+PSS XCORR  cost 4.20876s
+Hit  num peaks 0
+
+Examining center frequency 722 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.162723 avg abs(imag) 0.163141
+Hit        PAR [12.8478 10.2681]dB
+PSS XCORR  cost 3.1064s
+Hit  num peaks 6
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+try peak 5 tdd_flag 0
+try peak 5 tdd_flag 1
+
+Examining center frequency 722.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.173245 avg abs(imag) 0.17289
+Hit        PAR [12.3276 10.5484]dB
+PSS XCORR  cost 6.03371s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 722.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.177591 avg abs(imag) 0.177084
+Hit        PAR [9.99856 10.2608]dB
+PSS XCORR  cost 2.8703s
+Hit  num peaks 0
+
+Examining center frequency 722.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.213142 avg abs(imag) 0.212789
+Hit        PAR [13.1616 12.8398]dB
+PSS XCORR  cost 2.76432s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 722.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.17657 avg abs(imag) 0.175952
+Hit        PAR [15.926 15.8797]dB
+PSS XCORR  cost 3.69208s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 722.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.215008 avg abs(imag) 0.214938
+Hit        PAR [17.033 16.2121]dB
+PSS XCORR  cost 2.64982s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 722.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.184358 avg abs(imag) 0.18451
+Hit        PAR [19.7869 19.1184]dB
+PSS XCORR  cost 2.19991s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 722.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.246871 avg abs(imag) 0.247176
+Hit        PAR [18.9359 18.0692]dB
+PSS XCORR  cost 4.45765s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 722.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.242166 avg abs(imag) 0.242443
+Hit        PAR [20.936 20.2319]dB
+PSS XCORR  cost 2.14467s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 722.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.252728 avg abs(imag) 0.251965
+Hit        PAR [22.0256 21.1362]dB
+PSS XCORR  cost 2.75689s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 723 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.413969 avg abs(imag) 0.412334
+Hit        PAR [16.9982 15.9599]dB
+PSS XCORR  cost 2.45169s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+  Detected a FDD cell! At freqeuncy 723MHz, try 0
+    cell ID: 60
+     PSS ID: 0
+    RX power level: -8.72251 dB
+    residual frequency offset: -204.058 Hz
+                     k_factor: 1
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+  Detected a FDD cell! At freqeuncy 723MHz, try 0
+    cell ID: 43
+     PSS ID: 1
+    RX power level: -11.1593 dB
+    residual frequency offset: -210.99 Hz
+                     k_factor: 1
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 723.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.20856 avg abs(imag) 0.208001
+Hit        PAR [21.3399 21.3273]dB
+PSS XCORR  cost 3.28046s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 723.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.272767 avg abs(imag) 0.273146
+Hit        PAR [20.5185 19.3692]dB
+PSS XCORR  cost 2.63391s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 723.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.189491 avg abs(imag) 0.189643
+Hit        PAR [20.1886 20.1819]dB
+PSS XCORR  cost 2.02863s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 723.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.411459 avg abs(imag) 0.411458
+Hit        PAR [14.0506 13.3218]dB
+PSS XCORR  cost 3.41959s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 723.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.185874 avg abs(imag) 0.186134
+Hit        PAR [18.1381 18.3028]dB
+PSS XCORR  cost 2.25877s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 723.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.178185 avg abs(imag) 0.178741
+Hit        PAR [17.702 17.5928]dB
+PSS XCORR  cost 1.90708s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 723.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.288039 avg abs(imag) 0.286519
+Hit        PAR [11.797 6.64915]dB
+PSS XCORR  cost 2.16793s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 723.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.195215 avg abs(imag) 0.195648
+Hit        PAR [11.9825 8.52714]dB
+PSS XCORR  cost 2.72441s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 723.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.269756 avg abs(imag) 0.269541
+Hit        PAR [5.85318 6.93396]dB
+PSS XCORR  cost 2.25754s
+
+Examining center frequency 724 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.195232 avg abs(imag) 0.195307
+Hit        PAR [9.38255 9.84029]dB
+PSS XCORR  cost 2.64994s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 724.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.443967 avg abs(imag) 0.445454
+Hit        PAR [4.31335 3.90412]dB
+PSS XCORR  cost 2.26658s
+
+Examining center frequency 724.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.181404 avg abs(imag) 0.180686
+Hit        PAR [11.6632 10.1853]dB
+PSS XCORR  cost 2.91799s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 724.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.153918 avg abs(imag) 0.154037
+Hit        PAR [10.6825 11.6856]dB
+PSS XCORR  cost 2.08202s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 724.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.287885 avg abs(imag) 0.287745
+Hit        PAR [6.86629 7.10728]dB
+PSS XCORR  cost 1.80205s
+
+Examining center frequency 724.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.172383 avg abs(imag) 0.172501
+Hit        PAR [10.9509 11.0397]dB
+PSS XCORR  cost 4.86178s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 724.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.227011 avg abs(imag) 0.227592
+Hit        PAR [8.12069 7.1226]dB
+PSS XCORR  cost 9.11485s
+
+Examining center frequency 724.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.273048 avg abs(imag) 0.272578
+Hit        PAR [6.86059 7.14219]dB
+PSS XCORR  cost 5.78831s
+
+Examining center frequency 724.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.171722 avg abs(imag) 0.171403
+Hit        PAR [10.8011 10.9116]dB
+PSS XCORR  cost 7.98072s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 724.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.278253 avg abs(imag) 0.27744
+Hit        PAR [6.56122 6.95128]dB
+PSS XCORR  cost 5.15842s
+
+Examining center frequency 725 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.35062 avg abs(imag) 0.351429
+Hit        PAR [5.54547 5.77579]dB
+PSS XCORR  cost 3.93236s
+
+Examining center frequency 725.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.188853 avg abs(imag) 0.188447
+Hit        PAR [8.1218 7.98303]dB
+PSS XCORR  cost 5.22001s
+
+Examining center frequency 725.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.173384 avg abs(imag) 0.173786
+Hit        PAR [10.3451 9.56448]dB
+PSS XCORR  cost 5.32455s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 725.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.201315 avg abs(imag) 0.200981
+Hit        PAR [9.24932 8.63908]dB
+PSS XCORR  cost 4.67248s
+Hit  num peaks 0
+
+Examining center frequency 725.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.287179 avg abs(imag) 0.28803
+Hit        PAR [6.27011 6.53879]dB
+PSS XCORR  cost 5.41675s
+
+Examining center frequency 725.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.193077 avg abs(imag) 0.192731
+Hit        PAR [8.40561 8.41263]dB
+PSS XCORR  cost 6.46389s
+
+Examining center frequency 725.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.157529 avg abs(imag) 0.157126
+Hit        PAR [9.36093 9.47018]dB
+PSS XCORR  cost 4.03062s
+Hit  num peaks 0
+
+Examining center frequency 725.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.173325 avg abs(imag) 0.173584
+Hit        PAR [8.44348 9.9919]dB
+PSS XCORR  cost 4.40466s
+Hit  num peaks 0
+
+Examining center frequency 725.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.34073 avg abs(imag) 0.341538
+Hit        PAR [5.50005 4.48693]dB
+PSS XCORR  cost 4.41183s
+
+Examining center frequency 725.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.165867 avg abs(imag) 0.165257
+Hit        PAR [8.98538 9.54045]dB
+PSS XCORR  cost 5.34772s
+Hit  num peaks 0
+
+Examining center frequency 726 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.28672 avg abs(imag) 0.288137
+Hit        PAR [6.11045 5.79936]dB
+PSS XCORR  cost 4.04175s
+
+Examining center frequency 726.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.178052 avg abs(imag) 0.178713
+Hit        PAR [9.46154 8.81827]dB
+PSS XCORR  cost 3.95425s
+Hit  num peaks 0
+
+Examining center frequency 726.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.357451 avg abs(imag) 0.357129
+Hit        PAR [4.95704 4.94705]dB
+PSS XCORR  cost 3.97018s
+
+Examining center frequency 726.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.162214 avg abs(imag) 0.16217
+Hit        PAR [10.6861 9.07742]dB
+PSS XCORR  cost 4.17s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 726.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.22011 avg abs(imag) 0.218535
+Hit        PAR [6.76922 7.66748]dB
+PSS XCORR  cost 3.88047s
+
+Examining center frequency 726.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.157372 avg abs(imag) 0.157317
+Hit        PAR [9.37901 10.8271]dB
+PSS XCORR  cost 3.34362s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 726.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.227154 avg abs(imag) 0.226822
+Hit        PAR [6.25942 7.3095]dB
+PSS XCORR  cost 9.19225s
+
+Examining center frequency 726.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.159632 avg abs(imag) 0.159412
+Hit        PAR [9.28304 9.68341]dB
+PSS XCORR  cost 5.93844s
+Hit  num peaks 0
+
+Examining center frequency 726.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.239746 avg abs(imag) 0.23856
+Hit        PAR [8.03112 7.49725]dB
+PSS XCORR  cost 5.13404s
+
+Examining center frequency 726.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.41076 avg abs(imag) 0.409654
+Hit        PAR [4.67596 5.20739]dB
+PSS XCORR  cost 4.19341s
+
+Examining center frequency 727 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.181564 avg abs(imag) 0.181793
+Hit        PAR [8.80547 10.4792]dB
+PSS XCORR  cost 4.46194s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 727.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.261901 avg abs(imag) 0.263678
+Hit        PAR [6.29875 5.72732]dB
+PSS XCORR  cost 6.12459s
+
+Examining center frequency 727.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.119987 avg abs(imag) 0.120217
+Hit        PAR [11.6653 10.7765]dB
+PSS XCORR  cost 5.38184s
+Hit  num peaks 13
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+try peak 5 tdd_flag 0
+try peak 5 tdd_flag 1
+try peak 6 tdd_flag 0
+try peak 6 tdd_flag 1
+try peak 7 tdd_flag 0
+try peak 7 tdd_flag 1
+try peak 8 tdd_flag 0
+try peak 8 tdd_flag 1
+try peak 9 tdd_flag 0
+try peak 9 tdd_flag 1
+try peak 10 tdd_flag 0
+try peak 10 tdd_flag 1
+try peak 11 tdd_flag 0
+try peak 11 tdd_flag 1
+try peak 12 tdd_flag 0
+try peak 12 tdd_flag 1
+
+Examining center frequency 727.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.146765 avg abs(imag) 0.147728
+Hit        PAR [10.9075 8.74313]dB
+PSS XCORR  cost 4.77413s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 727.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.118989 avg abs(imag) 0.118905
+Hit        PAR [12.8472 10.6626]dB
+PSS XCORR  cost 4.57693s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 727.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.113717 avg abs(imag) 0.114123
+Hit        PAR [9.27736 9.77344]dB
+PSS XCORR  cost 5.57275s
+Hit  num peaks 0
+
+Examining center frequency 727.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.10746 avg abs(imag) 0.107621
+Hit        PAR [10.033 9.52768]dB
+PSS XCORR  cost 4.27433s
+
+Examining center frequency 727.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.119356 avg abs(imag) 0.119287
+Hit        PAR [7.46467 7.70158]dB
+PSS XCORR  cost 4.84458s
+
+Examining center frequency 727.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0951079 avg abs(imag) 0.0952375
+Hit        PAR [8.80791 8.23719]dB
+PSS XCORR  cost 5.90794s
+Hit  num peaks 6
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+try peak 5 tdd_flag 0
+try peak 5 tdd_flag 1
+
+Examining center frequency 727.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0758505 avg abs(imag) 0.0758254
+Hit        PAR [7.28059 7.75147]dB
+PSS XCORR  cost 5.45162s
+
+Examining center frequency 728 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.114913 avg abs(imag) 0.114438
+Hit        PAR [4.315 4.42874]dB
+PSS XCORR  cost 3.52556s
+
+Examining center frequency 728.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.116125 avg abs(imag) 0.116807
+Hit        PAR [3.89683 3.88518]dB
+PSS XCORR  cost 3.35177s
+
+Examining center frequency 728.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.125224 avg abs(imag) 0.125965
+Hit        PAR [3.31636 3.95557]dB
+PSS XCORR  cost 3.74353s
+
+Examining center frequency 728.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0799235 avg abs(imag) 0.0799168
+Hit        PAR [4.71515 4.21885]dB
+PSS XCORR  cost 4.81406s
+
+Examining center frequency 728.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0756202 avg abs(imag) 0.0758359
+Hit        PAR [4.00903 4.32468]dB
+PSS XCORR  cost 5.39563s
+
+Examining center frequency 728.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0837996 avg abs(imag) 0.0837879
+Hit        PAR [4.80874 4.09611]dB
+PSS XCORR  cost 5.52014s
+
+Examining center frequency 728.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0959689 avg abs(imag) 0.0959448
+Hit        PAR [5.01564 4.25303]dB
+PSS XCORR  cost 6.63295s
+
+Examining center frequency 728.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.199802 avg abs(imag) 0.199135
+Hit        PAR [4.33703 4.72144]dB
+PSS XCORR  cost 2.8371s
+
+Examining center frequency 728.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+
+input level: avg abs(real) 0.272374 avg abs(imag) 0.273097
+Hit        PAR [3.73974 4.51674]dB
+PSS XCORR  cost 3.68214s
+
+Examining center frequency 728.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.326772 avg abs(imag) 0.326725
+Hit        PAR [4.12945 5.30087]dB
+PSS XCORR  cost 2.49425s
+
+Examining center frequency 729 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.359729 avg abs(imag) 0.359505
+Hit        PAR [4.90987 4.22178]dB
+PSS XCORR  cost 2.72931s
+
+Examining center frequency 729.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.401647 avg abs(imag) 0.40161
+Hit        PAR [4.01765 4.58413]dB
+PSS XCORR  cost 2.90908s
+
+Examining center frequency 729.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.425379 avg abs(imag) 0.424605
+Hit        PAR [4.47154 4.42454]dB
+PSS XCORR  cost 2.81607s
+
+Examining center frequency 729.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.442786 avg abs(imag) 0.441912
+Hit        PAR [4.22706 4.6175]dB
+PSS XCORR  cost 3.08591s
+
+Examining center frequency 729.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.470892 avg abs(imag) 0.472652
+Hit        PAR [4.93203 4.2519]dB
+PSS XCORR  cost 2.55493s
+
+Examining center frequency 729.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.47346 avg abs(imag) 0.47234
+Hit        PAR [6.49978 6.70227]dB
+PSS XCORR  cost 3.14338s
+
+Examining center frequency 729.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.499653 avg abs(imag) 0.500823
+Hit        PAR [3.96538 4.62394]dB
+PSS XCORR  cost 2.54993s
+
+Examining center frequency 729.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.502021 avg abs(imag) 0.503096
+Hit        PAR [5.57111 4.4344]dB
+PSS XCORR  cost 2.14617s
+
+Examining center frequency 729.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.528963 avg abs(imag) 0.530333
+Hit        PAR [6.32412 5.36737]dB
+PSS XCORR  cost 2.70271s
+
+Examining center frequency 729.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.512481 avg abs(imag) 0.511621
+Hit        PAR [4.82227 4.44615]dB
+PSS XCORR  cost 2.76266s
+
+Examining center frequency 730 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.503759 avg abs(imag) 0.500449
+Hit        PAR [4.84366 4.51504]dB
+PSS XCORR  cost 2.48408s
+
+Examining center frequency 730.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.470463 avg abs(imag) 0.469842
+Hit        PAR [5.24275 5.07673]dB
+PSS XCORR  cost 2.60565s
+
+Examining center frequency 730.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.473663 avg abs(imag) 0.473477
+Hit        PAR [4.6395 5.18204]dB
+PSS XCORR  cost 2.50853s
+
+Examining center frequency 730.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.457466 avg abs(imag) 0.45719
+Hit        PAR [5.64048 5.46963]dB
+PSS XCORR  cost 2.75236s
+
+Examining center frequency 730.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.464584 avg abs(imag) 0.462634
+Hit        PAR [4.8697 4.48818]dB
+PSS XCORR  cost 3.4315s
+
+Examining center frequency 730.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.461798 avg abs(imag) 0.462029
+Hit        PAR [4.3846 4.41233]dB
+PSS XCORR  cost 4.30839s
+
+Examining center frequency 730.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.448882 avg abs(imag) 0.448852
+Hit        PAR [5.35237 5.44947]dB
+PSS XCORR  cost 5.54141s
+
+Examining center frequency 730.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.468015 avg abs(imag) 0.468525
+Hit        PAR [4.79475 4.43092]dB
+PSS XCORR  cost 4.17238s
+
+Examining center frequency 730.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.458234 avg abs(imag) 0.458206
+Hit        PAR [5.18891 4.97551]dB
+PSS XCORR  cost 6.51849s
+
+Examining center frequency 730.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.457839 avg abs(imag) 0.457758
+Hit        PAR [5.82681 4.54069]dB
+PSS XCORR  cost 6.26263s
+
+Examining center frequency 731 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.455692 avg abs(imag) 0.454788
+Hit        PAR [5.28859 5.5069]dB
+PSS XCORR  cost 4.20522s
+
+Examining center frequency 731.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.453702 avg abs(imag) 0.452229
+Hit        PAR [10.0456 7.24504]dB
+PSS XCORR  cost 6.41549s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 731.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.457209 avg abs(imag) 0.459648
+Hit        PAR [9.53803 9.7442]dB
+PSS XCORR  cost 3.65387s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 731.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.451139 avg abs(imag) 0.451217
+Hit        PAR [12.1923 11.8718]dB
+PSS XCORR  cost 3.08001s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 731.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.458601 avg abs(imag) 0.457779
+Hit        PAR [11.7902 10.464]dB
+PSS XCORR  cost 5.65925s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 731.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.461749 avg abs(imag) 0.461406
+Hit        PAR [14.0936 13.2585]dB
+PSS XCORR  cost 4.43974s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+  Detected a FDD cell! At freqeuncy 731.5MHz, try 0
+    cell ID: 208
+     PSS ID: 1
+    RX power level: -9.89781 dB
+    residual frequency offset: -3.58582 Hz
+                     k_factor: 0.999999
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 731.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.46335 avg abs(imag) 0.463682
+Hit        PAR [12.2808 11.7496]dB
+PSS XCORR  cost 5.15585s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 731.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.476853 avg abs(imag) 0.478338
+Hit        PAR [12.0392 12.3114]dB
+PSS XCORR  cost 4.85459s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 731.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.482072 avg abs(imag) 0.481373
+Hit        PAR [10.1169 9.98586]dB
+PSS XCORR  cost 2.37139s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 731.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.47777 avg abs(imag) 0.475729
+Hit        PAR [10.941 10.9936]dB
+PSS XCORR  cost 2.6881s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 732 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.474204 avg abs(imag) 0.473359
+Hit        PAR [8.72499 8.73201]dB
+PSS XCORR  cost 2.44448s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 732.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.481717 avg abs(imag) 0.479817
+Hit        PAR [9.43269 4.96938]dB
+PSS XCORR  cost 7.7362s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 732.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.468052 avg abs(imag) 0.469834
+Hit        PAR [5.48241 6.32275]dB
+PSS XCORR  cost 8.69339s
+
+Examining center frequency 732.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.476587 avg abs(imag) 0.475598
+Hit        PAR [3.85542 4.75861]dB
+PSS XCORR  cost 7.3139s
+
+Examining center frequency 732.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.473638 avg abs(imag) 0.472211
+Hit        PAR [4.90201 5.44259]dB
+PSS XCORR  cost 8.74946s
+
+Examining center frequency 732.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.48055 avg abs(imag) 0.482683
+Hit        PAR [4.10021 4.97107]dB
+PSS XCORR  cost 6.19339s
+
+Examining center frequency 732.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.481081 avg abs(imag) 0.482169
+Hit        PAR [4.53095 4.67109]dB
+PSS XCORR  cost 7.17643s
+
+Examining center frequency 732.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.475414 avg abs(imag) 0.473596
+Hit        PAR [4.67445 4.61912]dB
+PSS XCORR  cost 5.40068s
+
+Examining center frequency 732.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.497705 avg abs(imag) 0.494397
+Hit        PAR [4.95465 5.4514]dB
+PSS XCORR  cost 5.54013s
+
+Examining center frequency 732.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.493085 avg abs(imag) 0.491485
+Hit        PAR [5.03129 4.73294]dB
+PSS XCORR  cost 7.18179s
+
+Examining center frequency 733 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.501805 avg abs(imag) 0.503937
+Hit        PAR [4.46941 4.79105]dB
+PSS XCORR  cost 7.6448s
+
+Examining center frequency 733.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.512655 avg abs(imag) 0.512602
+Hit        PAR [4.86712 5.27486]dB
+PSS XCORR  cost 6.63958s
+
+Examining center frequency 733.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.520821 avg abs(imag) 0.518849
+Hit        PAR [5.10432 4.44617]dB
+PSS XCORR  cost 5.58212s
+
+Examining center frequency 733.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.513616 avg abs(imag) 0.514265
+Hit        PAR [5.52441 4.8235]dB
+PSS XCORR  cost 4.43156s
+
+Examining center frequency 733.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.497039 avg abs(imag) 0.496465
+Hit        PAR [4.02113 3.86877]dB
+PSS XCORR  cost 5.03942s
+
+Examining center frequency 733.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.409989 avg abs(imag) 0.408747
+Hit        PAR [5.28898 4.17508]dB
+PSS XCORR  cost 6.33163s
+
+Examining center frequency 733.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.353728 avg abs(imag) 0.352284
+Hit        PAR [5.08119 4.25127]dB
+PSS XCORR  cost 4.30734s
+
+Examining center frequency 733.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.32144 avg abs(imag) 0.322207
+Hit        PAR [4.90837 4.60065]dB
+PSS XCORR  cost 5.63283s
+
+Examining center frequency 733.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.341002 avg abs(imag) 0.341427
+Hit        PAR [4.94521 4.93325]dB
+PSS XCORR  cost 6.0987s
+
+Examining center frequency 733.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.274573 avg abs(imag) 0.274056
+Hit        PAR [4.80661 4.94428]dB
+PSS XCORR  cost 6.77847s
+
+Examining center frequency 734 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.330285 avg abs(imag) 0.333062
+Hit        PAR [3.92492 4.4874]dB
+PSS XCORR  cost 6.94111s
+
+Examining center frequency 734.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.352591 avg abs(imag) 0.351923
+Hit        PAR [4.27912 3.85205]dB
+PSS XCORR  cost 7.10553s
+
+Examining center frequency 734.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.361935 avg abs(imag) 0.362175
+Hit        PAR [4.752 4.26491]dB
+PSS XCORR  cost 7.33524s
+
+Examining center frequency 734.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.392424 avg abs(imag) 0.391125
+Hit        PAR [4.30337 4.17443]dB
+PSS XCORR  cost 4.52337s
+
+Examining center frequency 734.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.436318 avg abs(imag) 0.437108
+Hit        PAR [3.80987 3.85388]dB
+PSS XCORR  cost 6.03647s
+
+Examining center frequency 734.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.450291 avg abs(imag) 0.451213
+Hit        PAR [3.8514 4.29411]dB
+PSS XCORR  cost 5.17423s
+
+Examining center frequency 734.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.503218 avg abs(imag) 0.503662
+Hit        PAR [3.66689 3.5777]dB
+PSS XCORR  cost 8.08934s
+
+Examining center frequency 734.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.493488 avg abs(imag) 0.494391
+Hit        PAR [4.08677 4.18726]dB
+PSS XCORR  cost 6.26904s
+
+Examining center frequency 734.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.509079 avg abs(imag) 0.511178
+Hit        PAR [4.74195 4.23995]dB
+PSS XCORR  cost 3.31385s
+
+Examining center frequency 734.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.523125 avg abs(imag) 0.521808
+Hit        PAR [4.57526 4.70829]dB
+PSS XCORR  cost 4.23039s
+
+Examining center frequency 735 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.550476 avg abs(imag) 0.55047
+Hit        PAR [5.6538 5.49536]dB
+PSS XCORR  cost 3.63413s
+
+Examining center frequency 735.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.530393 avg abs(imag) 0.530121
+Hit        PAR [7.51732 6.32705]dB
+PSS XCORR  cost 3.2707s
+
+Examining center frequency 735.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.537301 avg abs(imag) 0.537057
+Hit        PAR [4.77223 4.69625]dB
+PSS XCORR  cost 3.54387s
+
+Examining center frequency 735.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.502524 avg abs(imag) 0.501703
+Hit        PAR [7.94253 6.84321]dB
+PSS XCORR  cost 3.06868s
+
+Examining center frequency 735.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.521641 avg abs(imag) 0.52471
+Hit        PAR [5.46088 5.22442]dB
+PSS XCORR  cost 3.0723s
+
+Examining center frequency 735.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.48979 avg abs(imag) 0.49383
+Hit        PAR [5.34428 5.43564]dB
+PSS XCORR  cost 2.39018s
+
+Examining center frequency 735.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.490198 avg abs(imag) 0.490998
+Hit        PAR [5.34406 4.4175]dB
+PSS XCORR  cost 2.32232s
+
+Examining center frequency 735.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.477086 avg abs(imag) 0.47564
+Hit        PAR [4.98028 4.3046]dB
+PSS XCORR  cost 2.35278s
+
+Examining center frequency 735.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.466576 avg abs(imag) 0.465371
+Hit        PAR [5.20879 5.60483]dB
+PSS XCORR  cost 2.40507s
+
+Examining center frequency 735.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.460228 avg abs(imag) 0.462199
+Hit        PAR [4.45061 3.88591]dB
+PSS XCORR  cost 3.25511s
+
+Examining center frequency 736 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.483584 avg abs(imag) 0.486216
+Hit        PAR [3.92285 4.03846]dB
+PSS XCORR  cost 2.44067s
+
+Examining center frequency 736.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.454472 avg abs(imag) 0.452123
+Hit        PAR [5.54102 5.76407]dB
+PSS XCORR  cost 2.70386s
+
+Examining center frequency 736.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.470036 avg abs(imag) 0.469259
+Hit        PAR [4.29816 3.80213]dB
+PSS XCORR  cost 2.64379s
+
+Examining center frequency 736.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.447532 avg abs(imag) 0.447437
+Hit        PAR [5.71611 6.01278]dB
+PSS XCORR  cost 3.67774s
+
+Examining center frequency 736.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.493008 avg abs(imag) 0.493385
+Hit        PAR [3.6683 4.21141]dB
+PSS XCORR  cost 6.16098s
+
+Examining center frequency 736.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.45174 avg abs(imag) 0.455219
+Hit        PAR [5.21834 4.70485]dB
+PSS XCORR  cost 2.44428s
+
+Examining center frequency 736.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.493521 avg abs(imag) 0.494726
+Hit        PAR [3.74143 3.81286]dB
+PSS XCORR  cost 4.0722s
+
+Examining center frequency 736.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.492185 avg abs(imag) 0.492485
+Hit        PAR [4.29165 3.9473]dB
+PSS XCORR  cost 2.63728s
+
+Examining center frequency 736.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.513846 avg abs(imag) 0.513292
+Hit        PAR [4.34345 3.81451]dB
+PSS XCORR  cost 4.35225s
+
+Examining center frequency 736.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.458562 avg abs(imag) 0.457633
+Hit        PAR [4.61728 5.65243]dB
+PSS XCORR  cost 2.22159s
+
+Examining center frequency 737 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.502297 avg abs(imag) 0.502891
+Hit        PAR [4.35744 4.93729]dB
+PSS XCORR  cost 2.93375s
+
+Examining center frequency 737.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.510237 avg abs(imag) 0.512715
+Hit        PAR [3.8489 4.06772]dB
+PSS XCORR  cost 3.21696s
+
+Examining center frequency 737.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.486844 avg abs(imag) 0.487468
+Hit        PAR [3.88234 4.47766]dB
+PSS XCORR  cost 2.96056s
+
+Examining center frequency 737.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.501103 avg abs(imag) 0.501619
+Hit        PAR [4.16379 4.10937]dB
+PSS XCORR  cost 2.37384s
+
+Examining center frequency 737.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.488892 avg abs(imag) 0.490198
+Hit        PAR [3.96336 3.96623]dB
+PSS XCORR  cost 2.30632s
+
+Examining center frequency 737.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.483839 avg abs(imag) 0.483099
+Hit        PAR [4.16566 4.20959]dB
+PSS XCORR  cost 3.45405s
+
+Examining center frequency 737.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.479766 avg abs(imag) 0.47821
+Hit        PAR [4.47159 4.65636]dB
+PSS XCORR  cost 2.42315s
+
+Examining center frequency 737.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.485501 avg abs(imag) 0.485718
+Hit        PAR [5.43475 4.83455]dB
+PSS XCORR  cost 2.23986s
+
+Examining center frequency 737.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.469348 avg abs(imag) 0.468585
+Hit        PAR [4.58929 4.14382]dB
+PSS XCORR  cost 2.52765s
+
+Examining center frequency 737.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.471519 avg abs(imag) 0.470606
+Hit        PAR [4.02189 4.19564]dB
+PSS XCORR  cost 2.2231s
+
+Examining center frequency 738 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.480866 avg abs(imag) 0.481982
+Hit        PAR [5.27441 4.24766]dB
+PSS XCORR  cost 6.20928s
+
+Examining center frequency 738.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.479598 avg abs(imag) 0.47705
+Hit        PAR [4.62226 4.14133]dB
+PSS XCORR  cost 5.53916s
+
+Examining center frequency 738.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.502104 avg abs(imag) 0.503497
+Hit        PAR [4.05741 4.65872]dB
+PSS XCORR  cost 4.21384s
+
+Examining center frequency 738.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.474368 avg abs(imag) 0.4741
+Hit        PAR [4.2483 3.87453]dB
+PSS XCORR  cost 4.85984s
+
+Examining center frequency 738.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.441742 avg abs(imag) 0.441288
+Hit        PAR [5.29747 5.36921]dB
+PSS XCORR  cost 4.81263s
+
+Examining center frequency 738.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.476087 avg abs(imag) 0.476932
+Hit        PAR [8.32 9.83555]dB
+PSS XCORR  cost 5.52142s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 738.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.454823 avg abs(imag) 0.453391
+Hit        PAR [13.7847 13.2333]dB
+PSS XCORR  cost 3.13939s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 738.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.446583 avg abs(imag) 0.443626
+Hit        PAR [15.9545 15.0323]dB
+PSS XCORR  cost 2.41573s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 738.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.476162 avg abs(imag) 0.477301
+Hit        PAR [13.7865 12.6307]dB
+PSS XCORR  cost 2.86299s
+Hit  num peaks 3
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+
+Examining center frequency 738.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.4876 avg abs(imag) 0.486233
+Hit        PAR [12.789 11.4179]dB
+PSS XCORR  cost 3.10144s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 739 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.457588 avg abs(imag) 0.457606
+Hit        PAR [18.31 16.6656]dB
+PSS XCORR  cost 2.45506s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+  Detected a FDD cell! At freqeuncy 739MHz, try 0
+    cell ID: 330
+     PSS ID: 0
+    RX power level: -7.25493 dB
+    residual frequency offset: -254.032 Hz
+                     k_factor: 1
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+  Detected a FDD cell! At freqeuncy 739MHz, try 0
+    cell ID: 184
+     PSS ID: 1
+    RX power level: -11.6324 dB
+    residual frequency offset: -254.315 Hz
+                     k_factor: 1
+try peak 1 tdd_flag 1
+
+Examining center frequency 739.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.476152 avg abs(imag) 0.477593
+Hit        PAR [14.8683 14.3733]dB
+PSS XCORR  cost 2.79338s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 739.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.477299 avg abs(imag) 0.475917
+Hit        PAR [13.5853 12.3069]dB
+PSS XCORR  cost 2.84947s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 739.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.476466 avg abs(imag) 0.478398
+Hit        PAR [11.8068 11.5615]dB
+PSS XCORR  cost 2.9622s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 739.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.471035 avg abs(imag) 0.470744
+Hit        PAR [11.3566 10.7354]dB
+PSS XCORR  cost 2.40038s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 739.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.458699 avg abs(imag) 0.461932
+Hit        PAR [10.8861 10.7978]dB
+PSS XCORR  cost 2.44032s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 739.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.431132 avg abs(imag) 0.432077
+Hit        PAR [11.4077 11.2539]dB
+PSS XCORR  cost 3.23878s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 739.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.46169 avg abs(imag) 0.462187
+Hit        PAR [5.83671 6.00955]dB
+PSS XCORR  cost 2.49532s
+
+Examining center frequency 739.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.452813 avg abs(imag) 0.451429
+Hit        PAR [7.23791 6.48587]dB
+PSS XCORR  cost 2.4436s
+
+Examining center frequency 739.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.470347 avg abs(imag) 0.473686
+Hit        PAR [5.59256 5.13918]dB
+PSS XCORR  cost 2.41048s
+
+Examining center frequency 740 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.482983 avg abs(imag) 0.480274
+Hit        PAR [4.13812 4.40841]dB
+PSS XCORR  cost 2.33645s
+
+Examining center frequency 740.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.501026 avg abs(imag) 0.503353
+Hit        PAR [4.66294 4.50833]dB
+PSS XCORR  cost 2.63348s
+
+Examining center frequency 740.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.494417 avg abs(imag) 0.493774
+Hit        PAR [4.98409 4.90088]dB
+PSS XCORR  cost 4.23864s
+
+Examining center frequency 740.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.496097 avg abs(imag) 0.49789
+Hit        PAR [4.82799 5.07844]dB
+PSS XCORR  cost 3.28456s
+
+Examining center frequency 740.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.489122 avg abs(imag) 0.487933
+Hit        PAR [4.91533 5.22142]dB
+PSS XCORR  cost 3.52901s
+
+Examining center frequency 740.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.495331 avg abs(imag) 0.496845
+Hit        PAR [7.70559 4.63135]dB
+PSS XCORR  cost 4.74089s
+
+Examining center frequency 740.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.481411 avg abs(imag) 0.482394
+Hit        PAR [6.68972 6.41784]dB
+PSS XCORR  cost 2.90527s
+
+Examining center frequency 740.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.446936 avg abs(imag) 0.447142
+Hit        PAR [7.13634 7.50575]dB
+PSS XCORR  cost 2.44274s
+
+Examining center frequency 740.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.47814 avg abs(imag) 0.48061
+Hit        PAR [5.41467 4.66761]dB
+PSS XCORR  cost 2.24932s
+
+Examining center frequency 740.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.44378 avg abs(imag) 0.441571
+Hit        PAR [6.44523 6.40799]dB
+PSS XCORR  cost 3.9868s
+
+Examining center frequency 741 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.462358 avg abs(imag) 0.46133
+Hit        PAR [5.40683 5.64408]dB
+PSS XCORR  cost 2.68304s
+
+Examining center frequency 741.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.455477 avg abs(imag) 0.455819
+Hit        PAR [6.1794 5.16177]dB
+PSS XCORR  cost 2.89373s
+
+Examining center frequency 741.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.473651 avg abs(imag) 0.474624
+Hit        PAR [4.29073 4.40584]dB
+PSS XCORR  cost 4.73103s
+
+Examining center frequency 741.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.468749 avg abs(imag) 0.470574
+Hit        PAR [4.75076 4.53353]dB
+PSS XCORR  cost 2.43982s
+
+Examining center frequency 741.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.486834 avg abs(imag) 0.486553
+Hit        PAR [4.95668 3.90018]dB
+PSS XCORR  cost 2.94911s
+
+Examining center frequency 741.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.432434 avg abs(imag) 0.431142
+Hit        PAR [5.19201 5.8404]dB
+PSS XCORR  cost 2.09585s
+
+Examining center frequency 741.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.430859 avg abs(imag) 0.428775
+Hit        PAR [5.10839 5.78924]dB
+PSS XCORR  cost 2.253s
+
+Examining center frequency 741.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.454353 avg abs(imag) 0.454673
+Hit        PAR [6.43395 7.04423]dB
+PSS XCORR  cost 2.46405s
+
+Examining center frequency 741.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.472581 avg abs(imag) 0.470735
+Hit        PAR [5.82209 4.01178]dB
+PSS XCORR  cost 4.03709s
+
+Examining center frequency 741.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.439805 avg abs(imag) 0.441736
+Hit        PAR [6.30667 5.3694]dB
+PSS XCORR  cost 1.99794s
+
+Examining center frequency 742 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.43767 avg abs(imag) 0.440697
+Hit        PAR [6.13227 7.30354]dB
+PSS XCORR  cost 1.4176s
+
+Examining center frequency 742.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.437276 avg abs(imag) 0.437723
+Hit        PAR [5.63995 6.1975]dB
+PSS XCORR  cost 1.60225s
+
+Examining center frequency 742.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.461088 avg abs(imag) 0.461116
+Hit        PAR [4.96245 4.32436]dB
+PSS XCORR  cost 1.89771s
+
+Examining center frequency 742.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.469111 avg abs(imag) 0.467686
+Hit        PAR [5.65419 5.36773]dB
+PSS XCORR  cost 3.34053s
+
+Examining center frequency 742.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.49731 avg abs(imag) 0.497469
+Hit        PAR [3.87861 3.725]dB
+PSS XCORR  cost 2.10722s
+
+Examining center frequency 742.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.506764 avg abs(imag) 0.505775
+Hit        PAR [4.43148 3.9828]dB
+PSS XCORR  cost 1.87014s
+
+Examining center frequency 742.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.51553 avg abs(imag) 0.513963
+Hit        PAR [3.92022 3.85915]dB
+PSS XCORR  cost 1.49444s
+
+Examining center frequency 742.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.523936 avg abs(imag) 0.524658
+Hit        PAR [4.64674 4.18189]dB
+PSS XCORR  cost 2.49389s
+
+Examining center frequency 742.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.55135 avg abs(imag) 0.551449
+Hit        PAR [3.59352 3.8038]dB
+PSS XCORR  cost 1.74077s
+
+Examining center frequency 742.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.555912 avg abs(imag) 0.55257
+Hit        PAR [4.0683 3.88117]dB
+PSS XCORR  cost 1.43103s
+
+Examining center frequency 743 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.564126 avg abs(imag) 0.564342
+Hit        PAR [3.8252 3.82002]dB
+PSS XCORR  cost 1.2691s
+
+Examining center frequency 743.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.568893 avg abs(imag) 0.568981
+Hit        PAR [3.96997 4.02957]dB
+PSS XCORR  cost 1.36104s
+
+Examining center frequency 743.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.560178 avg abs(imag) 0.558642
+Hit        PAR [4.00232 3.82112]dB
+PSS XCORR  cost 1.3946s
+
+Examining center frequency 743.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.488527 avg abs(imag) 0.48832
+Hit        PAR [5.06534 4.80376]dB
+PSS XCORR  cost 1.26996s
+
+Examining center frequency 743.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.442554 avg abs(imag) 0.443756
+Hit        PAR [4.81548 5.11629]dB
+PSS XCORR  cost 1.26978s
+
+Examining center frequency 743.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.490846 avg abs(imag) 0.490907
+Hit        PAR [3.79074 4.35532]dB
+PSS XCORR  cost 1.31332s
+
+Examining center frequency 743.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.469495 avg abs(imag) 0.469725
+Hit        PAR [3.91058 3.83986]dB
+PSS XCORR  cost 1.44198s
+
+Examining center frequency 743.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.410186 avg abs(imag) 0.411166
+Hit        PAR [4.46839 4.17269]dB
+PSS XCORR  cost 1.4238s
+
+Examining center frequency 743.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.255574 avg abs(imag) 0.255597
+Hit        PAR [9.04256 7.99064]dB
+PSS XCORR  cost 1.44568s
+Hit  num peaks 4
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+
+Examining center frequency 743.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.221423 avg abs(imag) 0.221312
+Hit        PAR [6.15859 7.2914]dB
+PSS XCORR  cost 1.62823s
+
+Examining center frequency 744 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.251539 avg abs(imag) 0.251408
+Hit        PAR [4.72658 4.66881]dB
+PSS XCORR  cost 1.50513s
+
+Examining center frequency 744.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.105397 avg abs(imag) 0.105428
+Hit        PAR [6.36121 6.5942]dB
+PSS XCORR  cost 1.53841s
+
+Examining center frequency 744.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0536639 avg abs(imag) 0.0537196
+Hit        PAR [3.84379 3.83833]dB
+PSS XCORR  cost 1.472s
+
+Examining center frequency 744.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0441851 avg abs(imag) 0.0439508
+Hit        PAR [4.85469 4.45352]dB
+PSS XCORR  cost 1.41413s
+
+Examining center frequency 744.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0536522 avg abs(imag) 0.0537073
+Hit        PAR [3.66738 4.02707]dB
+PSS XCORR  cost 2.10519s
+
+Examining center frequency 744.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0271823 avg abs(imag) 0.0270385
+Hit        PAR [9.68021 8.77741]dB
+PSS XCORR  cost 1.72851s
+
+Examining center frequency 744.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0294297 avg abs(imag) 0.0293547
+Hit        PAR [4.19858 3.7089]dB
+PSS XCORR  cost 1.37243s
+
+Examining center frequency 744.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0320753 avg abs(imag) 0.0320367
+Hit        PAR [3.53662 3.21952]dB
+PSS XCORR  cost 1.37218s
+
+Examining center frequency 744.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0303596 avg abs(imag) 0.0303922
+Hit        PAR [4.10051 3.7518]dB
+PSS XCORR  cost 1.31108s
+
+Examining center frequency 744.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.025556 avg abs(imag) 0.0254955
+Hit        PAR [4.31363 4.30561]dB
+PSS XCORR  cost 1.76331s
+
+Examining center frequency 745 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0253547 avg abs(imag) 0.0254165
+Hit        PAR [3.82866 3.8177]dB
+PSS XCORR  cost 1.37214s
+
+Examining center frequency 745.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.025213 avg abs(imag) 0.0252524
+Hit        PAR [3.59488 3.84798]dB
+PSS XCORR  cost 1.72394s
+
+Examining center frequency 745.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0253025 avg abs(imag) 0.0253921
+Hit        PAR [3.82049 3.53236]dB
+PSS XCORR  cost 1.96331s
+
+Examining center frequency 745.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0242936 avg abs(imag) 0.0244298
+Hit        PAR [3.582 3.51687]dB
+PSS XCORR  cost 2.18482s
+
+Examining center frequency 745.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0256319 avg abs(imag) 0.025605
+Hit        PAR [3.76305 3.63909]dB
+PSS XCORR  cost 2.01074s
+
+Examining center frequency 745.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0263843 avg abs(imag) 0.026261
+Hit        PAR [4.1208 4.06364]dB
+PSS XCORR  cost 2.40213s
+
+Examining center frequency 745.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0288981 avg abs(imag) 0.0290897
+Hit        PAR [5.99214 6.38158]dB
+PSS XCORR  cost 4.5965s
+
+Examining center frequency 745.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0298389 avg abs(imag) 0.0299748
+Hit        PAR [5.75436 5.10443]dB
+PSS XCORR  cost 1.4266s
+
+Examining center frequency 745.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0391546 avg abs(imag) 0.0394145
+Hit        PAR [5.21074 5.93539]dB
+PSS XCORR  cost 1.36303s
+
+Examining center frequency 745.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0577564 avg abs(imag) 0.0575223
+Hit        PAR [6.66346 6.25746]dB
+PSS XCORR  cost 2.90263s
+
+Examining center frequency 746 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.189466 avg abs(imag) 0.189333
+Hit        PAR [5.0599 5.23947]dB
+PSS XCORR  cost 1.48184s
+
+Examining center frequency 746.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.214048 avg abs(imag) 0.213821
+Hit        PAR [7.4623 6.42288]dB
+PSS XCORR  cost 1.56325s
+
+Examining center frequency 746.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.254204 avg abs(imag) 0.254085
+Hit        PAR [6.65129 7.82576]dB
+PSS XCORR  cost 2.2582s
+
+Examining center frequency 746.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.297527 avg abs(imag) 0.297384
+Hit        PAR [5.76202 6.82607]dB
+PSS XCORR  cost 1.38745s
+
+Examining center frequency 746.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.338049 avg abs(imag) 0.337806
+Hit        PAR [5.39529 4.71929]dB
+PSS XCORR  cost 1.46049s
+
+Examining center frequency 746.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.369256 avg abs(imag) 0.369883
+Hit        PAR [6.14675 6.94652]dB
+PSS XCORR  cost 1.32538s
+
+Examining center frequency 746.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.357721 avg abs(imag) 0.356627
+Hit        PAR [6.85863 8.05989]dB
+PSS XCORR  cost 1.90435s
+
+Examining center frequency 746.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.409793 avg abs(imag) 0.409245
+Hit        PAR [5.56174 7.21581]dB
+PSS XCORR  cost 1.40713s
+
+Examining center frequency 746.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.406741 avg abs(imag) 0.407274
+Hit        PAR [5.73651 5.89134]dB
+PSS XCORR  cost 1.40214s
+
+Examining center frequency 746.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.437159 avg abs(imag) 0.435463
+Hit        PAR [7.53435 6.8723]dB
+PSS XCORR  cost 1.83273s
+
+Examining center frequency 747 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.444201 avg abs(imag) 0.440954
+Hit        PAR [5.94934 5.98128]dB
+PSS XCORR  cost 1.53168s
+
+Examining center frequency 747.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.452136 avg abs(imag) 0.45156
+Hit        PAR [5.37725 5.42984]dB
+PSS XCORR  cost 1.70739s
+
+Examining center frequency 747.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.439224 avg abs(imag) 0.437763
+Hit        PAR [5.5509 5.78899]dB
+PSS XCORR  cost 1.49759s
+
+Examining center frequency 747.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.449486 avg abs(imag) 0.447752
+Hit        PAR [5.70386 5.30113]dB
+PSS XCORR  cost 1.69932s
+
+Examining center frequency 747.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.446706 avg abs(imag) 0.446749
+Hit        PAR [5.08621 5.54256]dB
+PSS XCORR  cost 1.67563s
+
+Examining center frequency 747.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.442278 avg abs(imag) 0.442062
+Hit        PAR [5.65502 7.47784]dB
+PSS XCORR  cost 1.74751s
+
+Examining center frequency 747.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.423565 avg abs(imag) 0.422111
+Hit        PAR [6.40603 5.15932]dB
+PSS XCORR  cost 1.5749s
+
+Examining center frequency 747.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.440923 avg abs(imag) 0.442437
+Hit        PAR [5.54927 6.16602]dB
+PSS XCORR  cost 1.30572s
+
+Examining center frequency 747.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.416923 avg abs(imag) 0.417644
+Hit        PAR [5.79359 6.00466]dB
+PSS XCORR  cost 1.40189s
+
+Examining center frequency 747.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.425821 avg abs(imag) 0.427868
+Hit        PAR [5.55753 5.94346]dB
+PSS XCORR  cost 1.32279s
+
+Examining center frequency 748 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.441121 avg abs(imag) 0.442263
+Hit        PAR [5.39521 6.6483]dB
+PSS XCORR  cost 1.29306s
+
+Examining center frequency 748.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.442766 avg abs(imag) 0.443285
+Hit        PAR [5.55894 5.22338]dB
+PSS XCORR  cost 1.51258s
+
+Examining center frequency 748.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.43276 avg abs(imag) 0.431853
+Hit        PAR [5.49392 5.67236]dB
+PSS XCORR  cost 1.2952s
+
+Examining center frequency 748.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.396849 avg abs(imag) 0.396055
+Hit        PAR [5.97264 6.29795]dB
+PSS XCORR  cost 1.27712s
+
+Examining center frequency 748.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.418789 avg abs(imag) 0.419966
+Hit        PAR [5.11245 5.36064]dB
+PSS XCORR  cost 1.42493s
+
+Examining center frequency 748.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.385983 avg abs(imag) 0.38833
+Hit        PAR [6.80137 6.80554]dB
+PSS XCORR  cost 1.32648s
+
+Examining center frequency 748.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.378091 avg abs(imag) 0.379187
+Hit        PAR [7.24355 6.47917]dB
+PSS XCORR  cost 1.55475s
+
+Examining center frequency 748.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.350501 avg abs(imag) 0.35162
+Hit        PAR [6.82821 7.39664]dB
+PSS XCORR  cost 1.42459s
+
+Examining center frequency 748.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.340008 avg abs(imag) 0.341926
+Hit        PAR [7.54161 8.11649]dB
+PSS XCORR  cost 1.53254s
+
+Examining center frequency 748.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.356522 avg abs(imag) 0.355749
+Hit        PAR [6.36062 6.64002]dB
+PSS XCORR  cost 2.22939s
+
+Examining center frequency 749 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.371396 avg abs(imag) 0.373301
+Hit        PAR [5.92488 6.49536]dB
+PSS XCORR  cost 1.97328s
+
+Examining center frequency 749.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.387155 avg abs(imag) 0.386634
+Hit        PAR [6.53497 6.05067]dB
+PSS XCORR  cost 1.98488s
+
+Examining center frequency 749.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.350781 avg abs(imag) 0.351348
+Hit        PAR [6.41104 8.25378]dB
+PSS XCORR  cost 1.61815s
+
+Examining center frequency 749.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.36369 avg abs(imag) 0.362728
+Hit        PAR [5.92742 5.73071]dB
+PSS XCORR  cost 3.0709s
+
+Examining center frequency 749.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.332959 avg abs(imag) 0.332912
+Hit        PAR [6.61561 7.88114]dB
+PSS XCORR  cost 1.67393s
+
+Examining center frequency 749.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.363038 avg abs(imag) 0.361115
+Hit        PAR [7.00426 6.52031]dB
+PSS XCORR  cost 1.67413s
+
+Examining center frequency 749.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.380642 avg abs(imag) 0.380814
+Hit        PAR [5.90128 6.23105]dB
+PSS XCORR  cost 1.361s
+
+Examining center frequency 749.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.37669 avg abs(imag) 0.376788
+Hit        PAR [5.15871 5.06621]dB
+PSS XCORR  cost 1.74262s
+
+Examining center frequency 749.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.351737 avg abs(imag) 0.35088
+Hit        PAR [6.55301 7.01273]dB
+PSS XCORR  cost 1.41438s
+
+Examining center frequency 749.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.354991 avg abs(imag) 0.354273
+Hit        PAR [6.34079 6.38889]dB
+PSS XCORR  cost 1.40119s
+
+Examining center frequency 750 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.342795 avg abs(imag) 0.342743
+Hit        PAR [6.41644 6.57533]dB
+PSS XCORR  cost 1.54053s
+
+Examining center frequency 750.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.304778 avg abs(imag) 0.304309
+Hit        PAR [8.73142 9.3776]dB
+PSS XCORR  cost 2.4074s
+Hit  num peaks 0
+
+Examining center frequency 750.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.357409 avg abs(imag) 0.359993
+Hit        PAR [6.73947 6.20883]dB
+PSS XCORR  cost 2.21645s
+
+Examining center frequency 750.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.353719 avg abs(imag) 0.354462
+Hit        PAR [7.58722 7.6618]dB
+PSS XCORR  cost 2.44563s
+
+Examining center frequency 750.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.32227 avg abs(imag) 0.321974
+Hit        PAR [7.91097 7.2876]dB
+PSS XCORR  cost 1.5986s
+
+Examining center frequency 750.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.386769 avg abs(imag) 0.386426
+Hit        PAR [6.02815 6.10576]dB
+PSS XCORR  cost 2.1844s
+
+Examining center frequency 750.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.389308 avg abs(imag) 0.389956
+Hit        PAR [7.11657 7.19504]dB
+PSS XCORR  cost 1.73609s
+
+Examining center frequency 750.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.383741 avg abs(imag) 0.383947
+Hit        PAR [6.41973 5.84468]dB
+PSS XCORR  cost 1.50157s
+
+Examining center frequency 750.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.375765 avg abs(imag) 0.375043
+Hit        PAR [13.2569 13.1077]dB
+PSS XCORR  cost 2.28395s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 750.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.39768 avg abs(imag) 0.396522
+Hit        PAR [6.43095 6.33819]dB
+PSS XCORR  cost 1.86652s
+
+Examining center frequency 751 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.3715 avg abs(imag) 0.371596
+Hit        PAR [16.3954 15.6036]dB
+PSS XCORR  cost 1.94155s
+Hit  num peaks 5
+try peak 0 tdd_flag 0
+  Detected a FDD cell! At freqeuncy 751MHz, try 0
+    cell ID: 167
+     PSS ID: 2
+    RX power level: -10.3788 dB
+    residual frequency offset: -407.387 Hz
+                     k_factor: 1
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+try peak 2 tdd_flag 0
+try peak 2 tdd_flag 1
+try peak 3 tdd_flag 0
+try peak 3 tdd_flag 1
+try peak 4 tdd_flag 0
+try peak 4 tdd_flag 1
+
+Examining center frequency 751.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.361569 avg abs(imag) 0.36209
+Hit        PAR [14.3135 13.9257]dB
+PSS XCORR  cost 1.89899s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 751.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.404196 avg abs(imag) 0.402642
+Hit        PAR [8.71669 11.9211]dB
+PSS XCORR  cost 1.53039s
+Hit  num peaks 2
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+try peak 1 tdd_flag 0
+try peak 1 tdd_flag 1
+
+Examining center frequency 751.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.397726 avg abs(imag) 0.394023
+Hit        PAR [7.20332 6.2673]dB
+PSS XCORR  cost 1.8421s
+
+Examining center frequency 751.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.387057 avg abs(imag) 0.387355
+Hit        PAR [6.34924 5.85642]dB
+PSS XCORR  cost 1.76023s
+
+Examining center frequency 751.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.403249 avg abs(imag) 0.405043
+Hit        PAR [6.10554 5.70295]dB
+PSS XCORR  cost 2.90101s
+
+Examining center frequency 751.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.393071 avg abs(imag) 0.391714
+Hit        PAR [6.91762 6.2031]dB
+PSS XCORR  cost 1.82278s
+
+Examining center frequency 751.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.382453 avg abs(imag) 0.380996
+Hit        PAR [5.95528 6.12616]dB
+PSS XCORR  cost 1.54554s
+
+Examining center frequency 751.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.381987 avg abs(imag) 0.381587
+Hit        PAR [5.5754 5.8225]dB
+PSS XCORR  cost 3.5666s
+
+Examining center frequency 751.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.364171 avg abs(imag) 0.364042
+Hit        PAR [6.07608 5.37197]dB
+PSS XCORR  cost 1.4913s
+
+Examining center frequency 752 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.356455 avg abs(imag) 0.358532
+Hit        PAR [7.04959 6.08764]dB
+PSS XCORR  cost 1.30609s
+
+Examining center frequency 752.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.370955 avg abs(imag) 0.369882
+Hit        PAR [6.73808 6.15454]dB
+PSS XCORR  cost 2.63936s
+
+Examining center frequency 752.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.360268 avg abs(imag) 0.358055
+Hit        PAR [5.84097 6.09093]dB
+PSS XCORR  cost 1.88012s
+
+Examining center frequency 752.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.370552 avg abs(imag) 0.370895
+Hit        PAR [6.30186 5.9047]dB
+PSS XCORR  cost 1.8989s
+
+Examining center frequency 752.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.346554 avg abs(imag) 0.347867
+Hit        PAR [5.75896 5.49941]dB
+PSS XCORR  cost 1.53395s
+
+Examining center frequency 752.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.359456 avg abs(imag) 0.360263
+Hit        PAR [7.90609 7.98708]dB
+PSS XCORR  cost 1.42382s
+
+Examining center frequency 752.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.363528 avg abs(imag) 0.362757
+Hit        PAR [5.32156 5.93474]dB
+PSS XCORR  cost 1.47536s
+
+Examining center frequency 752.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.360621 avg abs(imag) 0.362521
+Hit        PAR [6.22725 6.08963]dB
+PSS XCORR  cost 3.66953s
+
+Examining center frequency 752.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.345306 avg abs(imag) 0.345213
+Hit        PAR [6.00355 6.09092]dB
+PSS XCORR  cost 1.735s
+
+Examining center frequency 752.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.341561 avg abs(imag) 0.342739
+Hit        PAR [6.61729 5.72244]dB
+PSS XCORR  cost 1.57967s
+
+Examining center frequency 753 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.354866 avg abs(imag) 0.354982
+Hit        PAR [5.76536 5.42878]dB
+PSS XCORR  cost 2.05738s
+
+Examining center frequency 753.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.349902 avg abs(imag) 0.348953
+Hit        PAR [6.45736 5.78136]dB
+PSS XCORR  cost 1.83719s
+
+Examining center frequency 753.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.358533 avg abs(imag) 0.3581
+Hit        PAR [5.53148 5.25859]dB
+PSS XCORR  cost 1.64249s
+
+Examining center frequency 753.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.368537 avg abs(imag) 0.369329
+Hit        PAR [5.85707 5.72889]dB
+PSS XCORR  cost 1.78842s
+
+Examining center frequency 753.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.357745 avg abs(imag) 0.357906
+Hit        PAR [5.49611 5.79258]dB
+PSS XCORR  cost 1.80463s
+
+Examining center frequency 753.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.351635 avg abs(imag) 0.353552
+Hit        PAR [6.3446 7.49267]dB
+PSS XCORR  cost 1.85879s
+
+Examining center frequency 753.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.361464 avg abs(imag) 0.361498
+Hit        PAR [7.52692 5.87834]dB
+PSS XCORR  cost 1.69664s
+
+Examining center frequency 753.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.377057 avg abs(imag) 0.379092
+Hit        PAR [5.96349 6.77129]dB
+PSS XCORR  cost 1.61022s
+
+Examining center frequency 753.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.378662 avg abs(imag) 0.379103
+Hit        PAR [7.63106 6.13367]dB
+PSS XCORR  cost 1.40062s
+
+Examining center frequency 753.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.364869 avg abs(imag) 0.36618
+Hit        PAR [5.96886 6.78171]dB
+PSS XCORR  cost 4.06058s
+
+Examining center frequency 754 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.347941 avg abs(imag) 0.347495
+Hit        PAR [6.92386 6.26926]dB
+PSS XCORR  cost 1.83264s
+
+Examining center frequency 754.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.376639 avg abs(imag) 0.378431
+Hit        PAR [6.12134 5.23972]dB
+PSS XCORR  cost 1.40926s
+
+Examining center frequency 754.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.359684 avg abs(imag) 0.36029
+Hit        PAR [8.10946 6.14103]dB
+PSS XCORR  cost 2.26129s
+
+Examining center frequency 754.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.351981 avg abs(imag) 0.351492
+Hit        PAR [6.48323 6.93206]dB
+PSS XCORR  cost 2.75025s
+
+Examining center frequency 754.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.353389 avg abs(imag) 0.354061
+Hit        PAR [6.74734 6.63665]dB
+PSS XCORR  cost 1.5748s
+
+Examining center frequency 754.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.340295 avg abs(imag) 0.340117
+Hit        PAR [6.79269 7.27643]dB
+PSS XCORR  cost 1.66825s
+
+Examining center frequency 754.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.352974 avg abs(imag) 0.35195
+Hit        PAR [6.77225 7.24558]dB
+PSS XCORR  cost 3.10373s
+
+Examining center frequency 754.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.367439 avg abs(imag) 0.366574
+Hit        PAR [6.6536 6.1731]dB
+PSS XCORR  cost 1.66133s
+
+Examining center frequency 754.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.349558 avg abs(imag) 0.347
+Hit        PAR [6.93267 7.34761]dB
+PSS XCORR  cost 1.84219s
+
+Examining center frequency 754.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.369089 avg abs(imag) 0.370544
+Hit        PAR [5.81728 6.47083]dB
+PSS XCORR  cost 3.00371s
+
+Examining center frequency 755 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.364953 avg abs(imag) 0.364782
+Hit        PAR [6.61273 8.23217]dB
+PSS XCORR  cost 1.98496s
+
+Examining center frequency 755.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.31923 avg abs(imag) 0.31898
+Hit        PAR [6.31512 6.6428]dB
+PSS XCORR  cost 4.11801s
+
+Examining center frequency 755.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.341907 avg abs(imag) 0.346357
+Hit        PAR [6.33997 5.89459]dB
+PSS XCORR  cost 1.4637s
+
+Examining center frequency 755.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.317055 avg abs(imag) 0.318127
+Hit        PAR [7.03625 6.83245]dB
+PSS XCORR  cost 1.71268s
+
+Examining center frequency 755.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.300995 avg abs(imag) 0.300888
+Hit        PAR [6.58352 6.42271]dB
+PSS XCORR  cost 1.63032s
+
+Examining center frequency 755.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.295177 avg abs(imag) 0.29486
+Hit        PAR [6.99285 6.08234]dB
+PSS XCORR  cost 1.70259s
+
+Examining center frequency 755.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.265368 avg abs(imag) 0.265718
+Hit        PAR [5.759 6.6211]dB
+PSS XCORR  cost 1.63547s
+
+Examining center frequency 755.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.220072 avg abs(imag) 0.220028
+Hit        PAR [6.4034 6.60422]dB
+PSS XCORR  cost 1.56849s
+
+Examining center frequency 755.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.210137 avg abs(imag) 0.210275
+Hit        PAR [6.34796 5.74202]dB
+PSS XCORR  cost 1.49121s
+
+Examining center frequency 755.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.181461 avg abs(imag) 0.181424
+Hit        PAR [5.97898 6.93254]dB
+PSS XCORR  cost 1.71668s
+
+Examining center frequency 756 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.14244 avg abs(imag) 0.142202
+Hit        PAR [5.2198 4.89701]dB
+PSS XCORR  cost 2.26413s
+
+Examining center frequency 756.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.073754 avg abs(imag) 0.0738374
+Hit        PAR [4.53392 5.01692]dB
+PSS XCORR  cost 1.40807s
+
+Examining center frequency 756.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0548467 avg abs(imag) 0.0548583
+Hit        PAR [3.68728 4.1648]dB
+PSS XCORR  cost 1.60139s
+
+Examining center frequency 756.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0509251 avg abs(imag) 0.0507782
+Hit        PAR [3.88598 4.05933]dB
+PSS XCORR  cost 1.44763s
+
+Examining center frequency 756.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0450928 avg abs(imag) 0.0451687
+Hit        PAR [4.39681 4.00811]dB
+PSS XCORR  cost 1.98112s
+
+Examining center frequency 756.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0468271 avg abs(imag) 0.046652
+Hit        PAR [3.36736 3.63968]dB
+PSS XCORR  cost 1.40988s
+
+Examining center frequency 756.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0406954 avg abs(imag) 0.0407349
+Hit        PAR [4.04642 3.58332]dB
+PSS XCORR  cost 1.63577s
+
+Examining center frequency 756.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0385734 avg abs(imag) 0.0383239
+Hit        PAR [3.78072 3.51791]dB
+PSS XCORR  cost 1.55022s
+
+Examining center frequency 756.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0379961 avg abs(imag) 0.0376691
+Hit        PAR [3.45747 3.95965]dB
+PSS XCORR  cost 1.80992s
+
+Examining center frequency 756.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0373443 avg abs(imag) 0.0372034
+Hit        PAR [3.77724 3.62067]dB
+PSS XCORR  cost 1.52814s
+
+Examining center frequency 757 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0368562 avg abs(imag) 0.0369941
+Hit        PAR [3.5122 3.70962]dB
+PSS XCORR  cost 1.63759s
+
+Examining center frequency 757.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0371899 avg abs(imag) 0.0370228
+Hit        PAR [3.83507 3.22188]dB
+PSS XCORR  cost 1.87618s
+
+Examining center frequency 757.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0371829 avg abs(imag) 0.0371854
+Hit        PAR [4.15567 3.77511]dB
+PSS XCORR  cost 1.71058s
+
+Examining center frequency 757.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0381991 avg abs(imag) 0.0382389
+Hit        PAR [4.03362 3.73538]dB
+PSS XCORR  cost 1.80161s
+
+Examining center frequency 757.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0397106 avg abs(imag) 0.0398148
+Hit        PAR [3.52185 3.41632]dB
+PSS XCORR  cost 1.96878s
+
+Examining center frequency 757.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0400473 avg abs(imag) 0.039893
+Hit        PAR [3.69716 3.8523]dB
+PSS XCORR  cost 4.62432s
+
+Examining center frequency 757.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0435548 avg abs(imag) 0.0435792
+Hit        PAR [4.1936 3.91165]dB
+PSS XCORR  cost 1.96562s
+
+Examining center frequency 757.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0510695 avg abs(imag) 0.0510928
+Hit        PAR [4.51735 3.58049]dB
+PSS XCORR  cost 1.51043s
+
+Examining center frequency 757.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0453432 avg abs(imag) 0.0454155
+Hit        PAR [4.14437 3.85203]dB
+PSS XCORR  cost 2.97609s
+
+Examining center frequency 757.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0552218 avg abs(imag) 0.0554521
+Hit        PAR [4.19348 3.71122]dB
+PSS XCORR  cost 1.60208s
+
+Examining center frequency 758 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0598163 avg abs(imag) 0.0596539
+Hit        PAR [4.43727 4.14238]dB
+PSS XCORR  cost 1.50968s
+
+Examining center frequency 758.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.064521 avg abs(imag) 0.0642085
+Hit        PAR [4.75842 3.87708]dB
+PSS XCORR  cost 1.31087s
+
+Examining center frequency 758.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0681282 avg abs(imag) 0.0680714
+Hit        PAR [4.08133 5.18441]dB
+PSS XCORR  cost 2.0281s
+
+Examining center frequency 758.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0697236 avg abs(imag) 0.0700051
+Hit        PAR [4.8105 4.90792]dB
+PSS XCORR  cost 2.42257s
+
+Examining center frequency 758.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0741419 avg abs(imag) 0.0741604
+Hit        PAR [6.5051 6.69416]dB
+PSS XCORR  cost 1.80413s
+
+Examining center frequency 758.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0753481 avg abs(imag) 0.075282
+Hit        PAR [5.51592 5.30151]dB
+PSS XCORR  cost 1.5858s
+
+Examining center frequency 758.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0766317 avg abs(imag) 0.0767358
+Hit        PAR [6.10106 6.40001]dB
+PSS XCORR  cost 1.6254s
+
+Examining center frequency 758.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0776727 avg abs(imag) 0.0775246
+Hit        PAR [6.14777 6.47725]dB
+PSS XCORR  cost 1.89902s
+
+Examining center frequency 758.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0767043 avg abs(imag) 0.0762991
+Hit        PAR [7.60429 6.99714]dB
+PSS XCORR  cost 1.69517s
+
+Examining center frequency 758.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0753476 avg abs(imag) 0.0755829
+Hit        PAR [6.65033 7.22941]dB
+PSS XCORR  cost 1.65699s
+
+Examining center frequency 759 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0731225 avg abs(imag) 0.0733931
+Hit        PAR [7.40629 9.3669]dB
+PSS XCORR  cost 1.67437s
+
+Examining center frequency 759.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.069072 avg abs(imag) 0.0689484
+Hit        PAR [7.15253 7.08167]dB
+PSS XCORR  cost 1.46342s
+
+Examining center frequency 759.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0641985 avg abs(imag) 0.064155
+Hit        PAR [9.07098 7.34654]dB
+PSS XCORR  cost 1.42816s
+
+Examining center frequency 759.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0639269 avg abs(imag) 0.0639128
+Hit        PAR [7.61678 7.49268]dB
+PSS XCORR  cost 1.54836s
+
+Examining center frequency 759.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0604012 avg abs(imag) 0.0603896
+Hit        PAR [8.86705 8.34786]dB
+PSS XCORR  cost 1.34262s
+Hit  num peaks 0
+
+Examining center frequency 759.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0561122 avg abs(imag) 0.0560162
+Hit        PAR [9.05826 9.15122]dB
+PSS XCORR  cost 1.56739s
+
+Examining center frequency 759.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.05774 avg abs(imag) 0.0576632
+Hit        PAR [7.86624 8.34903]dB
+PSS XCORR  cost 1.46642s
+
+Examining center frequency 759.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0540366 avg abs(imag) 0.0539506
+Hit        PAR [8.45816 8.63325]dB
+PSS XCORR  cost 1.42693s
+Hit  num peaks 0
+
+Examining center frequency 759.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0530296 avg abs(imag) 0.0528978
+Hit        PAR [8.67672 9.75502]dB
+PSS XCORR  cost 2.43742s
+Hit  num peaks 0
+
+Examining center frequency 759.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0546382 avg abs(imag) 0.0545034
+Hit        PAR [9.28925 8.90851]dB
+PSS XCORR  cost 1.362s
+Hit  num peaks 1
+try peak 0 tdd_flag 0
+try peak 0 tdd_flag 1
+
+Examining center frequency 760 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0558732 avg abs(imag) 0.0563474
+Hit        PAR [9.42659 9.65688]dB
+PSS XCORR  cost 1.40023s
+Hit  num peaks 0
+
+Examining center frequency 760.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0548629 avg abs(imag) 0.054593
+Hit        PAR [8.95327 8.84146]dB
+PSS XCORR  cost 1.6636s
+Hit  num peaks 0
+
+Examining center frequency 760.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0551537 avg abs(imag) 0.0549417
+Hit        PAR [11.1222 10.63]dB
+PSS XCORR  cost 5.95157s
+
+Examining center frequency 760.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0535199 avg abs(imag) 0.0535043
+Hit        PAR [9.57302 9.76679]dB
+PSS XCORR  cost 4.40321s
+Hit  num peaks 0
+
+Examining center frequency 760.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0562565 avg abs(imag) 0.0560762
+Hit        PAR [10.5189 9.25027]dB
+PSS XCORR  cost 4.1989s
+
+Examining center frequency 760.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0653771 avg abs(imag) 0.0652577
+Hit        PAR [8.51244 8.22746]dB
+PSS XCORR  cost 2.79328s
+
+Examining center frequency 760.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0595146 avg abs(imag) 0.0596536
+Hit        PAR [9.31827 7.95169]dB
+PSS XCORR  cost 2.47511s
+
+Examining center frequency 760.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0628411 avg abs(imag) 0.0626275
+Hit        PAR [8.9271 7.35924]dB
+PSS XCORR  cost 3.15799s
+Hit  num peaks 0
+
+Examining center frequency 760.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.066342 avg abs(imag) 0.0661138
+Hit        PAR [8.07679 8.49731]dB
+PSS XCORR  cost 1.87444s
+
+Examining center frequency 760.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.107504 avg abs(imag) 0.106988
+Hit        PAR [4.87854 4.69631]dB
+PSS XCORR  cost 2.49538s
+
+Examining center frequency 761 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0728477 avg abs(imag) 0.0725508
+Hit        PAR [7.21993 7.81068]dB
+PSS XCORR  cost 1.98468s
+
+Examining center frequency 761.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.074666 avg abs(imag) 0.0745333
+Hit        PAR [6.99363 7.24753]dB
+PSS XCORR  cost 1.64299s
+
+Examining center frequency 761.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0736912 avg abs(imag) 0.0736851
+Hit        PAR [7.09215 7.28398]dB
+PSS XCORR  cost 1.78694s
+
+Examining center frequency 761.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0746141 avg abs(imag) 0.0749592
+Hit        PAR [7.1637 6.83592]dB
+PSS XCORR  cost 2.11285s
+
+Examining center frequency 761.4 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0759545 avg abs(imag) 0.0757703
+Hit        PAR [6.44854 6.89404]dB
+PSS XCORR  cost 1.73984s
+
+Examining center frequency 761.5 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0718726 avg abs(imag) 0.072219
+Hit        PAR [6.59314 6.79408]dB
+PSS XCORR  cost 1.62897s
+
+Examining center frequency 761.6 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0744337 avg abs(imag) 0.0743674
+Hit        PAR [7.05847 6.73735]dB
+PSS XCORR  cost 1.60701s
+
+Examining center frequency 761.7 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0702477 avg abs(imag) 0.0704506
+Hit        PAR [7.52199 7.63383]dB
+PSS XCORR  cost 1.60293s
+
+Examining center frequency 761.8 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.067872 avg abs(imag) 0.0681496
+Hit        PAR [7.23185 7.05003]dB
+PSS XCORR  cost 1.62901s
+
+Examining center frequency 761.9 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0665672 avg abs(imag) 0.0665833
+Hit        PAR [5.94784 6.13334]dB
+PSS XCORR  cost 1.80059s
+
+Examining center frequency 762 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0685304 avg abs(imag) 0.0685975
+Hit        PAR [7.06768 7.53776]dB
+PSS XCORR  cost 1.71753s
+
+Examining center frequency 762.1 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.063427 avg abs(imag) 0.0634643
+Hit        PAR [9.10742 9.34221]dB
+PSS XCORR  cost 1.80846s
+
+Examining center frequency 762.2 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0660952 avg abs(imag) 0.0661414
+Hit        PAR [8.28798 8.17149]dB
+PSS XCORR  cost 1.69129s
+
+Examining center frequency 762.3 MHz ... try 0
+capture_data Warning: It is not RTLSDR_TUNER_E4000
+set fc_programmed=fc_requested
+
+input level: avg abs(real) 0.0638615 avg abs(imag) 0.0638789
+Hit        PAR [9.67759 10.3427]dB
+Segmentation fault (core dumped)
+
