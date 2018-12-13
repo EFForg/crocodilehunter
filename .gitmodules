@@ -1,0 +1,3 @@
+[submodule "src/srsLTE"]
+	path = src/srsLTE
+	url = git@github.com:EFForg/srsLTE.git
