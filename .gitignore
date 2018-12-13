@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+**.swp
+**.swo
+src/ue.conf
+data/cell_data.db
