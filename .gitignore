@@ -108,3 +108,5 @@ venv.bak/
 src/ue.conf
 data/cell_data.db
 data/hostedx40-latest.rbf
+*.code-workspace
+**fftw_wisdom
