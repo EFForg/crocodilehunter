@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ 
 Crocodile Hunter
-Find stingrays in the wild. Hunt them down. Get revenge for Steve Irwen
+Find stingrays in the wild. Hunt them down. Get revenge for Steve Irwin
 """
 
 import subprocess
