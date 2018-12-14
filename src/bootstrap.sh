@@ -54,14 +54,15 @@ fi
 
 # Test GPS 
 echo -e "${GR}*${NC} Testing GPS"
-killall -9 gpsd 
+killall -9 gpsd 2> /dev/null
 service gpsd stop
+
 if [ -e /dev/ttyUSB0 ]; then 
     gpsd /dev/ttyUSB0
     echo -e "${GR}*${NC} Waiting for GPS to sync"
-    ../experiments/gps.sh | grep null  > /dev/null
-    until [ $? -eq 1 ]; do
+    until ../experiments/gps.sh | grep -v null  > /dev/null; do
         echo -e "${RD}E${NC} GPS failed to sync."
+        sleep 1
     done
     echo -e "${GR}*${NC} GPS successfully got location"
 else
