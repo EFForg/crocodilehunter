@@ -35,4 +35,4 @@ sudo python crocodilehunter.py
 
 ### Misc
 
-\* It's named *Crocodile Hunter* because a Stingray killed Steve Irwin.
+\* It's named *Crocodile Hunter* because a stingray killed Steve Irwin.
