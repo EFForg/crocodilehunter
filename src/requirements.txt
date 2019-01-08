@@ -1,0 +1,3 @@
+sqlalchemy
+flask
+flask-sqlalchemy
