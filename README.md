@@ -30,7 +30,8 @@ You'll need to make a copy of `/src/ue.conf.example` in `/src` named `ue.conf` a
 To run the full project, use:
 
 ```
-sudo python crocodilehunter.py
+cd src
+sudo ./crocodilehunter.py
 ```
 
 ### Misc
