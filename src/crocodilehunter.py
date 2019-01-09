@@ -52,18 +52,18 @@ def main():
     except subprocess.CalledProcessError:
         cleanup(threads, subprocs, True)
 
+    #Start watchdog dæmon
+    Watchdog.start_daemon()
+
+    #Start web ui dæmon
+    Webui.start_daemon()
+
     # Monitor and restart srsUE if it crashes
     proc = start_srslte()
     subprocs.append(proc)
     monitor = Thread(target=monitor_srslte, args=(proc,))
     monitor.start()
     threads.append(monitor)
-
-    #Start watchdog dæmon
-    Watchdog.start_daemon()
-
-    #Start web ui dæmon
-    Webui.start_daemon()
 
 def start_srslte():
     # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
