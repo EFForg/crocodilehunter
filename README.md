@@ -17,8 +17,13 @@ You'll need to install the required drivers for either the bladeRF or USRP.
 
 First, you'll need to install the packages required for srsLTE. [Instructions are here](https://github.com/srsLTE/srsLTE#build-instructions).
 
-Additional packages you need to install if you're on Ubuntu:
+Then, after cloning the project, cd to the `src/srsLTE/` directory and initialize the git submodule:
+```
+git submodule init
+git submodule update
+```
 
+Additional packages you need to install if you're on Ubuntu:
 ```
 sudo apt-get install gpsd gpsd-clients
 
