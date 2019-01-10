@@ -8,7 +8,7 @@ import gpsd
 from sqlalchemy import func, text
 
 class Watchdog():
-    SOCK = f"{os.path.dirname(os.path.abspath(__file__))}/../croc.sock"
+    SOCK = f"/tmp/croc.sock"
 
     def __init__(self):
         init_db()
