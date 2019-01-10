@@ -18,10 +18,11 @@ from threading import Thread
 
 from watchdog import Watchdog
 from webui import Webui
-from nbstreamreader import NonBlockingStreamReader as NBSR, UnexpectedEndOfStream
+from nbstreamreader import NonBlockingStreamReader as NBSR
 
 # Global flag to exit forever running threads
 EXIT = False
+DEBUG = False # Set to true to surpress spinner and see srsUE output
 
 def main():
     """
@@ -36,9 +37,10 @@ def main():
     threads = []
     subprocs = []
 
-    spn = Thread(target=show_spinner)
-    spn.start()
-    threads.append(spn)
+    if not DEBUG:
+        spn = Thread(target=show_spinner)
+        spn.start()
+        threads.append(spn)
 
     # Exit gracefully on SIGINT
     def signal_handler(sig, frame):
@@ -83,15 +85,14 @@ def monitor_srslte(proc):
     nbsr = NBSR(proc.stdout)
     line = ''
     while not EXIT:
-        try:
-            line = nbsr.readline(10)
-        except UnexpectedEndOfStream:
-            print("Output stream ended")
-        out.append(str(line))
+        line = nbsr.readline(10)
+        if DEBUG and (line is not None):
+            print(line.decode("ascii").rstrip())
+        out.append(line)
 
         if proc.poll() is not None or line is None:
             print(f"\b{bcolors.FAIL}E{bcolors.ENDC} srsUE has exited unexpectedly")
-            print(f"\bI {out[-1]}")
+            print(f"\b{bcolors.FAIL}E{bcolors.ENDC} It's dying words were: {out[-2].decode('ascii').rstrip()}")
             proc.kill()
             proc = start_srslte()
             monitor_srslte(proc)
