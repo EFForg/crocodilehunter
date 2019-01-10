@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
+import os
+import socketserver
+from threading import Thread
+
 from database import db_session, Tower, init_db
 from sqlalchemy import func, text
 
-class Watchdog:
+class Watchdog():
+    SOCK = f"{os.path.dirname(os.path.abspath(__file__))}/../croc.sock"
 
     def __init__(self):
         init_db()
@@ -18,19 +23,40 @@ class Watchdog:
         num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
         print(f"Found {num_towers} towers a total of {num_rows} times")
 
-    @classmethod
-    def start_daemon(cls):
-        print(f"\b* Starting Watchdog")
+    def process_tower(self, data):
+        print(f"server recd: {data}")
+        self.strongest()
 
-    @classmethod
-    def shutdown(cls):
+    def start_daemon(self):
+        print(f"\b* Starting Watchdog")
+        print(f"\b* Creating socket {Watchdog.SOCK}")
+        self.server = ThreadedUnixServer(Watchdog.SOCK, RequestHandler)
+        with self.server:
+            server_thread = Thread(target=self.server.serve_forever)
+            server_thread.setDaemon(True)
+            server_thread.start()
+            print("Watchdog server running")
+            while True:
+                continue
+
+    def shutdown(self):
         print(f"\b* Stopping Watchdog")
+        if self.server:
+            self.server.shutdown()
+
+
+class ThreadedUnixServer(socketserver.UnixStreamServer):
+    pass
+
+class RequestHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        data = str(self.request.recv(1024), 'ascii')
+        self.request.sendall(b"OK")
+        wd = Watchdog()
+        wd.process_tower(data)
 
 
 if __name__ == "__main__":
     dog = Watchdog()
-    print("last 10 unique towers seen")
-    dog.last_ten()
-    print("top ten readings by strength")
-    dog.strongest()
+    dog.start_daemon()
 
