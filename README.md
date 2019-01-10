@@ -22,11 +22,14 @@ Then, after cloning the project, cd to the `src/srsLTE/` directory and initializ
 git submodule init
 git submodule update
 ```
+Note: if afterwards during development you want to pull in changes from our `srsLTE` fork, run:
+```
+git submodule update --recursive
+```
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
 sudo apt-get install python3-pip gpsd gpsd-clients
-
 ```
 
 ### Running
