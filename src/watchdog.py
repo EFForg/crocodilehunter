@@ -41,7 +41,8 @@ class Watchdog():
 
     def shutdown(self):
         print(f"\b* Stopping Watchdog")
-        if self.server:
+        os.remove(Watchdog.SOCK)
+        if hasattr(self, 'server') and self.server:
             self.server.shutdown()
 
 
