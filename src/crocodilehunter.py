@@ -37,6 +37,7 @@ def main():
     """
     threads = []
     subprocs = []
+    watchdog = Watchdog()
 
     if not DEBUG:
         spn = Thread(target=show_spinner)
@@ -46,17 +47,17 @@ def main():
     # Exit gracefully on SIGINT
     def signal_handler(sig, frame):
         print(f"\b\b{bcolors.WARNING}I{bcolors.ENDC} You pressed Ctrl+C!")
-        cleanup(threads, subprocs)
+        cleanup(threads, subprocs, watchdog)
     signal.signal(signal.SIGINT, signal_handler)
 
     # Bootstrap srsUE dependencies
     try:
         subprocess.run("./bootstrap.sh", shell=True, check=True)
     except subprocess.CalledProcessError:
-        cleanup(threads, subprocs, True)
+        cleanup(threads, subprocs, watchdog, True)
 
     #Start watchdog dæmon
-    Watchdog.start_daemon()
+    watchdog.start_daemon()
 
     #Start web ui dæmon
     Webui.start_daemon()
@@ -108,7 +109,7 @@ def show_spinner():
         sys.stdout.write('\b')            # erase the last written char
         sleep(0.1)
 
-def cleanup(threads, subprocs, error=False):
+def cleanup(threads, subprocs, watchdog, error=False):
     """ Gracefully exit when program is quit """
     print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Exiting...")
     global EXIT
@@ -118,7 +119,7 @@ def cleanup(threads, subprocs, error=False):
     for proc in subprocs:
         proc.kill()
     subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
-    Watchdog.shutdown()
+    watchdog.shutdown()
     Webui.shutdown()
     print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Goodbye for now.")
     os._exit(int(error))
