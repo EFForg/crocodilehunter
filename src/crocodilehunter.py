@@ -23,6 +23,7 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 # Global flag to exit forever running threads
 EXIT = False
 DEBUG = False # Set to true to surpress spinner and see srsUE output
+CRASH_TIMEOUT = 25
 
 def main():
     """
@@ -85,7 +86,7 @@ def monitor_srslte(proc):
     nbsr = NBSR(proc.stdout)
     line = ''
     while not EXIT:
-        line = nbsr.readline(10)
+        line = nbsr.readline(CRASH_TIMEOUT)
         if DEBUG and (line is not None):
             print(line.decode("ascii").rstrip())
         out.append(line)
