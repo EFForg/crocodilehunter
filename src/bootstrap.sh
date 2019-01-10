@@ -41,7 +41,7 @@ fi
 echo -e "\b${GR}*${NC} Checking for SDR"
 BLADERF_FPGA_PATH=../data/hostedx40-latest.rbf
 bladeRF-cli -p 1>/dev/null 2>&1
-if [ $? -ne 0 ]; then
+if [ "$?" -ne "0" ]; then
     echo -e "\b${YL}I${NC} No bladeRF devices connected. Assuming UHD device." >&2
     uhd_find_devices > /dev/null 2>&1
     if [ $? -ne 0 ]; then
