@@ -4,6 +4,7 @@ import socketserver
 from threading import Thread
 
 from database import db_session, Tower, init_db
+import gpsd
 from sqlalchemy import func, text
 
 class Watchdog():
@@ -25,6 +26,24 @@ class Watchdog():
 
     def process_tower(self, data):
         print(f"server recd: {data}")
+        data = data.split(",")
+        gpsd.connect()
+        packet = gpsd.get_current()
+        new_tower = Tower(
+                mcc = int(data[0]),
+                mnc = int(data[1]),
+                tac = int(data[2]),
+                cid = int(data[3]),
+                phyid = int(data[4]),
+                earfcn = int(data[5]),
+                lat = packet.lat,
+                lon = packet.lon,
+                timestamp = int(data[6]),
+                rsrp = float(data[7])
+                )
+        print(f"Adding a new tower: {new_tower}")
+        db_session.add(new_tower)
+        db_session.commit()
         self.strongest()
 
     def start_daemon(self):
