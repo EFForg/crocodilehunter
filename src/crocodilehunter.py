@@ -22,7 +22,7 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 
 # Global flag to exit forever running threads
 EXIT = False
-DEBUG = False # Set to true to surpress spinner and see srsUE output
+DEBUG = True # Set to true to surpress spinner and see srsUE output
 CRASH_TIMEOUT = 25
 
 def main():
