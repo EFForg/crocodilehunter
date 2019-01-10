@@ -1,4 +1,4 @@
-from threading import Thread
+from threading import Thread 
 from queue import Queue, Empty
 
 
@@ -23,7 +23,7 @@ class NonBlockingStreamReader:
                 if line:
                     queue.put(line)
                 else:
-                    raise UnexpectedEndOfStream
+                    break
 
         self._t = Thread(target=_populateQueue,
                          args=(self._s, self._q))
@@ -36,7 +36,3 @@ class NonBlockingStreamReader:
                                timeout=timeout)
         except Empty:
             return None
-
-
-class UnexpectedEndOfStream(Exception):
-    pass
