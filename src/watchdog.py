@@ -50,18 +50,16 @@ class Watchdog():
         print(f"\b* Starting Watchdog")
         print(f"\b* Creating socket {Watchdog.SOCK}")
         self.server = ThreadedUnixServer(Watchdog.SOCK, RequestHandler)
-        with self.server:
-            server_thread = Thread(target=self.server.serve_forever)
-            server_thread.setDaemon(True)
-            server_thread.start()
-            print("Watchdog server running")
-            while True:
-                continue
+
+        server_thread = Thread(target=self.server.serve_forever)
+        server_thread.setDaemon(True)
+        server_thread.start()
+        print("Watchdog server running")
 
     def shutdown(self):
         print(f"\b* Stopping Watchdog")
-        os.remove(Watchdog.SOCK)
         if hasattr(self, 'server') and self.server:
+            os.remove(Watchdog.SOCK)
             self.server.shutdown()
 
 
