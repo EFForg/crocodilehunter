@@ -3,7 +3,7 @@ import os
 import socketserver
 from threading import Thread
 
-from database import db_session, Tower, init_db
+from database import Tower, init_db
 import gpsd
 from sqlalchemy import func, text
 
@@ -11,15 +11,19 @@ class Watchdog():
     SOCK = f"/tmp/croc.sock"
 
     def __init__(self):
-        init_db()
+        self.db_session = init_db()
 
     def last_ten(self):
         for row in Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]:
             print(row)
 
     def strongest(self):
-        for row in Tower.query.filter(Tower.rsrp != 0.0).order_by(Tower.rsrp.desc())[0:10]:
+        for row in Tower.query.filter(Tower.rsrp != 0.0).filter(Tower.rsrp.isnot(None)).order_by(Tower.rsrp.desc())[0:10]:
+            if row is None:
+                continue 
             print(f"{row}, power: {row.rsrp}")
+
+    def count(self):
         num_rows = Tower.query.count()
         num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
         print(f"Found {num_towers} towers a total of {num_rows} times")
@@ -29,6 +33,9 @@ class Watchdog():
         data = data.split(",")
         gpsd.connect()
         packet = gpsd.get_current()
+        while packet.lat == 0.0 and packet.lon == 0.0:
+            packet = gpsd.get_current()
+
         new_tower = Tower(
                 mcc = int(data[0]),
                 mnc = int(data[1]),
@@ -42,9 +49,9 @@ class Watchdog():
                 rsrp = float(data[7])
                 )
         print(f"Adding a new tower: {new_tower}")
-        db_session.add(new_tower)
-        db_session.commit()
-        self.strongest()
+        self.db_session.add(new_tower)
+        self.db_session.commit()
+        self.count()
 
     def start_daemon(self):
         print(f"\b* Starting Watchdog")
@@ -77,4 +84,10 @@ class RequestHandler(socketserver.BaseRequestHandler):
 if __name__ == "__main__":
     dog = Watchdog()
     dog.start_daemon()
+    dog.strongest()
+    def signal_handler(sig, frame):
+        print(f"You pressed Ctrl+C!")
+        dog.shutdown()
+    while True:
+        continue
 
