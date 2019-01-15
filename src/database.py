@@ -20,7 +20,7 @@ def init_db():
 class Tower(Base):
     __tablename__ = "tower_data"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     mcc = Column(Integer)
     mnc = Column(Integer)
     tac = Column(Integer)
