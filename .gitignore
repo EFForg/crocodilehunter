@@ -106,8 +106,8 @@ venv.bak/
 **.swp
 **.swo
 src/ue.conf
-data/cell_data.db
 data/hostedx40-latest.rbf
+data/*.db
 *.code-workspace
 **fftw_wisdom
 src/srsLTE.backtrace.crash
