@@ -63,17 +63,17 @@ class Watchdog():
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
         if tower.mcc not in (310, 311):
-            tower.suspiciousness += 20
+            tower.suspiciousness += 30
 
     def check_mnc(self, tower):
         """ In case mnc isn't a standard value."""
-        continue
+        existing_mncs = set([x.mnc for x in self.db_session.query(Tower).all()])
+        if tower.mnc not in existing_mncs:
+            tower.suspisciousness += 20
 
-    def calculate_suspiciousness(self, tower):
-        check_mcc(tower)
-
-        # 2: if same tower is in the db but suddenly has much stronger signal
-        # select power where not null and get avg and std deviation and add suspisciousness based on how much of a deviation we observe above the average
+    def check_existing_rsrp(self, tower):
+        """ If the same tower has been previously recorded but is suddenly
+        recorded at a much higher power level."""
         existing_towers = self.db_session.query(Tower).filter(
                 Tower.mcc == tower.mcc,
                 Tower.mnc == tower.mnc,
@@ -92,7 +92,8 @@ class Watchdog():
             if tower.rsrp is None or tower.rsrp > mean + std:
                 tower.suspiciousness += (tower.rsrp - mean)
 
-        # 3: if it exists but tac has changed
+    def check_changed_tac(self, tower):
+        """ If the tower already exists but with a different tac."""
         existing_tower = self.db_session.query(Tower).filter(
                 Tower.mcc == tower.mcc,
                 Tower.mnc == tower.mnc,
@@ -104,6 +105,12 @@ class Watchdog():
         if existing_tower is not None:
             if existing_tower.tac != tower.tac:
                 tower.suspiciousness += 10
+
+    def calculate_suspiciousness(self, tower):
+        self.check_mcc(tower)
+        self.check_mnc(tower)
+        self.check_existing_rsrp(tower)
+        self.check_changed_tac(tower)
 
         # 4. also if it's the first time we've seen it in a given location +/- some threshold
         # find average/center point, then check if we're outside the average more than the avg
