@@ -60,12 +60,17 @@ class Watchdog():
             self.calculate_suspiciousness(tower)
             print(tower)
 
-    def calculate_suspiciousness(self, tower):
-        # 1a: if mcc, mnc haven't been seen before
+    def check_mcc(self, tower):
+        """ In case mcc isn't a standard value."""
         if tower.mcc not in (310, 311):
             tower.suspiciousness += 20
 
-        # 1b: if mnc ... 
+    def check_mnc(self, tower):
+        """ In case mnc isn't a standard value."""
+        continue
+
+    def calculate_suspiciousness(self, tower):
+        check_mcc(tower)
 
         # 2: if same tower is in the db but suddenly has much stronger signal
         # select power where not null and get avg and std deviation and add suspisciousness based on how much of a deviation we observe above the average
