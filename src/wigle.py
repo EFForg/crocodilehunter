@@ -36,7 +36,7 @@ class Wigle():
             "lac": lac,
             "cid": cid,
         }
-        return _api_request("network/detail", qs_params)
+        return self._api_request("network/detail", qs_params)
 
     def cell_search(self, lat, lon, gps_offset, cell_id, tac = None):
         params = {
@@ -46,9 +46,9 @@ class Wigle():
             "longrange2": lon - gps_offset,
             "cell_id": cell_id,
         }
-        if lac is not None:
+        if tac is not None:
             params["cell_net"] = tac
-        return _api_request("cell/search", params)
+        return self._api_request("cell/search", params)
 
 #    def cell_search(self, latrange1, latrange2, longrange1, longrange2):
 #        qs_params = {
@@ -61,7 +61,6 @@ class Wigle():
 
     def run_test(self):
         """ Run some basic tests """
-        resp = get_stats_user()
         print(f"{resp['user']}'s rank this month: {resp['statistics']['monthRank']}")
         """
         resp = get_cell_detail("310260", "14450", "25541899")
@@ -70,7 +69,7 @@ class Wigle():
         print(f"\n=============\n{resp}\n============")
         """
 
-        resp = cell_search("37.781", "37.782", "-122.421", "-122.422")
+        resp = self.cell_search("37.781", "37.782", "-122.421", "-122.422")
         print(f"\n=============\n{resp}\n============")
 
 
