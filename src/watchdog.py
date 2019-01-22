@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
+
 import os
 import socketserver
 from threading import Thread
 
-from database import Tower, init_db
 import gpsd
 import numpy
 from sqlalchemy import func, text
+
+from database import Tower, init_db
+from wigle import Wigle
 
 class Watchdog():
     SOCK = f"/tmp/croc.sock"
 
     def __init__(self):
         self.db_session = init_db()
+        self.wigle = Wigle()
 
     def last_ten(self):
         for row in Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]:
@@ -106,16 +110,10 @@ class Watchdog():
             if existing_tower.tac != tower.tac:
                 tower.suspiciousness += 10
 
-    def calculate_suspiciousness(self, tower):
-        self.check_mcc(tower)
-        self.check_mnc(tower)
-        self.check_existing_rsrp(tower)
-        self.check_changed_tac(tower)
-
-        # 4. also if it's the first time we've seen it in a given location +/- some threshold
-        # find average/center point, then check if we're outside the average more than the avg
-        # plus the std deviation.
-        # TODO: ask someone who knows a thing
+    def check_new_location(self, tower):
+        """ If it's the first time we've seen a tower in a given
+        location (+- some threshold)."""
+        # TODO: ask someone who has thought about this
         # TODO: skip calculation until diameter is of a certain size ... half of 1/100th of a lat or lon.
         existing_towers = self.db_session.query(Tower).filter(
                 Tower.mcc == tower.mcc,
@@ -136,7 +134,9 @@ class Watchdog():
            abs(tower.lon) < abs(center_point[1] - center_point_std_dev[1]):
               tower.suspiciousness += 5 * 1000 * (abs(tower.lat - center_point[0]) - abs(tower.lon - center_point[1]))
 
-        # 5. if it has power stronger than some arbitrary threshold (against all the towers)
+    def check_rsrp(self, tower):
+        """ If a given tower has a power signal significantly stronger than we've ever seen."""
+        # TODO: maybe we should modify this to be anything over a certain threshold, like -50 db or something.
         existing_towers = self.db_session.query(Tower).filter(Tower.rsrp.isnot(None)).all()
         rsrps = [x.rsrp for x in existing_towers]
         if tower.rsrp is not None and len(rsrps) > 3:
@@ -146,10 +146,19 @@ class Watchdog():
             if tower.rsrp > rsrp_mean + rsrp_std:
                 tower.suspiciousness += tower.rsrp - rsrp_mean
 
+    def check_wigle(self, tower):
+        # TODO
+        self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
 
-        # if not in Wigle db
-        # use ML
-        #TODO: try to understand rsrq/power levels.
+    def calculate_suspiciousness(self, tower):
+        # TODO: let's try some ML?
+#        self.check_mcc(tower)
+#        self.check_mnc(tower)
+#        self.check_existing_rsrp(tower)
+#        self.check_changed_tac(tower)
+#        self.check_new_location(tower)
+#        self.check_rsrp(tower)
+        self.check_wigle(tower)
 
     def start_daemon(self):
         print(f"\b* Starting Watchdog")
@@ -183,9 +192,9 @@ if __name__ == "__main__":
     dog.start_daemon()
     dog.strongest()
     dog.calculate_all()
-    def signal_handler(sig, frame):
-        print(f"You pressed Ctrl+C!")
-        dog.shutdown()
+#    def signal_handler(sig, frame):
+#        print(f"You pressed Ctrl+C!")
+#        dog.shutdown()
     while True:
         continue
 
