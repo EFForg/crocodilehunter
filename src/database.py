@@ -34,4 +34,4 @@ class Tower(Base):
     suspiciousness = Column(Integer, default=0)
 
     def __repr__(self):
-        return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} spotted at {self.lat}, {self.lon} on {time.ctime(self.timestamp)} with suspiciousness {self.suspiciousness}>"
+        return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {time.ctime(self.timestamp)} with suspiciousness {self.suspiciousness}>"
