@@ -29,20 +29,23 @@ class Wigle():
         full_url = f"https://api.wigle.net/api/v2/{api_stub}?{query}"
         print(full_url)
         resp = requests.request(method, full_url,
-                                auth=(os.environ["WIGLE_NAME"], os.environ["WIGLE_KEY"],))
+                                auth=(self.api_name, self.api_key,))
         resp = json.loads(resp.text)
         return resp
 
     def get_cell_detail(self, operator, lac, cid):
         """ Get detail for a specific CID/LAC combo """
+        # TODO: this never seems to actually return any search results?
         qs_params = {
             "operator": operator,
-            "lac": lac,
+            "lac": lac, # TODO: why is it lac here, but cell_net below?
             "cid": cid,
         }
         return self._api_request("network/detail", qs_params)
 
     def cell_search(self, lat, lon, gps_offset, cell_id, tac = None):
+        """ gps_offset is so that we can specify the search radius around the GPS coords."""
+        # TODO: this doesn't return results as often as it should, meaning we end up marking things are more suspicious than they actually are.
         params = {
             "latrange1": lat + gps_offset,
             "latrange2": lat - gps_offset,
