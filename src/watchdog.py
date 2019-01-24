@@ -17,6 +17,7 @@ class Watchdog():
     def __init__(self):
         self.db_session = init_db()
         self.wigle = Wigle()
+        self.enable_wigle = True
 
     def last_ten(self):
         for row in Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]:
@@ -66,13 +67,22 @@ class Watchdog():
 
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
-        if tower.mcc not in (310, 311):
+        if tower.mcc not in (310, 311, 316):
             tower.suspiciousness += 30
 
     def check_mnc(self, tower):
         """ In case mnc isn't a standard value."""
-        existing_mncs = set([x.mnc for x in self.db_session.query(Tower).all()])
-        if tower.mnc not in existing_mncs:
+        known_mncs = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 23, 24,
+                25, 26, 30, 31, 32, 34, 38, 40, 46, 50, 60, 70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280,
+                290, 300, 310, 311, 320, 330, 340, 350, 360, 370, 380, 390, 400, 410, 420,
+                430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570,
+                580, 590, 600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 710, 720,
+                730, 740, 750, 760, 770, 780, 790, 800, 810, 820, 830, 840, 850, 860, 870,
+                880, 890, 900, 910, 920, 930, 940, 950, 960, 970, 980, 990]
+        # TODO: the above are all known MNCs in the USA from cell finder's db, but do we really
+        # want to include all of them?
+        if tower.mnc not in known_mncs:
             tower.suspisciousness += 20
 
     def check_existing_rsrp(self, tower):
@@ -147,8 +157,14 @@ class Watchdog():
                 tower.suspiciousness += tower.rsrp - rsrp_mean
 
     def check_wigle(self, tower):
-        # TODO
-        self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
+        if self.enable_wigle:
+            #self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
+            resp = self.wigle.get_cell_detail(tower.mnc, tower.tac, tower.cid)
+            print("getting cell detail: " + str(resp))
+            resp = self.wigle.cell_search(tower.lat, tower.lon, 0.001, tower.cid, tower.tac)
+            print("conducting a cell search: " + str(resp))
+        else:
+            print("Wigle API access disabled locally!")
 
     def calculate_suspiciousness(self, tower):
         # TODO: let's try some ML?

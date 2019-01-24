@@ -12,6 +12,10 @@ import requests
 
 class Wigle():
 
+    def __init__(self):
+        self.api_name = os.environ["WIGLE_NAME"]
+        self.api_key = os.environ["WIGLE_KEY"]
+
     def _api_request(self, api_stub, qs_params, method="GET"):
         """
         make a request to the wigle.net API
