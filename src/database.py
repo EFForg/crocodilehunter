@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 DB_PATH = f"sqlite:///{os.path.dirname(os.path.abspath(__file__))}/../data/cell_data.db"
 
 engine = create_engine(DB_PATH)
-db_session = scoped_session(sessionmaker(bind=engine))
+db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 Base = declarative_base()
 Base.query = db_session.query_property()
