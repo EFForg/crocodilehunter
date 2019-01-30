@@ -108,6 +108,7 @@ venv.bak/
 src/ue.conf
 data/hostedx40-latest.rbf
 data/*.db
+data/*.pcap
 *.code-workspace
 **fftw_wisdom
 src/srsLTE.backtrace.crash
