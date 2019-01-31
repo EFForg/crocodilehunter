@@ -1,0 +1,4 @@
+sqlalchemy
+flask
+flask-sqlalchemy
+gpsd-py3

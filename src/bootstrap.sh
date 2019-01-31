@@ -61,22 +61,26 @@ else
 fi
 
 # Test GPS
-echo -e "\b${GR}*${NC} Testing GPS"
-killall -9 gpsd 2> /dev/null
-service gpsd stop
-
-if [ -e /dev/ttyUSB0 ]; then
-    gpsd /dev/ttyUSB0
-    echo -e "\b${GR}*${NC} Waiting for GPS to sync"
-    until ../experiments/gps.sh | grep -v null  > /dev/null; do
-        echo -e "\b${RD}E${NC} GPS failed to sync."
-        sleep 1
-    done
-    echo -e "\b${GR}*${NC} GPS successfully got location"
+if [ ! -z $1 ]; then
+    echo -e "\b${GR}*${NC} Skipping GPS test"
 else
-    echo -e "\b${RD}E${NC} No GPS device found"
-    exit 1
+    echo -e "\b${GR}*${NC} Testing GPS"
+    killall -9 gpsd 2> /dev/null
+    service gpsd stop
+    if [ -e /dev/ttyUSB0 ]; then
+        gpsd /dev/ttyUSB0
+        echo -e "\b${GR}*${NC} Waiting for GPS to sync"
+        until ../experiments/gps.sh | grep -v null  > /dev/null; do
+            echo -e "\b${RD}E${NC} GPS failed to sync."
+            sleep 1
+        done
+        echo -e "\b${GR}*${NC} GPS successfully got location"
+    else
+        echo -e "\b${RD}E${NC} No GPS device found"
+        exit 1
+    fi
 fi
+
 
 if [ ! -d ./srsLTE/build ]; then
     echo -e "\b${GR}*${NC} Building srsLTE for the first time"

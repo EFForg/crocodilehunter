@@ -5,7 +5,7 @@ Find stingrays in the wild. Hunt them down. Get revenge for Steve Irwin
 
 TODO Create logging subsystem
 """
-
+import argparse
 import itertools
 import os
 import signal
@@ -22,10 +22,9 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 
 # Global flag to exit forever running threads
 EXIT = False
-DEBUG = False # Set to true to surpress spinner and see srsUE output
 CRASH_TIMEOUT = 25
 
-def main():
+def main(debug=False, disable_gps=False):
     """
     1. Bootstrap dependencies
         a. test gps
@@ -37,8 +36,9 @@ def main():
     """
     threads = []
     subprocs = []
+    watchdog = Watchdog(debug, disable_gps)
 
-    if not DEBUG:
+    if not debug:
         spn = Thread(target=show_spinner)
         spn.start()
         threads.append(spn)
@@ -46,27 +46,31 @@ def main():
     # Exit gracefully on SIGINT
     def signal_handler(sig, frame):
         print(f"\b\b{bcolors.WARNING}I{bcolors.ENDC} You pressed Ctrl+C!")
-        cleanup(threads, subprocs)
+        cleanup(threads, subprocs, watchdog)
     signal.signal(signal.SIGINT, signal_handler)
 
     # Bootstrap srsUE dependencies
+    if disable_gps:
+        args = "./bootstrap.sh -g"
+    else:
+        args = "./bootstrap.sh"
     try:
-        subprocess.run("./bootstrap.sh", shell=True, check=True)
+        subprocess.run(args, shell=True, check=True)
     except subprocess.CalledProcessError:
-        cleanup(threads, subprocs, True)
+        cleanup(threads, subprocs, watchdog, True)
+
+    #Start watchdog dæmon
+    watchdog.start_daemon()
+
+    #Start web ui dæmon
+    Webui.start_daemon()
 
     # Monitor and restart srsUE if it crashes
     proc = start_srslte()
     subprocs.append(proc)
-    monitor = Thread(target=monitor_srslte, args=(proc,))
+    monitor = Thread(target=monitor_srslte, args=(proc, debug))
     monitor.start()
     threads.append(monitor)
-
-    #Start watchdog dæmon
-    Watchdog.start_daemon()
-
-    #Start web ui dæmon
-    Webui.start_daemon()
 
 def start_srslte():
     # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
@@ -77,7 +81,7 @@ def start_srslte():
     print(f"\b{bcolors.OK}*{bcolors.ENDC} Tail /tmp/ue.log to see output")
     return proc
 
-def monitor_srslte(proc):
+def monitor_srslte(proc, debug):
     """ Monitor for crashes and restart srsLTE"""
     # TODO
     global EXIT
@@ -87,7 +91,7 @@ def monitor_srslte(proc):
     line = ''
     while not EXIT:
         line = nbsr.readline(CRASH_TIMEOUT)
-        if DEBUG and (line is not None):
+        if debug and (line is not None):
             print(line.decode("ascii").rstrip())
         out.append(line)
 
@@ -108,7 +112,7 @@ def show_spinner():
         sys.stdout.write('\b')            # erase the last written char
         sleep(0.1)
 
-def cleanup(threads, subprocs, error=False):
+def cleanup(threads, subprocs, watchdog, error=False):
     """ Gracefully exit when program is quit """
     print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Exiting...")
     global EXIT
@@ -118,7 +122,7 @@ def cleanup(threads, subprocs, error=False):
     for proc in subprocs:
         proc.kill()
     subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
-    Watchdog.shutdown()
+    watchdog.shutdown()
     Webui.shutdown()
     print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Goodbye for now.")
     os._exit(int(error))
@@ -134,4 +138,9 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
+    parser.add_argument('-d', dest='debug', type=bool, default=False, nargs='?', const=True, help="print debug messages" )
+    parser.add_argument('-g', dest='disable_gps', type=bool, default=False, nargs='?', const=True, help="disable GPS connection and return a default coordinate" )
+    args = parser.parse_args()
+
+    main(args.debug, args.disable_gps)
