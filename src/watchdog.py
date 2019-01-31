@@ -68,7 +68,10 @@ class Watchdog():
         towers = self.db_session.query(Tower).all()
         for tower in towers:
             self.calculate_suspiciousness(tower)
-            print(tower)
+        towers.sort( key=lambda t: t.suspiciousness)
+        for t in towers:
+            print(f"{t} score: {t.suspiciousness}")
+
 
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
@@ -142,6 +145,12 @@ class Watchdog():
         lons = [x.lon for x in existing_towers]
         center_point = (numpy.mean(lats), numpy.mean(lons))
         center_point_std_dev = (numpy.std(lats), numpy.std(lons))
+        # pymcmc
+        # bayseian statistics for hackers
+        # distribution of points
+        # calculate distribution of findability  probability of distance x that i will fidn a tower
+        # what is the probability that the given point is part of thatd distribution
+        # exponential lamdax
 
         if abs(tower.lat) > abs(center_point[0] + center_point_std_dev[0]) or \
            abs(tower.lat) < abs(center_point[0] - center_point_std_dev[0]) or \
@@ -209,13 +218,6 @@ class Watchdog():
 
 class ThreadedUnixServer(socketserver.UnixStreamServer):
     pass
-
-class RequestHandler(socketserver.BaseRequestHandler):
-    def handle(self):
-        data = str(self.request.recv(1024), 'ascii')
-        self.request.sendall(b"OK")
-        wd = Watchdog()
-        wd.process_tower(data)
 
 
 if __name__ == "__main__":
