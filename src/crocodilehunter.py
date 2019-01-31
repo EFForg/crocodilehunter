@@ -139,8 +139,8 @@ class bcolors:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
-    parser.add_argument('-d', dest='debug', type=bool, default=False, nargs='?', const=True, help="print debug messages" )
-    parser.add_argument('-g', dest='disable_gps', type=bool, default=False, nargs='?', const=True, help="disable GPS connection and return a default coordinate" )
+    parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true')
+    parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
     args = parser.parse_args()
 
     main(args.debug, args.disable_gps)
