@@ -5,7 +5,7 @@ Find stingrays in the wild. Hunt them down. Get revenge for Steve Irwin
 
 TODO Create logging subsystem
 """
-
+import argparse
 import itertools
 import os
 import signal
@@ -22,10 +22,9 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 
 # Global flag to exit forever running threads
 EXIT = False
-DEBUG = True # Set to true to surpress spinner and see srsUE output
 CRASH_TIMEOUT = 25
 
-def main():
+def main(debug=False, disable_gps=False):
     """
     1. Bootstrap dependencies
         a. test gps
@@ -37,9 +36,9 @@ def main():
     """
     threads = []
     subprocs = []
-    watchdog = Watchdog()
+    watchdog = Watchdog(debug, disable_gps)
 
-    if not DEBUG:
+    if not debug:
         spn = Thread(target=show_spinner)
         spn.start()
         threads.append(spn)
@@ -51,8 +50,12 @@ def main():
     signal.signal(signal.SIGINT, signal_handler)
 
     # Bootstrap srsUE dependencies
+    if disable_gps:
+        args = "./bootstrap.sh -g"
+    else:
+        args = "./bootstrap.sh"
     try:
-        subprocess.run("./bootstrap.sh", shell=True, check=True)
+        subprocess.run(args, shell=True, check=True)
     except subprocess.CalledProcessError:
         cleanup(threads, subprocs, watchdog, True)
 
@@ -65,7 +68,7 @@ def main():
     # Monitor and restart srsUE if it crashes
     proc = start_srslte()
     subprocs.append(proc)
-    monitor = Thread(target=monitor_srslte, args=(proc,))
+    monitor = Thread(target=monitor_srslte, args=(proc, debug))
     monitor.start()
     threads.append(monitor)
 
@@ -78,7 +81,7 @@ def start_srslte():
     print(f"\b{bcolors.OK}*{bcolors.ENDC} Tail /tmp/ue.log to see output")
     return proc
 
-def monitor_srslte(proc):
+def monitor_srslte(proc, debug):
     """ Monitor for crashes and restart srsLTE"""
     # TODO
     global EXIT
@@ -88,7 +91,7 @@ def monitor_srslte(proc):
     line = ''
     while not EXIT:
         line = nbsr.readline(CRASH_TIMEOUT)
-        if DEBUG and (line is not None):
+        if debug and (line is not None):
             print(line.decode("ascii").rstrip())
         out.append(line)
 
@@ -135,4 +138,9 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
+    parser.add_argument('-d', dest='debug', type=bool, default=False, nargs='?', const=True, help="print debug messages" )
+    parser.add_argument('-g', dest='disable_gps', type=bool, default=False, nargs='?', const=True, help="disable GPS connection and return a default coordinate" )
+    args = parser.parse_args()
+
+    main(args.debug, args.disable_gps)

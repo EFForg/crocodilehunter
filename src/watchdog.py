@@ -14,10 +14,12 @@ from wigle import Wigle
 class Watchdog():
     SOCK = f"/tmp/croc.sock"
 
-    def __init__(self):
+    def __init__(self, debug = False, disable_gps=False):
         self.db_session = init_db()
         self.wigle = Wigle()
         self.enable_wigle = True
+        self.debug = debug
+        self.disable_gps = disable_gps
 
     def last_ten(self):
         for row in Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]:
@@ -37,10 +39,13 @@ class Watchdog():
     def process_tower(self, data):
         print(f"server recd: {data}")
         data = data.split(",")
-        gpsd.connect()
-        packet = gpsd.get_current()
-        while packet.lat == 0.0 and packet.lon == 0.0:
+        if self.disable_gps:
+            packet = type('Packet', (object,), {'lat': 0.0, 'lon': 0.0})()
+        else:
+            gpsd.connect()
             packet = gpsd.get_current()
+            while packet.lat == 0.0 and packet.lon == 0.0:
+                packet = gpsd.get_current()
 
         new_tower = Tower(
                 mcc = int(data[0]),
@@ -179,12 +184,22 @@ class Watchdog():
     def start_daemon(self):
         print(f"\b* Starting Watchdog")
         print(f"\b* Creating socket {Watchdog.SOCK}")
-        self.server = ThreadedUnixServer(Watchdog.SOCK, RequestHandler)
+        RequestHandlerClass = self.create_request_handler_class(self)
+        self.server = ThreadedUnixServer(Watchdog.SOCK, RequestHandlerClass)
 
         server_thread = Thread(target=self.server.serve_forever)
         server_thread.setDaemon(True)
         server_thread.start()
         print("Watchdog server running")
+
+    def create_request_handler_class(self, wd_inst):
+        class RequestHandler(socketserver.BaseRequestHandler):
+            def handle(self):
+                data = str(self.request.recv(1024), 'ascii')
+                self.request.sendall(b"OK")
+                wd_inst.process_tower(data)
+        return RequestHandler
+
 
     def shutdown(self):
         print(f"\b* Stopping Watchdog")
