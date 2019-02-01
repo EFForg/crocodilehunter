@@ -14,12 +14,13 @@ from wigle import Wigle
 class Watchdog():
     SOCK = f"/tmp/croc.sock"
 
-    def __init__(self, debug = False, disable_gps=False):
+    def __init__(self, args): #debug = False, disable_gps=False, disable_wigle = False):
         self.db_session = init_db()
-        self.wigle = Wigle()
-        self.enable_wigle = True
-        self.debug = debug
-        self.disable_gps = disable_gps
+        self.disable_wigle = args.disable_wigle
+        self.debug = args.debug
+        self.disable_gps = args.disable_gps
+        if not self.disable_wigle:
+            self.wigle = Wigle()
 
     def last_ten(self):
         for row in Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]:
@@ -171,23 +172,23 @@ class Watchdog():
                 tower.suspiciousness += tower.rsrp - rsrp_mean
 
     def check_wigle(self, tower):
-        if self.enable_wigle:
+        if self.disable_wigle:
+            print("Wigle API access disabled locally!")
+        else:
             #self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
             resp = self.wigle.get_cell_detail(tower.mnc, tower.tac, tower.cid)
             print("getting cell detail: " + str(resp))
             resp = self.wigle.cell_search(tower.lat, tower.lon, 0.001, tower.cid, tower.tac)
             print("conducting a cell search: " + str(resp))
-        else:
-            print("Wigle API access disabled locally!")
 
     def calculate_suspiciousness(self, tower):
         # TODO: let's try some ML?
-#        self.check_mcc(tower)
-#        self.check_mnc(tower)
-#        self.check_existing_rsrp(tower)
-#        self.check_changed_tac(tower)
-#        self.check_new_location(tower)
-#        self.check_rsrp(tower)
+        self.check_mcc(tower)
+        self.check_mnc(tower)
+        self.check_existing_rsrp(tower)
+        self.check_changed_tac(tower)
+        self.check_new_location(tower)
+        self.check_rsrp(tower)
         self.check_wigle(tower)
 
     def start_daemon(self):
@@ -221,7 +222,11 @@ class ThreadedUnixServer(socketserver.UnixStreamServer):
 
 
 if __name__ == "__main__":
-    dog = Watchdog()
+    class Args:
+        disable_gps = False
+        disable_wigle = False
+        debug = False
+    dog = Watchdog(Args)
     dog.start_daemon()
     dog.strongest()
     dog.calculate_all()
