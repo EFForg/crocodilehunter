@@ -24,118 +24,120 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 EXIT = False
 CRASH_TIMEOUT = 25
 
-def main(args):
-    """
-    1. Bootstrap dependencies
-        a. test gps
-        b. check for SDR
-    2. Start srsue with config file
-        a. watch srsue for crashes and restart
-    3. Start watchdog daemon
-    4. Start web daemon
-    """
-    threads = []
-    subprocs = []
-    project_name = args.project_name
-    debug = args.debug
-    disable_gps = args.disable_gps
-    disable_wigle = args.disable_wigle
-    # Create project folder if necessary
-    project_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data", project_name)
-    if not os.path.exists(project_path):
-        print("Creating new project directory: " + project_path)
-        os.mkdir(project_path)
+class CrocodileHunter():
+    def __init__(self, args):
+        """
+        1. Bootstrap dependencies
+            a. test gps
+            b. check for SDR
+        2. Start srsue with config file
+            a. watch srsue for crashes and restart
+        3. Start watchdog daemon
+        4. Start web daemon
+        """
+        self.threads = []
+        self.subprocs = []
+        self.project_name = args.project_name
+        self.debug = args.debug
+        self.disable_gps = args.disable_gps
+        self.disable_wigle = args.disable_wigle
+        signal.signal(signal.SIGINT, self.signal_handler)
+        self.watchdog = Watchdog(args)
 
-    watchdog = Watchdog(args)
+        # Create project folder if necessary
+        self.project_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data", self.project_name)
+        if not os.path.exists(self.project_path):
+            print("Creating new project directory: " + self.project_path)
+            os.mkdir(self.project_path)
 
-    if not debug:
-        spn = Thread(target=show_spinner)
-        spn.start()
-        threads.append(spn)
+    def start(self):
+        if not self.debug:
+            spn = Thread(target=self.show_spinner)
+            spn.start()
+            self.threads.append(spn)
+
+        # Bootstrap srsUE dependencies
+        if self.disable_gps:
+            args = "./bootstrap.sh -g"
+        else:
+            args = "./bootstrap.sh"
+        try:
+            subprocess.run(args, shell=True, check=True)
+        except subprocess.CalledProcessError:
+            self.cleanup(True)
+
+        #Start watchdog dæmon
+        self.watchdog.start_daemon()
+
+        #Start web ui dæmon
+        Webui.start_daemon()
+
+        # Monitor and restart srsUE if it crashes
+        proc = start_srslte()
+        self.subprocs.append(proc)
+        monitor = Thread(target=monitor_srslte, args=(proc))
+        monitor.start()
+        self.threads.append(monitor)
 
     # Exit gracefully on SIGINT
-    def signal_handler(sig, frame):
+    def signal_handler(self, sig, frame):
         print(f"\b\b{bcolors.WARNING}I{bcolors.ENDC} You pressed Ctrl+C!")
-        cleanup(threads, subprocs, watchdog)
-    signal.signal(signal.SIGINT, signal_handler)
+        self.cleanup()
 
-    # Bootstrap srsUE dependencies
-    if disable_gps:
-        args = "./bootstrap.sh -g"
-    else:
-        args = "./bootstrap.sh"
-    try:
-        subprocess.run(args, shell=True, check=True)
-    except subprocess.CalledProcessError:
-        cleanup(threads, subprocs, watchdog, True)
+    def start_srslte(self):
+        # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
+        """ Start srsUE """
+        print(f"\b{bcolors.OK}*{bcolors.ENDC} Running srsUE")
+        proc = Popen(["./srsLTE/build/srsue/src/srsue", "./ue.conf"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        print(f"\b{bcolors.OK}*{bcolors.ENDC} srsUE started with pid {proc.pid}")
+        print(f"\b{bcolors.OK}*{bcolors.ENDC} Tail /tmp/ue.log to see output")
+        return proc
 
-    #Start watchdog dæmon
-    watchdog.start_daemon()
+    def monitor_srslte(self, proc):
+        """ Monitor for crashes and restart srsLTE"""
+        # TODO
+        global EXIT
+        out = []
+        sleep(1)
+        nbsr = NBSR(proc.stdout)
+        line = ''
+        while not EXIT:
+            line = nbsr.readline(CRASH_TIMEOUT)
+            if self.debug and (line is not None):
+                print(line.decode("ascii").rstrip())
+            out.append(line)
 
-    #Start web ui dæmon
-    Webui.start_daemon()
+            if proc.poll() is not None or line is None:
+                print(f"\b{bcolors.FAIL}E{bcolors.ENDC} srsUE has exited unexpectedly")
+                print(f"\b{bcolors.FAIL}E{bcolors.ENDC} It's dying words were: {out[-2].decode('ascii').rstrip()}")
+                proc.kill()
+                proc = self.start_srslte()
+                self.monitor_srslte(proc)
 
-    # Monitor and restart srsUE if it crashes
-    proc = start_srslte()
-    subprocs.append(proc)
-    monitor = Thread(target=monitor_srslte, args=(proc, debug))
-    monitor.start()
-    threads.append(monitor)
+    def show_spinner(self):
+        """ show a spinning cursor """
+        global EXIT
+        spinner = itertools.cycle(['-', '/', '|', '\\'])
+        while not EXIT:
+            sys.stdout.write(next(spinner))   # write the next character
+            sys.stdout.flush()                # flush stdout buffer (actual character display)
+            sys.stdout.write('\b')            # erase the last written char
+            sleep(0.1)
 
-def start_srslte():
-    # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
-    """ Start srsUE """
-    print(f"\b{bcolors.OK}*{bcolors.ENDC} Running srsUE")
-    proc = Popen(["./srsLTE/build/srsue/src/srsue", "./ue.conf"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    print(f"\b{bcolors.OK}*{bcolors.ENDC} srsUE started with pid {proc.pid}")
-    print(f"\b{bcolors.OK}*{bcolors.ENDC} Tail /tmp/ue.log to see output")
-    return proc
-
-def monitor_srslte(proc, debug):
-    """ Monitor for crashes and restart srsLTE"""
-    # TODO
-    global EXIT
-    out = []
-    sleep(1)
-    nbsr = NBSR(proc.stdout)
-    line = ''
-    while not EXIT:
-        line = nbsr.readline(CRASH_TIMEOUT)
-        if debug and (line is not None):
-            print(line.decode("ascii").rstrip())
-        out.append(line)
-
-        if proc.poll() is not None or line is None:
-            print(f"\b{bcolors.FAIL}E{bcolors.ENDC} srsUE has exited unexpectedly")
-            print(f"\b{bcolors.FAIL}E{bcolors.ENDC} It's dying words were: {out[-2].decode('ascii').rstrip()}")
+    def cleanup(self, error=False):
+        """ Gracefully exit when program is quit """
+        print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Exiting...")
+        global EXIT
+        EXIT = True
+        for thread in self.threads:
+            thread.join()
+        for proc in self.subprocs:
             proc.kill()
-            proc = start_srslte()
-            monitor_srslte(proc)
-
-def show_spinner():
-    """ show a spinning cursor """
-    global EXIT
-    spinner = itertools.cycle(['-', '/', '|', '\\'])
-    while not EXIT:
-        sys.stdout.write(next(spinner))   # write the next character
-        sys.stdout.flush()                # flush stdout buffer (actual character display)
-        sys.stdout.write('\b')            # erase the last written char
-        sleep(0.1)
-
-def cleanup(threads, subprocs, watchdog, error=False):
-    """ Gracefully exit when program is quit """
-    print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Exiting...")
-    global EXIT
-    EXIT = True
-    for thread in threads:
-        thread.join()
-    for proc in subprocs:
-        proc.kill()
-    subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
-    watchdog.shutdown()
-    Webui.shutdown()
-    print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Goodbye for now.")
-    os._exit(int(error))
+        subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
+        self.watchdog.shutdown()
+        Webui.shutdown()
+        print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Goodbye for now.")
+        os._exit(int(error))
 
 class bcolors:
     """ colors for text """
@@ -154,4 +156,5 @@ if __name__ == "__main__":
     parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
     parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
     args = parser.parse_args()
-    main(args)
+    crocodile_hunter = CrocodileHunter(args)
+    crocodile_hunter.start()
