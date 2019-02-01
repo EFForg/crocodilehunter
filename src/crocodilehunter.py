@@ -24,7 +24,7 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 EXIT = False
 CRASH_TIMEOUT = 25
 
-def main(debug=False, disable_gps=False):
+def main(args):
     """
     1. Bootstrap dependencies
         a. test gps
@@ -36,7 +36,10 @@ def main(debug=False, disable_gps=False):
     """
     threads = []
     subprocs = []
-    watchdog = Watchdog(debug, disable_gps)
+    debug = args.debug
+    disable_gps = args.disable_gps
+    disable_wigle = args.disable_wigle
+    watchdog = Watchdog(args) #debug, disable_gps, disable_wigle)
 
     if not debug:
         spn = Thread(target=show_spinner)
@@ -139,8 +142,9 @@ class bcolors:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
-    parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true')
+    parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true', default='False')
     parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
+    parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
     args = parser.parse_args()
 
-    main(args.debug, args.disable_gps)
+    main(args)#.debug, args.disable_gps, args.disable_wigle)
