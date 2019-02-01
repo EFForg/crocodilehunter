@@ -142,7 +142,7 @@ class bcolors:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
-    parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true', default='False')
+    parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true',)
     parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
     parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
     args = parser.parse_args()
