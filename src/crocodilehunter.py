@@ -13,7 +13,7 @@ import subprocess
 import sys
 
 from subprocess import Popen
-from time import sleep
+from time import sleep, strftime
 from threading import Thread
 
 from watchdog import Watchdog
@@ -42,13 +42,14 @@ class CrocodileHunter():
         self.disable_gps = args.disable_gps
         self.disable_wigle = args.disable_wigle
         signal.signal(signal.SIGINT, self.signal_handler)
-        self.watchdog = Watchdog(args)
 
         # Create project folder if necessary
         self.project_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data", self.project_name)
         if not os.path.exists(self.project_path):
             print("Creating new project directory: " + self.project_path)
             os.mkdir(self.project_path)
+
+        self.watchdog = Watchdog(args)
 
     def start(self):
         if not self.debug:
@@ -73,9 +74,9 @@ class CrocodileHunter():
         Webui.start_daemon()
 
         # Monitor and restart srsUE if it crashes
-        proc = start_srslte()
+        proc = self.start_srslte()
         self.subprocs.append(proc)
-        monitor = Thread(target=monitor_srslte, args=(proc))
+        monitor = Thread(target=self.monitor_srslte, args=(proc,))
         monitor.start()
         self.threads.append(monitor)
 
@@ -87,8 +88,14 @@ class CrocodileHunter():
     def start_srslte(self):
         # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
         """ Start srsUE """
+        pcap_file = f"ue{strftime('%Y%m%d-%H%M%S')}.pcap"
+        pcap_file = os.path.join(self.project_path, pcap_file)
+        nas_pcap_file = f"nas-ue{strftime('%Y%m%d-%H%M%S')}.pcap"
+        nas_pcap_file = os.path.join(self.project_path, nas_pcap_file)
+
         print(f"\b{bcolors.OK}*{bcolors.ENDC} Running srsUE")
-        proc = Popen(["./srsLTE/build/srsue/src/srsue", "./ue.conf"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = Popen(["./srsLTE/build/srsue/src/srsue", "./ue.conf", "--pcap.filename",
+            pcap_file, "--pcap.nas_filename", nas_pcap_file], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         print(f"\b{bcolors.OK}*{bcolors.ENDC} srsUE started with pid {proc.pid}")
         print(f"\b{bcolors.OK}*{bcolors.ENDC} Tail /tmp/ue.log to see output")
         return proc
