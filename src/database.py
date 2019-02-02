@@ -5,15 +5,16 @@ from sqlalchemy import Table, Column, Integer, Float, DateTime, MetaData, create
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-DB_PATH = f"sqlite:///{os.path.dirname(os.path.abspath(__file__))}/../data/cell_data.db"
-
-engine = create_engine(DB_PATH)
-db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
-
 Base = declarative_base()
-Base.query = db_session.query_property()
 
-def init_db():
+def init_db(project_path):
+    DB_PATH = os.path.join(project_path, 'cell_data.db')
+    DB_PATH = f"sqlite:///{DB_PATH}"
+    engine = create_engine(DB_PATH)
+    db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
+
+    Base.query = db_session.query_property()
+
     Base.metadata.create_all(bind=engine)
     return db_session
 

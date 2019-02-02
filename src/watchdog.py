@@ -14,8 +14,10 @@ from wigle import Wigle
 class Watchdog():
     SOCK = f"/tmp/croc.sock"
 
-    def __init__(self, args): #debug = False, disable_gps=False, disable_wigle = False):
-        self.db_session = init_db()
+    def __init__(self, args):
+        self.project_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", args.project_name)
+        self.db_session = init_db(self.project_path)
+        self.project_name = args.project_name
         self.disable_wigle = args.disable_wigle
         self.debug = args.debug
         self.disable_gps = args.disable_gps
