@@ -1,5 +1,4 @@
 # crocodilehunter
-*Taking one back for Steve Irwin.*
 
 This repository is part of a project studying the newest generation (i.e. 4G/LTE) of Cell Site Simulators.
 
