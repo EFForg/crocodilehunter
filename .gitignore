@@ -112,3 +112,4 @@ data/*.pcap
 *.code-workspace
 **fftw_wisdom
 src/srsLTE.backtrace.crash
+data/*
