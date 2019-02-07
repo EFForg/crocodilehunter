@@ -36,3 +36,6 @@ class Tower(Base):
 
     def __repr__(self):
         return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {time.ctime(self.timestamp)} with suspiciousness {self.suspiciousness}>"
+
+    def params(self):
+        return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]

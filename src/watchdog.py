@@ -34,6 +34,9 @@ class Watchdog():
                 continue
             print(f"{row}, power: {row.rsrp}")
 
+    def get_row_by_id(self, row_id):
+        return Tower.query.get(row_id)
+
     def count(self):
         num_rows = Tower.query.count()
         num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
@@ -75,7 +78,7 @@ class Watchdog():
 
     def get_all_by_suspicioussnes(self):
         towers = self.db_session.query(Tower).all()
-        towers.sort( key=lambda t: t.suspiciousness)
+        towers.sort(key=lambda t: t.suspiciousness, reverse=True)
         return towers
 
     def check_mcc(self, tower):

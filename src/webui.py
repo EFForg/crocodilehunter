@@ -13,6 +13,7 @@ class Webui:
         #Add each endpoint manually
         self.add_endpoint("/", "index", self.index)
         self.add_endpoint("/check_all", "checkall", self.calculate_all)
+        self.add_endpoint("/detail/<row_id>", "detail", self.detail)
 
         app_thread = Thread(target=self.app.run)
         app_thread.start()
@@ -24,9 +25,9 @@ class Webui:
         self.watchdog.calculate_all()
         return redirect(url_for('index'))
 
-    def detail(self):
-        self.watchdog.calculate_all()
-        return redirect(url_for('index'))
+    def detail(self, row_id):
+        tower = self.watchdog.get_row_by_id(row_id)
+        return render_template('detail.html', tower = tower)
 
     def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None):
         self.app.add_url_rule(endpoint, endpoint_name, EndpointAction(handler))
@@ -37,7 +38,7 @@ class EndpointAction(object):
     def __init__(self, action):
         self.action = action
 
-    def __call__(self, *args):
-        action = self.action()
+    def __call__(self, *args, **kwargs):
+        action = self.action(*args, **kwargs)
         response = Response(action, status=200, headers={})
         return response

@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Crocodile Hunter: {{name}} </title>
+     <meta http-equiv="refresh" content="3">
   </head>
   <body>
     <h1>Crocodile Hunter</h1>
@@ -8,7 +9,7 @@
     <h2>Towers</h2>
     <ul id="towers">
     {% for tower in towers %}
-      <li class='tower'>{{tower}}</li>
+    <li class='tower'><a href="/detail/{{tower.id}}">{{tower}}</a></li>
     {% endfor %}
     </ul>
   </body>
