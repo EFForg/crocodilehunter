@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Crocodile Hunter: {{name}} </title>
+  </head>
+  <body>
+    <h1>Crocodile Hunter</h1>
+    <h2>Project: {{name}}</h2>
+    <h2>Towers</h2>
+    <ul id="towers">
+    {% for tower in towers %}
+      <li class='tower'>{{tower}}</li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>
+
