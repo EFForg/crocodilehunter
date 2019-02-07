@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from flask import Flask, Response, render_template, redirect, url_for
+from threading import Thread
 
 class Webui:
     def __init__(self, watchdog):
@@ -12,9 +13,9 @@ class Webui:
         #Add each endpoint manually
         self.add_endpoint("/", "index", self.index)
         self.add_endpoint("/check_all", "checkall", self.calculate_all)
-        self.add_endpoint("/check_all", "checkall", self.calculate_all)
 
-        self.app.run()
+        app_thread = Thread(target=self.app.run)
+        app_thread.start()
 
     def index(self):
         return render_template('index.html', name=self.watchdog.project_name,
