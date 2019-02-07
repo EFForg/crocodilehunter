@@ -65,16 +65,18 @@ class Watchdog():
         print(f"Adding a new tower: {new_tower}")
         self.db_session.add(new_tower)
         self.db_session.commit()
+        self.calculate_suspiciousness(new_tower)
         self.count()
 
     def calculate_all(self):
         towers = self.db_session.query(Tower).all()
         for tower in towers:
             self.calculate_suspiciousness(tower)
-        towers.sort( key=lambda t: t.suspiciousness)
-        for t in towers:
-            print(f"{t} score: {t.suspiciousness}")
 
+    def get_all_by_suspicioussnes(self):
+        towers = self.db_session.query(Tower).all()
+        towers.sort( key=lambda t: t.suspiciousness)
+        return towers
 
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
@@ -192,6 +194,7 @@ class Watchdog():
         self.check_new_location(tower)
         self.check_rsrp(tower)
         self.check_wigle(tower)
+        self.db_session.commit()
 
     def start_daemon(self):
         print(f"\b* Starting Watchdog")
