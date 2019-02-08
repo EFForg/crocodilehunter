@@ -7,10 +7,12 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 Base = declarative_base()
 
-def init_db(project_path):
-    DB_PATH = os.path.join(project_path, 'cell_data.db')
-    DB_PATH = f"sqlite:///{DB_PATH}"
+def init_db(project_name):
+    DB_PATH = f"mysql://root:toor@localhost"
     engine = create_engine(DB_PATH)
+    conn = engine.connect()
+    engine = create_engine(f"{DB_PATH}/{project_name}")
+
     db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
     Base.query = db_session.query_property()

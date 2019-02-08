@@ -28,7 +28,7 @@ git submodule update --recursive
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
-sudo apt-get install python3-pip gpsd gpsd-clients
+sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-mysqldb
 ```
 
 Install the required python packages:
