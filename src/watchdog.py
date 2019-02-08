@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import math
 import socketserver
 from threading import Thread
 
@@ -54,6 +55,11 @@ class Watchdog():
             while packet.lat == 0.0 and packet.lon == 0.0:
                 packet = gpsd.get_current()
 
+        if math.isnan(float(data[7])):
+            rsrp = None
+        else:
+            rsrp = float(data[7])
+
         new_tower = Tower(
                 mcc = int(data[0]),
                 mnc = int(data[1]),
@@ -64,9 +70,10 @@ class Watchdog():
                 lat = packet.lat,
                 lon = packet.lon,
                 timestamp = int(data[6]),
-                rsrp = float(data[7])
+                rsrp = rsrp
                 )
         print(f"Adding a new tower: {new_tower}")
+        print(f"rsrp is: {rsrp}")
         self.db_session.add(new_tower)
         self.db_session.commit()
         self.calculate_suspiciousness(new_tower)
@@ -235,13 +242,11 @@ if __name__ == "__main__":
         disable_gps = False
         disable_wigle = False
         debug = False
+        project_name = "test"
     dog = Watchdog(Args)
     dog.start_daemon()
     dog.strongest()
     dog.calculate_all()
-#    def signal_handler(sig, frame):
-#        print(f"You pressed Ctrl+C!")
-#        dog.shutdown()
     while True:
         continue
 

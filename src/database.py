@@ -35,7 +35,7 @@ class Tower(Base):
     lat = Column(Float)
     lon = Column(Float)
     timestamp = Column(Integer)
-    rsrp = Column(Float)
+    rsrp = Column(Float, nullable=True)
     suspiciousness = Column(Integer, default=0)
 
     def __repr__(self):
