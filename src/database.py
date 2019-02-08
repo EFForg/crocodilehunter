@@ -4,19 +4,21 @@ import time
 from sqlalchemy import Table, Column, Integer, Float, DateTime, MetaData, create_engine, func, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy_utils import create_database, database_exists
 
 Base = declarative_base()
 
 def init_db(project_name):
-    DB_PATH = f"mysql://root:toor@localhost"
-    engine = create_engine(DB_PATH)
-    conn = engine.connect()
-    engine = create_engine(f"{DB_PATH}/{project_name}")
+    MYSQL_PATH = f"mysql://root:toor@localhost:3306"
+    DB_PATH = f"{MYSQL_PATH}/{project_name}"
 
+    if not database_exists(DB_PATH):
+        create_database(DB_PATH)
+
+    engine = create_engine(DB_PATH)
     db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
     Base.query = db_session.query_property()
-
     Base.metadata.create_all(bind=engine)
     return db_session
 
