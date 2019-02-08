@@ -79,7 +79,7 @@ class Watchdog():
         self.calculate_suspiciousness(new_tower)
         self.count()
 
-    def calculate_all(self):
+    def check_all(self):
         towers = self.db_session.query(Tower).all()
         for tower in towers:
             self.calculate_suspiciousness(tower)
@@ -210,6 +210,8 @@ class Watchdog():
     def start_daemon(self):
         print(f"\b* Starting Watchdog")
         print(f"\b* Creating socket {Watchdog.SOCK}")
+        if os.path.isfile(Watchdog.SOCK):
+            os.remove(Watchdog.SOCK)
         RequestHandlerClass = self.create_request_handler_class(self)
         self.server = ThreadedUnixServer(Watchdog.SOCK, RequestHandlerClass)
 
@@ -246,7 +248,7 @@ if __name__ == "__main__":
     dog = Watchdog(Args)
     dog.start_daemon()
     dog.strongest()
-    dog.calculate_all()
+    dog.check_all()
     while True:
         continue
 
