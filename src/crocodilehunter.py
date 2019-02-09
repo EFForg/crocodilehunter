@@ -71,7 +71,8 @@ class CrocodileHunter():
         self.watchdog.start_daemon()
 
         #Start web ui dæmon
-        Webui.start_daemon()
+        webui = Webui(self.watchdog)
+        webui.start_daemon()
 
         # Monitor and restart srsUE if it crashes
         proc = self.start_srslte()
@@ -142,7 +143,6 @@ class CrocodileHunter():
             proc.kill()
         subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
         self.watchdog.shutdown()
-        Webui.shutdown()
         print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Goodbye for now.")
         os._exit(int(error))
 

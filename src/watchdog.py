@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import math
 import socketserver
 from threading import Thread
 
@@ -15,9 +16,8 @@ class Watchdog():
     SOCK = f"/tmp/croc.sock"
 
     def __init__(self, args):
-        self.project_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", args.project_name)
-        self.db_session = init_db(self.project_path)
         self.project_name = args.project_name
+        self.db_session = init_db(self.project_name)
         self.disable_wigle = args.disable_wigle
         self.debug = args.debug
         self.disable_gps = args.disable_gps
@@ -25,14 +25,19 @@ class Watchdog():
             self.wigle = Wigle()
 
     def last_ten(self):
-        for row in Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]:
-            print(row)
+        return Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
 
     def strongest(self):
         for row in Tower.query.filter(Tower.rsrp != 0.0).filter(Tower.rsrp.isnot(None)).order_by(Tower.rsrp.desc())[0:10]:
             if row is None:
                 continue
             print(f"{row}, power: {row.rsrp}")
+
+    def get_row_by_id(self, row_id):
+        return Tower.query.get(row_id)
+
+    def get_towers_by_cid(self, cid):
+        return Tower.query.filter(Tower.cid == cid)
 
     def count(self):
         num_rows = Tower.query.count()
@@ -50,6 +55,11 @@ class Watchdog():
             while packet.lat == 0.0 and packet.lon == 0.0:
                 packet = gpsd.get_current()
 
+        if math.isnan(float(data[7])):
+            rsrp = None
+        else:
+            rsrp = float(data[7])
+
         new_tower = Tower(
                 mcc = int(data[0]),
                 mnc = int(data[1]),
@@ -60,21 +70,24 @@ class Watchdog():
                 lat = packet.lat,
                 lon = packet.lon,
                 timestamp = int(data[6]),
-                rsrp = float(data[7])
+                rsrp = rsrp
                 )
         print(f"Adding a new tower: {new_tower}")
+        print(f"rsrp is: {rsrp}")
         self.db_session.add(new_tower)
         self.db_session.commit()
+        self.calculate_suspiciousness(new_tower)
         self.count()
 
-    def calculate_all(self):
+    def check_all(self):
         towers = self.db_session.query(Tower).all()
         for tower in towers:
             self.calculate_suspiciousness(tower)
-        towers.sort( key=lambda t: t.suspiciousness)
-        for t in towers:
-            print(f"{t} score: {t.suspiciousness}")
 
+    def get_all_by_suspicioussnes(self):
+        towers = self.db_session.query(Tower).all()
+        towers.sort(key=lambda t: t.suspiciousness, reverse=True)
+        return towers
 
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
@@ -192,10 +205,13 @@ class Watchdog():
         self.check_new_location(tower)
         self.check_rsrp(tower)
         self.check_wigle(tower)
+        self.db_session.commit()
 
     def start_daemon(self):
         print(f"\b* Starting Watchdog")
         print(f"\b* Creating socket {Watchdog.SOCK}")
+        if os.path.isfile(Watchdog.SOCK):
+            os.remove(Watchdog.SOCK)
         RequestHandlerClass = self.create_request_handler_class(self)
         self.server = ThreadedUnixServer(Watchdog.SOCK, RequestHandlerClass)
 
@@ -228,13 +244,11 @@ if __name__ == "__main__":
         disable_gps = False
         disable_wigle = False
         debug = False
+        project_name = "test"
     dog = Watchdog(Args)
     dog.start_daemon()
     dog.strongest()
-    dog.calculate_all()
-#    def signal_handler(sig, frame):
-#        print(f"You pressed Ctrl+C!")
-#        dog.shutdown()
+    dog.check_all()
     while True:
         continue
 

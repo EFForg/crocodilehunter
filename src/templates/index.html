@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Crocodile Hunter: {{name}} </title>
+        <meta http-equiv="refresh" content="3">
+    </head>
+    <body>
+        <h1>Crocodile Hunter</h1>
+        <h2>Project: {{name}}</h2>
+        <a href="/check_all">Re-calculate suspisciousness levels</a>
+        <h2>Last 10 towers!</h2>
+        <ul>
+            {% for tower in last_ten %}
+            <li><a href="/detail/{{tower.id}}">{{tower}}</a></li>
+            {% endfor %}
+        </ul>
+        <h2>Towers</h2>
+        <ul id="towers">
+            {% for tower in towers %}
+            <li class='tower'><a href="/detail/{{tower.id}}">{{tower}}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
+
