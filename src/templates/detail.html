@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Crocodile Hunter: {{name}} </title>
+     <meta http-equiv="refresh" content="30">
+  </head>
+  <body>
+    <h1>Crocodile Hunter</h1>
+    <h2>Project: {{name}}</h2>
+    <ul>
+        {% for col in tower.params() %}
+        <li>{{ col }}: {{ tower[col] }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Similar Towers (by cid)!</h2>
+    <ul>
+    {% for tower in similar_towers %}
+    <li class='tower'><a href="/detail/{{tower.id}}">{{tower}}</a></li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>
+
+
