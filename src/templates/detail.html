@@ -10,6 +10,7 @@
         {% for col in tower.params() %}
         <li>{{ col }}: {{ tower[col] }}</li>
         {% endfor %}
+        <li>Frequency: {{ tower.get_frequency() }}</li>
     </ul>
     <h2>Similar Towers (by cid)!</h2>
     <ul>

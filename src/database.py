@@ -43,3 +43,31 @@ class Tower(Base):
 
     def params(self):
         return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]
+
+    def get_frequency(self):
+        band_list = [
+                {'band': 1, 'dl_low': 2110, 'min_earfcn':0, 'max_earfcn' : 599},
+                {'band': 2, 'dl_low': 1930, 'min_earfcn': 600, 'max_earfcn' : 1199},
+                {'band': 3, 'dl_low': 1805,  'min_earfcn': 1200, 'max_earfcn': 1949},
+                {'band': 4, 'dl_low': 2110, 'min_earfcn': 1950, 'max_earfcn': 2399},
+                {'band': 5, 'dl_low': 869, 'min_earfcn': 2400, 'max_earfcn': 2649},
+                {'band': 6, 'dl_low': 875, 'min_earfcn': 2650, 'max_earfcn': 2749},
+                {'band': 7, 'dl_low': 2620, 'min_earfcn': 2750, 'max_earfcn': 3449},
+                {'band': 8, 'dl_low': 925, 'min_earfcn': 3450, 'max_earfcn': 3799},
+                {'band': 9, 'dl_low': 1844.9, 'min_earfcn': 3800, 'max_earfcn': 4149},
+                {'band': 10, 'dl_low': 2110, 'min_earfcn': 4150, 'max_earfcn': 4749},
+                {'band': 11, 'dl_low': 1475.9, 'min_earfcn': 4750, 'max_earfcn': 4949},
+                {'band': 12, 'dl_low': 729, 'min_earfcn': 5010, 'max_earfcn': 5179},
+                {'band': 13, 'dl_low': 746, 'min_earfcn': 5180, 'max_earfcn': 5279},
+                {'band': 14, 'dl_low': 758, 'min_earfcn': 5280, 'max_earfcn': 5379}
+                ]
+
+        for band in band_list:
+            if self.earfcn >= band['min_earfcn'] and self.earfcn <= band['max_earfcn']:
+                return band['dl_low'] + 0.1 * (self.earfcn - band['min_earfcn'])
+
+    def get_enodeb_id(self):
+        pass
+
+    def get_sector_id(self):
+        pass
