@@ -25,7 +25,7 @@ class Watchdog():
             self.wigle = Wigle()
 
     def last_ten(self):
-        return Tower.query.group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
+        return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(func.concat(Tower.cid, Tower.mcc, Tower.mnc)).order_by(Tower.timestamp.desc())[0:10]
 
     def strongest(self):
         for row in Tower.query.filter(Tower.rsrp != 0.0).filter(Tower.rsrp.isnot(None)).order_by(Tower.rsrp.desc())[0:10]:

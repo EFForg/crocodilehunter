@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Flask, Response, render_template, redirect, url_for
 from threading import Thread
-from werkzeug import wrappers 
+from werkzeug import wrappers
 
 class Webui:
     def __init__(self, watchdog):
@@ -21,6 +21,8 @@ class Webui:
 
     def index(self):
         last_ten = self.watchdog.last_ten()
+        for t in last_ten:
+            setattr(t[1], 'timestamp', t[2])
         return render_template('index.html', name=self.watchdog.project_name,
                                towers=self.watchdog.get_all_by_suspicioussnes(),
                                last_ten=last_ten)
