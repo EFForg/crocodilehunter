@@ -67,7 +67,9 @@ class Tower(Base):
                 return band['dl_low'] + 0.1 * (self.earfcn - band['min_earfcn'])
 
     def get_enodeb_id(self):
-        pass
+        # The first 24 bits make up the enodeb id.
+        return self.cid >> 8
 
     def get_sector_id(self):
-        pass
+        # The last 8 bits are sector id.
+        return self.cid & 255

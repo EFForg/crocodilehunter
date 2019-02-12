@@ -11,6 +11,8 @@
         <li>{{ col }}: {{ tower[col] }}</li>
         {% endfor %}
         <li>Frequency: {{ tower.get_frequency() }}</li>
+        <li>Sector id: {{ tower.get_sector_id() }}</li>
+        <li>eNodeB id: {{ tower.get_enodeb_id() }}</li>
     </ul>
     <h2>Similar Towers (by cid)!</h2>
     <ul>
