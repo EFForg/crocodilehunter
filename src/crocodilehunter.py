@@ -117,7 +117,10 @@ class CrocodileHunter():
 
             if proc.poll() is not None or line is None:
                 print(f"\b{bcolors.FAIL}E{bcolors.ENDC} srsUE has exited unexpectedly")
-                print(f"\b{bcolors.FAIL}E{bcolors.ENDC} It's dying words were: {out[-2].decode('ascii').rstrip()}")
+                try:
+                    print(f"\b{bcolors.FAIL}E{bcolors.ENDC} It's dying words were: {out[-2].decode('ascii').rstrip()}")
+                except IndexError as e:
+                    pass
                 proc.kill()
                 proc = self.start_srslte()
                 self.monitor_srslte(proc)
