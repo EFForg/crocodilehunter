@@ -32,7 +32,7 @@ class Webui:
 
     def detail(self, row_id):
         tower = self.watchdog.get_row_by_id(row_id)
-        similar_towers = self.watchdog.get_towers_by_cid(tower.cid)
+        similar_towers = self.watchdog.get_similar_towers(tower)
         return render_template('detail.html', tower = tower,
                 similar_towers = similar_towers)
 

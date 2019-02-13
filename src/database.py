@@ -59,7 +59,21 @@ class Tower(Base):
                 {'band': 11, 'dl_low': 1475.9, 'min_earfcn': 4750, 'max_earfcn': 4949},
                 {'band': 12, 'dl_low': 729, 'min_earfcn': 5010, 'max_earfcn': 5179},
                 {'band': 13, 'dl_low': 746, 'min_earfcn': 5180, 'max_earfcn': 5279},
-                {'band': 14, 'dl_low': 758, 'min_earfcn': 5280, 'max_earfcn': 5379}
+                {'band': 14, 'dl_low': 758, 'min_earfcn': 5280, 'max_earfcn': 5379},
+                {'band': 17, 'dl_low': 734, 'min_earfcn': 5730, 'max_earfcn': 5849},
+                {'band': 18, 'dl_low': 860, 'min_earfcn': 5850, 'max_earfcn': 5999},
+                {'band': 19, 'dl_low': 875, 'min_earfcn': 6000, 'max_earfcn': 6149},
+                {'band': 20, 'dl_low': 791, 'min_earfcn': 6150, 'max_earfcn': 6449},
+                {'band': 21, 'dl_low': 1495.9, 'min_earfcn': 6450, 'max_earfcn': 6599},
+                {'band': 22, 'dl_low': 3510, 'min_earfcn': 6600, 'max_earfcn': 7399},
+                {'band': 23, 'dl_low': 2180, 'min_earfcn': 7500, 'max_earfcn': 7699},
+                {'band': 24, 'dl_low': 1525, 'min_earfcn': 7700, 'max_earfcn': 8039},
+                {'band': 25, 'dl_low': 1930, 'min_earfcn': 8040, 'max_earfcn': 8689},
+                {'band': 26, 'dl_low': 859, 'min_earfcn': 8690, 'max_earfcn': 9039},
+                {'band': 27, 'dl_low': 852, 'min_earfcn': 9040, 'max_earfcn': 9209},
+                {'band': 28, 'dl_low': 758, 'min_earfcn': 9210, 'max_earfcn': 9659},
+                {'band': 29, 'dl_low': 717, 'min_earfcn': 9660, 'max_earfcn': 9769},
+                {'band': 30, 'dl_low': 2350, 'min_earfcn': 9770, 'max_earfcn': 9869}
                 ]
 
         for band in band_list:
