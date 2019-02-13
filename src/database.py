@@ -34,12 +34,12 @@ class Tower(Base):
     earfcn = Column(Integer)
     lat = Column(Float)
     lon = Column(Float)
-    timestamp = Column(Integer)
+    timestamp = Column(DateTime, nullable=False)
     rsrp = Column(Float, nullable=True)
     suspiciousness = Column(Integer, default=0)
 
     def __repr__(self):
-        return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {time.ctime(self.timestamp)} with suspiciousness {self.suspiciousness}>"
+        return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {self.timestamp} with suspiciousness {self.suspiciousness}>"
 
     def params(self):
         return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]
