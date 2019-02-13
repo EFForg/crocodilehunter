@@ -68,15 +68,15 @@ class Wigle():
 
     def run_test(self):
         """ Run some basic tests """
-        print(f"{resp['user']}'s rank this month: {resp['statistics']['monthRank']}")
         """
+        print(f"{resp['user']}'s rank this month: {resp['statistics']['monthRank']}")
         resp = get_cell_detail("310260", "14450", "25541899")
         print(f"\n=============\n{resp}\n============")
         resp = get_cell_detail("310260", "14450", "666")
         print(f"\n=============\n{resp}\n============")
         """
 
-        resp = self.cell_search("37.781", "37.782", "-122.421", "-122.422")
+        resp = self.cell_search(37.72, -122.156, 0.1, 8410908)
         print(f"\n=============\n{resp}\n============")
 
 
