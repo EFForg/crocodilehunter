@@ -20,9 +20,7 @@ class Webui:
         app_thread.start()
 
     def index(self):
-        last_ten = self.watchdog.last_ten()
-        for t in last_ten:
-            setattr(t[1], 'timestamp', t[2])
+        last_ten = [t[1] for t in self.watchdog.last_ten()]
         return render_template('index.html', name=self.watchdog.project_name,
                                towers=self.watchdog.get_all_by_suspicioussnes(),
                                last_ten=last_ten)
@@ -32,7 +30,7 @@ class Webui:
 
     def detail(self, row_id):
         tower = self.watchdog.get_row_by_id(row_id)
-        similar_towers = self.watchdog.get_towers_by_cid(tower.cid)
+        similar_towers = self.watchdog.get_similar_towers(tower)
         return render_template('detail.html', tower = tower,
                 similar_towers = similar_towers)
 
@@ -51,3 +49,15 @@ class EndpointAction(object):
             return action
         else:
             return Response(action, status=200, headers={})
+
+if __name__ == "__main__":
+    from watchdog import Watchdog
+    import sys
+    class Args:
+        disable_gps = False
+        disable_wigle = False
+        debug = False
+        project_name = sys.argv[1]
+    w = Watchdog(Args)
+    webui = Webui(w)
+    webui.start_daemon()

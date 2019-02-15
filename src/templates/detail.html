@@ -1,23 +1,43 @@
 <html>
-  <head>
-    <title>Crocodile Hunter: {{name}} </title>
-     <meta http-equiv="refresh" content="30">
-  </head>
-  <body>
-    <h1>Crocodile Hunter</h1>
-    <h2>Project: {{name}}</h2>
-    <ul>
-        {% for col in tower.params() %}
-        <li>{{ col }}: {{ tower[col] }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Similar Towers (by cid)!</h2>
-    <ul>
-    {% for tower in similar_towers %}
-    <li class='tower'><a href="/detail/{{tower.id}}">{{tower}}</a></li>
-    {% endfor %}
-    </ul>
-  </body>
+    <head>
+        <title>Crocodile Hunter: {{name}} </title>
+        <meta http-equiv="refresh" content="30">
+    </head>
+    <body>
+        <h1>Crocodile Hunter</h1>
+        <h2>Project: {{name}}</h2>
+        <ul>
+            {% for col in tower.params() %}
+            <li>{{ col }}: {{ tower[col] }}</li>
+            {% endfor %}
+            <li>Frequency: {{ tower.get_frequency() }}</li>
+            <li>Sector id: {{ tower.get_sector_id() }}</li>
+            <li>eNodeB id: {{ tower.get_enodeb_id() }}</li>
+        </ul>
+        <h2>Similar Towers!</h2>
+        <table border="1">
+            <tr>
+                {% for p in tower.params() %}
+                <th>{{ p }}</th>
+                {% endfor %}
+                <th>Frequency</th>
+                <th>Sector ID</th>
+                <th>eNodeB ID</th>
+                <th>Link!!!</th>
+            </tr>
+            {% for tower in similar_towers %}
+                <tr>
+                    {% for col in tower.params() %}
+                    <td>{{ tower[col] }}</td>
+                    {% endfor %}
+                    <td>{{ tower.get_frequency() }}</td>
+                    <td>{{ tower.get_sector_id() }}</td>
+                    <td>{{ tower.get_enodeb_id() }}</td>
+                    <td><a href="/detail/{{ tower.id }}">Link!!!</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
 </html>
 
 
