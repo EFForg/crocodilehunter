@@ -28,8 +28,7 @@ git submodule update --recursive
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
-sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-mysqldb sqlalchemy-utils
-```
+sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-mysqldb sqlalchemy-utils ```
 
 Install the required python packages:
 ```
@@ -43,13 +42,39 @@ If you choose to enable Wigle access, you'll need to set the following environme
 ### Running
 You'll need to make a copy of `/src/ue.conf.example` in `/src` named `ue.conf` and update it to use the EARFCNs in your area. To easily figure out what EARFCNs are in use, we'd recommend installing the [Netmonitor app](https://play.google.com/store/apps/details?id=com.parizene.netmonitor) on an Android device.
 
+For wigle database checks you will need to add wigle API keys to your bashrc file like so :
+
+```
+export WIGLE_NAME=AIDabb07d7435a3ff9049b95deb48d2dd0b
+export WIGLE_KEY=dda533573fa55acc4061006bde7a73f9
+```
+You will want to get wigle pro API keys or you will hit your request limit very quickly
+
+
 To run the full project, use:
 
 ```
 cd src
-sudo ./crocodilehunter.py
+sudo -E ./crocodilehunter.py
+```
+
+### Usage
+```
+crocodilehunter.py [-h] [-p PROJECT_NAME] [-d] [-g] [-w]
+
+Hunt stingrays. Get revenge for Steve.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PROJECT_NAME, --project-name PROJECT_NAME
+                        specify the project's name. defaults to 'default'
+  -d, --debug           print debug messages
+  -g, --disable-gps     disable GPS connection and return a default coordinate
+  -w, --disable-wigle   disable Wigle API access
 ```
 
 ### Misc
 
 \* It's named *Crocodile Hunter* because a stingray killed Steve Irwin.
+
+USB3 is powerful enough that when using a bladeRF with a usb cable that is not well shielded there can sometimes be radio interference which can lead to weird errors. Be sure to either use a well shielded USB cable or plug into a USB2 port. 
