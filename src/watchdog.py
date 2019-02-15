@@ -4,6 +4,7 @@ import os
 import math
 import socketserver
 from threading import Thread
+from datetime import datetime
 
 import gpsd
 import numpy
@@ -25,7 +26,7 @@ class Watchdog():
             self.wigle = Wigle()
 
     def last_ten(self):
-        return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(func.concat(Tower.cid, Tower.mcc, Tower.mnc)).order_by(Tower.timestamp.desc())[0:10]
+        return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
 
     def strongest(self):
         for row in Tower.query.filter(Tower.rsrp != 0.0).filter(Tower.rsrp.isnot(None)).order_by(Tower.rsrp.desc())[0:10]:
@@ -35,6 +36,10 @@ class Watchdog():
 
     def get_row_by_id(self, row_id):
         return Tower.query.get(row_id)
+
+    def get_similar_towers(self, tower):
+        """ Gets towers with similar mnc, mcc, and tac."""
+        return Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.tac == tower.tac)
 
     def get_towers_by_cid(self, cid):
         return Tower.query.filter(Tower.cid == cid)
@@ -69,7 +74,7 @@ class Watchdog():
                 earfcn = int(data[5]),
                 lat = packet.lat,
                 lon = packet.lon,
-                timestamp = int(data[6]),
+                timestamp = datetime.utcnow(),
                 rsrp = rsrp
                 )
         print(f"Adding a new tower: {new_tower}")
@@ -96,6 +101,8 @@ class Watchdog():
 
     def check_mnc(self, tower):
         """ In case mnc isn't a standard value."""
+        known_mncs = [410,260,480]
+        """
         known_mncs = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 23, 24,
                 25, 26, 30, 31, 32, 34, 38, 40, 46, 50, 60, 70, 80, 90, 100, 110, 120, 130,
                 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280,
@@ -104,10 +111,11 @@ class Watchdog():
                 580, 590, 600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 710, 720,
                 730, 740, 750, 760, 770, 780, 790, 800, 810, 820, 830, 840, 850, 860, 870,
                 880, 890, 900, 910, 920, 930, 940, 950, 960, 970, 980, 990]
+        """
         # TODO: the above are all known MNCs in the USA from cell finder's db, but do we really
         # want to include all of them?
         if tower.mnc not in known_mncs:
-            tower.suspisciousness += 20
+            tower.suspiciousness += 20
 
     def check_existing_rsrp(self, tower):
         """ If the same tower has been previously recorded but is suddenly
@@ -191,18 +199,19 @@ class Watchdog():
             print("Wigle API access disabled locally!")
         else:
             #self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
-            resp = self.wigle.get_cell_detail(tower.mnc, tower.tac, tower.cid)
-            print("getting cell detail: " + str(resp))
-            resp = self.wigle.cell_search(tower.lat, tower.lon, 0.001, tower.cid, tower.tac)
+            resp = self.wigle.cell_search(tower.lat, tower.lon, 0.1, tower.cid, tower.tac)
             print("conducting a cell search: " + str(resp))
+            if resp["resultCount"] < 1:
+                tower.suspiciousness += 20
 
     def calculate_suspiciousness(self, tower):
+        tower.suspiciousness = 0
         # TODO: let's try some ML?
         self.check_mcc(tower)
         self.check_mnc(tower)
         self.check_existing_rsrp(tower)
         self.check_changed_tac(tower)
-        self.check_new_location(tower)
+        #self.check_new_location(tower)
         self.check_rsrp(tower)
         self.check_wigle(tower)
         self.db_session.commit()
