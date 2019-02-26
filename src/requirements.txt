@@ -1,3 +1,5 @@
 sqlalchemy
 flask
 gpsd-py3
+sqlalchemy-utils
+mysqlclient
