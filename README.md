@@ -51,10 +51,10 @@ You'll need to make a copy of `/src/ue.conf.example` in `/src` named `ue.conf` a
 For wigle database checks you will need to add wigle API keys to your bashrc file like so :
 
 ```
-export WIGLE_NAME=AIDabb07d7435a3ff9049b95deb48d2dd0b
-export WIGLE_KEY=dda533573fa55acc4061006bde7a73f9
+export WIGLE_NAME=<wigle name>
+export WIGLE_KEY=<wigle key>
 ```
-You will want to get wigle pro API keys or you will hit your request limit very quickly
+You will want to get wigle pro API keys or you will hit your request limit very quickly.
 
 
 To run the full project, use:
@@ -78,6 +78,10 @@ optional arguments:
   -g, --disable-gps     disable GPS connection and return a default coordinate
   -w, --disable-wigle   disable Wigle API access
 ```
+
+### Web UI
+Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
+If you turn your device into a hotspot ([ubuntu instructions](https://www.linuxuprising.com/2018/09/how-to-create-wi-fi-hotspot-in-ubuntu.html)) you can connect to the web UI from a different device such as your phone by connecting to the hotspot IP (find this out using ifconfig) on port 5000. 
 
 ### Misc
 
