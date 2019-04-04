@@ -2,6 +2,7 @@
 from flask import Flask, Response, render_template, redirect, url_for
 from threading import Thread
 from werkzeug import wrappers
+import numpy
 
 class Webui:
     def __init__(self, watchdog):
