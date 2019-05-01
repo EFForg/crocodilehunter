@@ -37,6 +37,9 @@ class Tower(Base):
     timestamp = Column(DateTime, nullable=False)
     rsrp = Column(Float, nullable=True)
     suspiciousness = Column(Integer, default=0)
+    frequency = Column(Float)
+    enodeb_id = Column(Integer)
+    sector_id = Column(Integer)
 
     def __repr__(self):
         return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {self.timestamp} with suspiciousness {self.suspiciousness}>"

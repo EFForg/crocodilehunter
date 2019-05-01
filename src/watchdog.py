@@ -39,7 +39,7 @@ class Watchdog():
 
     def get_similar_towers(self, tower):
         """ Gets towers with similar mnc, mcc, and tac."""
-        return Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.tac == tower.tac)
+        return Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.enodeb_id == tower.enodeb_id)
 
     def get_towers_by_cid(self, cid):
         return Tower.query.filter(Tower.cid == cid)
