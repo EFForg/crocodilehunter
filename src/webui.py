@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 from flask import Flask, Response, render_template, redirect, url_for
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 from threading import Thread
 from werkzeug import wrappers
 import numpy
+from database import Base
 
 class Webui:
     def __init__(self, watchdog):
         self.app = Flask(__name__)
         self.watchdog = watchdog
+        self.migrate = Migrate(self.app, Base)
+        self.manager = Manager(self.app)
+        self.manager.add_command('db', MigrateCommand)
 
     def start_daemon(self):
         print(f"\b* Starting WebUI")
@@ -60,11 +66,23 @@ class EndpointAction(object):
 if __name__ == "__main__":
     from watchdog import Watchdog
     import sys
+    import os
+
+    if os.environ['CH_PROJ'] is None:
+        print("Please set the CH_PROJ environment variable")
+        sys.exit()
     class Args:
         disable_gps = False
         disable_wigle = False
         debug = False
-        project_name = sys.argv[1]
+        project_name = os.environ['CH_PROJ']
     w = Watchdog(Args)
     webui = Webui(w)
-    webui.start_daemon()
+    SQL_PATH = f"mysql://root:toor@localhost:3306"
+    DB_PATH = f"{SQL_PATH}/{Args.project_name}"
+    webui.app.config['SQLALCHEMY_DATABASE_URI'] = DB_PATH
+
+    if 'db' in sys.argv:
+        webui.manager.run()
+    else:
+        webui.start_daemon()
