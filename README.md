@@ -28,7 +28,8 @@ git submodule update --recursive
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
-sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-mysqldb sqlalchemy-utils ```
+sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-mysqldb sqlalchemy-utils
+```
 
 Install the required python packages:
 ```
@@ -42,7 +43,7 @@ If you choose to enable Wigle access, you'll need to set the following environme
 ### Running
 You'll need to make a copy of `/src/ue.conf.example` in `/src` named `ue.conf` and update it to use the EARFCNs in your area. To easily figure out what EARFCNs are in use, we'd recommend installing the [Netmonitor app](https://play.google.com/store/apps/details?id=com.parizene.netmonitor) on an Android device.
 
-For wigle database checks you will need to add wigle API keys to your bashrc file like so :
+For wigle database checks you will need to add wigle API keys to your bashrc file like so:
 
 ```
 export WIGLE_NAME=AIDabb07d7435a3ff9049b95deb48d2dd0b
@@ -77,4 +78,4 @@ optional arguments:
 
 \* It's named *Crocodile Hunter* because a stingray killed Steve Irwin.
 
-USB3 is powerful enough that when using a bladeRF with a usb cable that is not well shielded there can sometimes be radio interference which can lead to weird errors. Be sure to either use a well shielded USB cable or plug into a USB2 port. 
+\* USB3 is powerful enough that when using a bladeRF with a usb cable that is not well shielded there can sometimes be radio interference which can lead to weird errors. Be sure to either use a well shielded USB cable or plug into a USB2 port.
