@@ -29,10 +29,10 @@ class Watchdog():
         return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
 
     def strongest(self):
-        for row in Tower.query.filter(Tower.rsrp != 0.0).filter(Tower.rsrp.isnot(None)).order_by(Tower.rsrp.desc())[0:10]:
+        for row in Tower.query.filter(Tower.rssi != 0.0).filter(Tower.rssi.isnot(None)).order_by(Tower.rssi.desc())[0:10]:
             if row is None:
                 continue
-            print(f"{row}, power: {row.rsrp}")
+            print(f"{row}, power: {row.rssi}")
 
     def get_row_by_id(self, row_id):
         return Tower.query.get(row_id)
@@ -60,11 +60,6 @@ class Watchdog():
             while packet.lat == 0.0 and packet.lon == 0.0:
                 packet = gpsd.get_current()
 
-        if math.isnan(float(data[7])):
-            rsrp = None
-        else:
-            rsrp = float(data[7])
-
         new_tower = Tower(
                 mcc = int(data[0]),
                 mnc = int(data[1]),
@@ -72,13 +67,17 @@ class Watchdog():
                 cid = int(data[3]),
                 phyid = int(data[4]),
                 earfcn = int(data[5]),
+                rssi = float(data[6]),
+                frequency = float(data[7]),
+                enodeb_id = float(data[8]),
+                sector_id = float(data[9]),
+                cfo = float(data[10]),
+                raw_sib1 = data[11],
+                timestamp = int(data[12]),
                 lat = packet.lat,
                 lon = packet.lon,
-                timestamp = datetime.utcnow(),
-                rsrp = rsrp
                 )
         print(f"Adding a new tower: {new_tower}")
-        print(f"rsrp is: {rsrp}")
         self.db_session.add(new_tower)
         self.db_session.commit()
         self.calculate_suspiciousness(new_tower)
@@ -117,7 +116,7 @@ class Watchdog():
         if tower.mnc not in known_mncs:
             tower.suspiciousness += 20
 
-    def check_existing_rsrp(self, tower):
+    def check_existing_rssi(self, tower):
         """ If the same tower has been previously recorded but is suddenly
         recorded at a much higher power level."""
         existing_towers = self.db_session.query(Tower).filter(
@@ -127,16 +126,16 @@ class Watchdog():
                 Tower.cid == tower.cid,
                 Tower.phyid == tower.phyid,
                 Tower.earfcn == tower.earfcn,
-                Tower.rsrp.isnot(None)
+                Tower.rssi.isnot(None)
                 ).all()
-        rsrp_levels = [x.rsrp for x in existing_towers]
-        if tower.rsrp is not None and len(rsrp_levels) > 3:
-            std = numpy.std(rsrp_levels)
-            mean = numpy.mean(rsrp_levels)
+        rssi_levels = [x.rssi for x in existing_towers]
+        if tower.rssi is not None and len(rssi_levels) > 3:
+            std = numpy.std(rssi_levels)
+            mean = numpy.mean(rssi_levels)
 
             # TODO: think about this some more.
-            if tower.rsrp is None or tower.rsrp > mean + std:
-                tower.suspiciousness += (tower.rsrp - mean)
+            if tower.rssi is None or tower.rssi > mean + std:
+                tower.suspiciousness += (tower.rssi - mean)
 
     def check_changed_tac(self, tower):
         """ If the tower already exists but with a different tac."""
@@ -182,17 +181,17 @@ class Watchdog():
            abs(tower.lon) < abs(center_point[1] - center_point_std_dev[1]):
               tower.suspiciousness += 5 * 1000 * (abs(tower.lat - center_point[0]) - abs(tower.lon - center_point[1]))
 
-    def check_rsrp(self, tower):
+    def check_rssi(self, tower):
         """ If a given tower has a power signal significantly stronger than we've ever seen."""
         # TODO: maybe we should modify this to be anything over a certain threshold, like -50 db or something.
-        existing_towers = self.db_session.query(Tower).filter(Tower.rsrp.isnot(None)).all()
-        rsrps = [x.rsrp for x in existing_towers]
-        if tower.rsrp is not None and len(rsrps) > 3:
-            rsrp_mean = numpy.mean(rsrps)
-            rsrp_std = numpy.std(rsrps)
+        existing_towers = self.db_session.query(Tower).filter(Tower.rssi.isnot(None)).all()
+        rssis = [x.rssi for x in existing_towers]
+        if tower.rssi is not None and len(rssis) > 3:
+            rssi_mean = numpy.mean(rssis)
+            rssi_std = numpy.std(rssis)
 
-            if tower.rsrp > rsrp_mean + rsrp_std:
-                tower.suspiciousness += tower.rsrp - rsrp_mean
+            if tower.rssi > rssi_mean + rssi_std:
+                tower.suspiciousness += tower.rssi - rssi_mean
 
     def check_wigle(self, tower):
         if self.disable_wigle:
@@ -209,10 +208,10 @@ class Watchdog():
         # TODO: let's try some ML?
         self.check_mcc(tower)
         self.check_mnc(tower)
-        self.check_existing_rsrp(tower)
+        self.check_existing_rssi(tower)
         self.check_changed_tac(tower)
         #self.check_new_location(tower)
-        self.check_rsrp(tower)
+        self.check_rssi(tower)
         self.check_wigle(tower)
         self.db_session.commit()
 

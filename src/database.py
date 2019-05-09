@@ -1,7 +1,7 @@
 import os
 import time
 
-from sqlalchemy import Table, Column, Integer, Float, DateTime, MetaData, create_engine, func, text
+from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, create_engine, func, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import create_database, database_exists
@@ -35,11 +35,13 @@ class Tower(Base):
     lat = Column(Float)
     lon = Column(Float)
     timestamp = Column(DateTime, nullable=False)
-    rsrp = Column(Float, nullable=True)
+    rssi = Column(Float, nullable=True)
     suspiciousness = Column(Integer, default=0)
     frequency = Column(Float)
     enodeb_id = Column(Integer)
     sector_id = Column(Integer)
+    cfo = Column(Float)
+    raw_sib1 = Column(String)
 
     def __repr__(self):
         return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {self.timestamp} with suspiciousness {self.suspiciousness}>"
