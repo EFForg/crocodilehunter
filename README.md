@@ -4,9 +4,7 @@ This repository is part of a project studying the newest generation (i.e. 4G/LTE
 
 The main project is located in `/src` and is based off of [srsLTE](https://github.com/srsLTE/srsLTE) and our setup currently supports the USRP B200 and the bladeRF x40.
 
-### Hardware Setup
-
-You'll need to install the required drivers for either the bladeRF or USRP.
+### Hardware Setup You'll need to install the required drivers for either the bladeRF or USRP.
 
 [Driver installation for the USRP B200](https://files.ettus.com/manual/page_install.html#install_linux).
 
@@ -82,6 +80,16 @@ optional arguments:
 ### Web UI
 Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
 If you turn your device into a hotspot ([ubuntu instructions](https://www.linuxuprising.com/2018/09/how-to-create-wi-fi-hotspot-in-ubuntu.html)) you can connect to the web UI from a different device such as your phone by connecting to the hotspot IP (find this out using ifconfig) on port 5000. 
+
+### Migrations
+If the database is changed or if you wish to change the database you can do so with migrations. **Note:** Migrations do not need to be run when setting up a new project, only when upgrading an existing project to a new database schema. 
+
+To create a migration file:
+Change the database schema in src/database.py then run
+`export CH_PROJ=projectname; sudo -E python3 ./webui.py db migrate -m "migration message"`
+
+To run migrations:
+`export CH_PROJ=wardrive; sudo -E python3 ./webui.py db upgrade`
 
 ### Misc
 
