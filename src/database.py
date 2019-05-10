@@ -41,7 +41,7 @@ class Tower(Base):
     enodeb_id = Column(Integer)
     sector_id = Column(Integer)
     cfo = Column(Float)
-    raw_sib1 = Column(String)
+    raw_sib1 = Column(String(255))
 
     def __repr__(self):
         return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {self.timestamp} with suspiciousness {self.suspiciousness}>"
