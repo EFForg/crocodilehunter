@@ -1,3 +1,8 @@
 sqlalchemy
 flask
+flask-migrate
+flask-script
 gpsd-py3
+sqlalchemy-utils
+mysqlclient
+numpy

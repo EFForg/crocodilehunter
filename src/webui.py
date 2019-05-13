@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 from flask import Flask, Response, render_template, redirect, url_for
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 from threading import Thread
 from werkzeug import wrappers
+import numpy
+from database import Base
 
 class Webui:
     def __init__(self, watchdog):
         self.app = Flask(__name__)
         self.watchdog = watchdog
+        self.migrate = Migrate(self.app, Base)
+        self.manager = Manager(self.app)
+        self.manager.add_command('db', MigrateCommand)
 
     def start_daemon(self):
         print(f"\b* Starting WebUI")
@@ -31,8 +38,14 @@ class Webui:
     def detail(self, row_id):
         tower = self.watchdog.get_row_by_id(row_id)
         similar_towers = self.watchdog.get_similar_towers(tower)
-        return render_template('detail.html', tower = tower,
-                similar_towers = similar_towers)
+        lats = [x.lat for x in similar_towers if x.lat != 0.0]
+        lons = [x.lon for x in similar_towers if x.lon != 0.0]
+
+        center_point = (numpy.mean(lats), numpy.mean(lons))
+        return render_template('detail.html', name=self.watchdog.project_name,
+                tower = tower,
+                similar_towers = similar_towers,
+                centroid = center_point)
 
     def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None):
         self.app.add_url_rule(endpoint, endpoint_name, EndpointAction(handler))
@@ -53,11 +66,23 @@ class EndpointAction(object):
 if __name__ == "__main__":
     from watchdog import Watchdog
     import sys
+    import os
+
+    if os.environ['CH_PROJ'] is None:
+        print("Please set the CH_PROJ environment variable")
+        sys.exit()
     class Args:
         disable_gps = False
         disable_wigle = False
         debug = False
-        project_name = sys.argv[1]
+        project_name = os.environ['CH_PROJ']
     w = Watchdog(Args)
     webui = Webui(w)
-    webui.start_daemon()
+    SQL_PATH = f"mysql://root:toor@localhost:3306"
+    DB_PATH = f"{SQL_PATH}/{Args.project_name}"
+    webui.app.config['SQLALCHEMY_DATABASE_URI'] = DB_PATH
+
+    if 'db' in sys.argv:
+        webui.manager.run()
+    else:
+        webui.start_daemon()

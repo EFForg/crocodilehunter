@@ -4,9 +4,7 @@ This repository is part of a project studying the newest generation (i.e. 4G/LTE
 
 The main project is located in `/src` and is based off of [srsLTE](https://github.com/srsLTE/srsLTE) and our setup currently supports the USRP B200 and the bladeRF x40.
 
-### Hardware Setup
-
-You'll need to install the required drivers for either the bladeRF or USRP.
+### Hardware Setup You'll need to install the required drivers for either the bladeRF or USRP.
 
 [Driver installation for the USRP B200](https://files.ettus.com/manual/page_install.html#install_linux).
 
@@ -28,7 +26,12 @@ git submodule update --recursive
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
-sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-mysqldb sqlalchemy-utils
+sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-dev libmysqlclient-dev cmake libitpp-dev librtlsdr-dev libopenblas-dev libncurses5-dev libpcsclite-dev
+```
+
+Note: for installation on a Raspberry Pi, you might also need:
+```
+sudo apt-get install libpolarssl-dev
 ```
 
 Install the required python packages:
@@ -46,10 +49,10 @@ You'll need to make a copy of `/src/ue.conf.example` in `/src` named `ue.conf` a
 For wigle database checks you will need to add wigle API keys to your bashrc file like so:
 
 ```
-export WIGLE_NAME=AIDabb07d7435a3ff9049b95deb48d2dd0b
-export WIGLE_KEY=dda533573fa55acc4061006bde7a73f9
+export WIGLE_NAME=<wigle name>
+export WIGLE_KEY=<wigle key>
 ```
-You will want to get wigle pro API keys or you will hit your request limit very quickly
+You will want to get wigle pro API keys or you will hit your request limit very quickly.
 
 
 To run the full project, use:
@@ -73,6 +76,20 @@ optional arguments:
   -g, --disable-gps     disable GPS connection and return a default coordinate
   -w, --disable-wigle   disable Wigle API access
 ```
+
+### Web UI
+Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
+If you turn your device into a hotspot ([ubuntu instructions](https://www.linuxuprising.com/2018/09/how-to-create-wi-fi-hotspot-in-ubuntu.html)) you can connect to the web UI from a different device such as your phone by connecting to the hotspot IP (find this out using ifconfig) on port 5000. 
+
+### Migrations
+If the database is changed or if you wish to change the database you can do so with migrations. **Note:** Migrations do not need to be run when setting up a new project, only when upgrading an existing project to a new database schema. 
+
+To create a migration file:
+Change the database schema in src/database.py then run
+`export CH_PROJ=projectname; sudo -E python3 ./webui.py db migrate -m "migration message"`
+
+To run migrations:
+`export CH_PROJ=wardrive; sudo -E python3 ./webui.py db upgrade`
 
 ### Misc
 

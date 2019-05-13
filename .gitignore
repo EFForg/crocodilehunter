@@ -113,3 +113,5 @@ data/*.pcap
 **fftw_wisdom
 src/srsLTE.backtrace.crash
 data/*
+.vscode/ipch*
+*.ipynb
