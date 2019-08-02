@@ -49,17 +49,21 @@ class Watchdog():
         num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
         print(f"Found {num_towers} towers a total of {num_rows} times")
 
-    def process_tower(self, data):
-        print(f"server recd: {data}")
-        data = data.split(",")
+    def get_gps(self):
         if self.disable_gps:
-            packet = type('Packet', (object,), {'lat': 0.0, 'lon': 0.0})()
+            packet = type('Packet', (object,), {'lat': 37.78, 'lon': -122.42})()
         else:
             gpsd.connect()
             packet = gpsd.get_current()
             while packet.lat == 0.0 and packet.lon == 0.0:
                 packet = gpsd.get_current()
 
+        return packet
+
+    def process_tower(self, data):
+        print(f"server recd: {data}")
+        data = data.split(",")
+        packet = self.get_gps()
         new_tower = Tower(
                 mcc = int(data[0]),
                 mnc = int(data[1]),
