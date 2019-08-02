@@ -75,29 +75,30 @@ class CrocodileHunter():
         webui.start_daemon()
 
         # Monitor and restart srsUE if it crashes
+        self.update_earfcn_list()
         proc = self.start_srslte()
         self.subprocs.append(proc)
         monitor = Thread(target=self.monitor_srslte, args=(proc,))
         monitor.start()
         self.threads.append(monitor)
 
-    # Exit gracefully on SIGINT
     def signal_handler(self, sig, frame):
+        """ Exit gracefully on SIGINT """
         print(f"\b\b{bcolors.WARNING}I{bcolors.ENDC} You pressed Ctrl+C!")
         self.cleanup()
+
+    def update_earfcn_list(self):
+        """ call to wigle to update the local EARFCN list or use a statically configured list """
+        gps = self.watchdog.get_gps()
+        self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
 
     def start_srslte(self):
         # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
         """ Start srsUE """
-#        pcap_file = f"ue{strftime('%Y%m%d-%H%M%S')}.pcap"
-#        pcap_file = os.path.join(self.project_path, pcap_file)
-#        nas_pcap_file = f"nas-ue{strftime('%Y%m%d-%H%M%S')}.pcap"
-#        nas_pcap_file = os.path.join(self.project_path, nas_pcap_file)
-
+        earfcns = ",".join(map(str, self.earfcn_list))
+        print(f"EARFCNS {earfcns}")
         print(f"\b{bcolors.OK}*{bcolors.ENDC} Running srsUE")
-#        proc = Popen(["./srsLTE/build/srsue/src/srsue", "./ue.conf", "--pcap.filename",
-#            pcap_file, "--pcap.nas_filename", nas_pcap_file], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        proc = Popen(["./srsLTE/build/lib/examples/cell_measurement", "-z", "900,2325,5255,5815,4412,2585"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = Popen(["./srsLTE/build/lib/examples/cell_measurement", "-z", earfcns], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         print(f"\b{bcolors.OK}*{bcolors.ENDC} srsUE started with pid {proc.pid}")
         print(f"\b{bcolors.OK}*{bcolors.ENDC} Tail /tmp/ue.log to see output")
         return proc
