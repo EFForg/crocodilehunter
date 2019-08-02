@@ -53,7 +53,7 @@ class Wigle():
         }
         return self._api_request("network/detail", qs_params)
 
-    def cell_search(self, lat, lon, gps_offset, cell_id, tac = None):
+    def cell_search(self, lat, lon, gps_offset, cell_id = None, tac = None):
         """ gps_offset is so that we can specify the search radius around the GPS coords."""
         # TODO: this doesn't return results as often as it should, meaning we end up marking things are more suspicious than they actually are.
         params = {
@@ -61,20 +61,34 @@ class Wigle():
             "latrange2": lat - gps_offset,
             "longrange1": lon + gps_offset,
             "longrange2": lon - gps_offset,
-            "cell_id": cell_id,
+            "showGsm": False,
+            "showCdma": False,
+            "showWcdma": False
         }
+        if cell_id is not None:
+            params["cell_id"] = tac
         if tac is not None:
             params["cell_net"] = tac
         return self._api_request("cell/search", params)
 
-#    def cell_search(self, latrange1, latrange2, longrange1, longrange2):
-#        qs_params = {
-#            "latrange1": latrange1,
-#            "latrange2": latrange2,
-#            "longrange1": longrange1,
-#            "longrange2": longrange2,
-#        }
-#        return _api_request("cell/search", qs_params)
+    def earfcn_search(self, lat, lon, offset):
+        qs_params = {
+            "latrange1": lat + offset,
+            "latrange2": lat - offset,
+            "longrange1": lon + offset,
+            "longrange2": lon - offset,
+            "showGsm": False,
+            "showCdma": False,
+            "showWcdma": False
+        }
+        res = self._api_request("cell/search", qs_params)
+
+        def _noneorzero(element):
+            return element is not None and element != 0
+
+        return set(filter(_noneorzero, [x['channel'] for x in res['results']] ))
+
+
 
     def run_test(self):
         """ Run some basic tests """
@@ -88,6 +102,9 @@ class Wigle():
 
         resp = self.cell_search(37.72, -122.156, 0.1, 8410908)
         print(f"\n=============\n{resp}\n============")
+
+        resp = self.earfcn_search(37.72, -122.156, 0.1, 8410908)
+        print(f"\n=============\nLocal EARFCN\n{resp}\n============")
 
 
 if __name__ == "__main__":
