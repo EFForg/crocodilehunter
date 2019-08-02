@@ -31,6 +31,16 @@ class Wigle():
         resp = requests.request(method, full_url,
                                 auth=(self.api_name, self.api_key,))
         resp = json.loads(resp.text)
+        prev_resp = resp
+        while prev_resp['searchAfter'] is not None:
+            qs_params['searchAfter'] = prev_resp['searchAfter']
+            query = urllib.parse.urlencode(qs_params)
+            full_url = f"https://api.wigle.net/api/v2/{api_stub}?{query}"
+            #print(full_url)
+            prev_resp = json.loads(requests.request(method, full_url,
+                                    auth=(self.api_name, self.api_key,)).text)
+            resp['results'] += prev_resp['results']
+
         return resp
 
     def get_cell_detail(self, operator, lac, cid):
