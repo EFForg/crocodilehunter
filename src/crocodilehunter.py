@@ -41,6 +41,7 @@ class CrocodileHunter():
         self.debug = args.debug
         self.disable_gps = args.disable_gps
         self.disable_wigle = args.disable_wigle
+        self.scan_earfcns = args.scan_earfcns
         signal.signal(signal.SIGINT, self.signal_handler)
 
         # Create project folder if necessary
@@ -89,6 +90,9 @@ class CrocodileHunter():
 
     def update_earfcn_list(self):
         """ call to wigle to update the local EARFCN list or use a statically configured list """
+        if self.scan_earfcns:
+            self.earfcn_list = map(int, self.scan_earfcns.split(','))
+            return
         gps = self.watchdog.get_gps()
         self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
 
@@ -167,6 +171,7 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true',)
     parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
     parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
+    parser.add_argument('--scan-earfcns', dest='scan_earfcns', help='comma seperated list of earfcns to scan, will disable automatic earfcn detection', action='store')
     args = parser.parse_args()
     crocodile_hunter = CrocodileHunter(args)
     crocodile_hunter.start()
