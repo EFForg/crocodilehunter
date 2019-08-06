@@ -6,6 +6,7 @@ Find stingrays in the wild. Hunt them down. Get revenge for Steve Irwin
 TODO Create logging subsystem
 """
 import argparse
+import configparser
 import itertools
 import os
 import signal
@@ -42,12 +43,17 @@ class CrocodileHunter():
         self.debug = args.debug
         self.disable_gps = args.disable_gps
         self.disable_wigle = args.disable_wigle
-        self.scan_earfcns = args.scan_earfcns
+        self.config_fp = 'config.ini'
+        self.config = args.config = configparser.ConfigParser()
+        self.config.read(self.config_fp)
         signal.signal(signal.SIGINT, self.signal_handler)
+
+        if self.project_name not in self.config:
+            self.config[self.project_name] = {}
 
         # Set up logging
         self.logger = args.logger = logging.getLogger("crocodile-hunter")
-        fmt='\b * %(asctime)s - %(levelname)s %(message)s'
+        fmt=f"\b * %(asctime)s {self.project_name} - %(levelname)s %(message)s"
         if(self.debug):
             log_level = "DEBUG"
         else:
@@ -107,11 +113,14 @@ class CrocodileHunter():
 
     def update_earfcn_list(self):
         """ call to wigle to update the local EARFCN list or use a statically configured list """
-        if self.scan_earfcns:
-            self.earfcn_list = map(int, self.scan_earfcns.split(','))
-            return
-        gps = self.watchdog.get_gps()
-        self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
+        if 'earfcns' in self.config[self.project_name]:
+            self.logger.info(f"Using earfcn list {self.config[self.project_name]['earfcns']}")
+            self.earfcn_list = map(int, self.config[self.project_name]['earfcns'].split(','))
+        else:
+            self.logger.info("Getting earcn list for the first time")
+            gps = self.watchdog.get_gps()
+            self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
+            self.config[self.project_name]['earfcns'] = ",".join(map(str, self.earfcn_list))
 
     def start_srslte(self):
         # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
@@ -159,8 +168,13 @@ class CrocodileHunter():
 
     def cleanup(self, error=False):
         """ Gracefully exit when program is quit """
-        self.logger.info(f"Exiting...")
         global EXIT
+
+        self.logger.info(f"Exiting...")
+
+        with open(self.config_fp, 'w') as cf:
+            self.config.write(cf)
+
         EXIT = True
         for thread in self.threads:
             thread.join()
@@ -177,7 +191,6 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true',)
     parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
     parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
-    parser.add_argument('--scan-earfcns', dest='scan_earfcns', help='comma seperated list of earfcns to scan, will disable automatic earfcn detection', action='store')
 
 
     # Clear screen

@@ -1,0 +1,8 @@
+[general]
+gps_default = 0, 0
+wigle_name = AIC1234
+wigle_key = deadbeef
+
+;project specific settings
+;[example]
+;earfcns = 1,2,3,4,5

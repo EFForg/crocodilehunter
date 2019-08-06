@@ -3,9 +3,10 @@
 
 # test for srsLTE config file
 echo -e "Checking for config file"
-if [ ! -f ./ue.conf ]; then
-    echo -e "ue.conf file not found"
-    echo -e "Copy ue.conf.example to ue.conf"
+if [ ! -f ./config.ini ]; then
+    echo -e "config.ini file not found"
+    echo -e "creating config.ini from config.ini.example"
+    cp config.ini.example config.ini
 fi
 
 # Test for and set up bladeRF
