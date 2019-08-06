@@ -50,7 +50,7 @@ class Watchdog():
     def count(self):
         num_rows = Tower.query.count()
         num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
-        self.logger.info(f"Found {num_towers} towers a total of {num_rows} times")
+        self.logger.verbose(f"Found {num_towers} towers a total of {num_rows} times")
 
     def get_gps(self):
         if self.disable_gps:
@@ -85,7 +85,7 @@ class Watchdog():
                 lat = packet.lat,
                 lon = packet.lon,
                 )
-        self.logger.info(f"Adding a new tower: {new_tower}")
+        self.logger.success(f"Adding a new tower: {new_tower}")
         self.db_session.add(new_tower)
         self.db_session.commit()
         self.calculate_suspiciousness(new_tower)
@@ -203,7 +203,7 @@ class Watchdog():
 
     def check_wigle(self, tower):
         if self.disable_wigle:
-            self.logger.debug("Wigle API access disabled locally!")
+            self.logger.warning("Wigle API access disabled locally!")
         else:
             #self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
             resp = self.wigle.cell_search(tower.lat, tower.lon, 0.1, tower.cid, tower.tac)
@@ -234,7 +234,7 @@ class Watchdog():
         server_thread = Thread(target=self.server.serve_forever)
         server_thread.setDaemon(True)
         server_thread.start()
-        self.logger.debug("Watchdog server running")
+        self.logger.success("Watchdog server running")
 
     def create_request_handler_class(self, wd_inst):
         class RequestHandler(socketserver.BaseRequestHandler):
@@ -246,7 +246,7 @@ class Watchdog():
 
 
     def shutdown(self):
-        self.logger.debug(f"Stopping Watchdog")
+        self.logger.warning(f"Stopping Watchdog")
         if hasattr(self, 'server') and self.server:
             os.remove(Watchdog.SOCK)
             self.server.shutdown()

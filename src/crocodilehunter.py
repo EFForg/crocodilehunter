@@ -57,7 +57,7 @@ class CrocodileHunter():
         if(self.debug):
             log_level = "DEBUG"
         else:
-            log_level = "INFO"
+            log_level = "VERBOSE"
         coloredlogs.install(level=log_level, fmt=fmt, datefmt='%H:%M:%S')
 
         # Create project folder if necessary
@@ -89,6 +89,7 @@ class CrocodileHunter():
         return_code = proc.wait()
 
         if return_code:
+            self.logger.critical("Bootstrapping failed")
             self.cleanup(True)
 
         #Start watchdog dæmon
@@ -114,22 +115,21 @@ class CrocodileHunter():
     def update_earfcn_list(self):
         """ call to wigle to update the local EARFCN list or use a statically configured list """
         if 'earfcns' in self.config[self.project_name]:
-            self.logger.info(f"Using earfcn list {self.config[self.project_name]['earfcns']}")
             self.earfcn_list = map(int, self.config[self.project_name]['earfcns'].split(','))
         else:
-            self.logger.info("Getting earcn list for the first time")
+            self.logger.warning("Getting earcn list for the first time, this might take a while")
             gps = self.watchdog.get_gps()
             self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
             self.config[self.project_name]['earfcns'] = ",".join(map(str, self.earfcn_list))
+        self.logger.notice(f"Using earfcn list {self.config[self.project_name]['earfcns']}")
 
     def start_srslte(self):
         # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
         """ Start srsUE """
         earfcns = ",".join(map(str, self.earfcn_list))
-        self.logger.debug(f"EARFCNS {earfcns}")
         self.logger.info(f"Running srsUE")
         proc = Popen(["./srsLTE/build/lib/examples/cell_measurement", "-z", earfcns], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        self.logger.info(f"srsUE started with pid {proc.pid}")
+        self.logger.success(f"srsUE started with pid {proc.pid}")
         return proc
 
     def monitor_srslte(self, proc):
@@ -170,7 +170,7 @@ class CrocodileHunter():
         """ Gracefully exit when program is quit """
         global EXIT
 
-        self.logger.info(f"Exiting...")
+        self.logger.error(f"Exiting...")
 
         with open(self.config_fp, 'w') as cf:
             self.config.write(cf)
@@ -182,7 +182,7 @@ class CrocodileHunter():
             proc.kill()
         subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
         self.watchdog.shutdown()
-        self.logger.info(f"See you space cowboy...")
+        self.logger.success(f"See you space cowboy...")
         os._exit(int(error))
 
 if __name__ == "__main__":
