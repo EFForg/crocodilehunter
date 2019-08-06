@@ -60,13 +60,6 @@ class CrocodileHunter():
             log_level = "VERBOSE"
         coloredlogs.install(level=log_level, fmt=fmt, datefmt='%H:%M:%S')
 
-        # Create project folder if necessary
-        self.project_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data", self.project_name)
-        if not os.path.exists(self.project_path):
-            self.logger.info(f"Creating new project directory: {self.project_path}")
-            os.mkdir(self.project_path)
-
-
         self.watchdog = Watchdog(args)
 
     def start(self):
@@ -142,7 +135,7 @@ class CrocodileHunter():
         line = ''
         while not EXIT:
             line = nbsr.readline(CRASH_TIMEOUT)
-            if self.debug and (line is not None):
+            if line is not None:
                 self.logger.debug(line.decode("ascii").rstrip())
             out.append(line)
 
