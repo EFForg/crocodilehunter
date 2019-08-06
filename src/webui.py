@@ -6,9 +6,11 @@ from threading import Thread
 from werkzeug import wrappers
 import numpy
 from database import Base
+import os
 
 class Webui:
     def __init__(self, watchdog):
+        os.environ['WERKZEUG_RUN_MAIN'] = 'true'
         self.app = Flask(__name__)
         self.watchdog = watchdog
         self.migrate = Migrate(self.app, Base)

@@ -27,7 +27,7 @@ class Wigle():
         # TODO raise a useful error if either env variable is missing
         query = urllib.parse.urlencode(qs_params)
         full_url = f"https://api.wigle.net/api/v2/{api_stub}?{query}"
-        print(full_url)
+        #print(full_url)
         resp = requests.request(method, full_url,
                                 auth=(self.api_name, self.api_key,))
         resp = json.loads(resp.text)
