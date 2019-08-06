@@ -14,9 +14,11 @@ class Webui:
         self.migrate = Migrate(self.app, Base)
         self.manager = Manager(self.app)
         self.manager.add_command('db', MigrateCommand)
+        self.logger = self.watchdog.logger
+        self.app.logger.addHandler(self.logger)
 
     def start_daemon(self):
-        print(f"\b* Starting WebUI")
+        self.logger.info(f"Starting WebUI")
 
         #Add each endpoint manually
         self.add_endpoint("/", "index", self.index)
@@ -67,6 +69,7 @@ if __name__ == "__main__":
     from watchdog import Watchdog
     import sys
     import os
+    import logging
 
     if os.environ['CH_PROJ'] is None:
         print("Please set the CH_PROJ environment variable")
@@ -76,6 +79,7 @@ if __name__ == "__main__":
         disable_wigle = False
         debug = False
         project_name = os.environ['CH_PROJ']
+        logger = logging
     w = Watchdog(Args)
     webui = Webui(w)
     SQL_PATH = f"mysql://root:toor@localhost:3306"

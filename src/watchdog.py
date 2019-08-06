@@ -22,6 +22,7 @@ class Watchdog():
         self.disable_wigle = args.disable_wigle
         self.debug = args.debug
         self.disable_gps = args.disable_gps
+        self.logger = args.logger
         if not self.disable_wigle:
             self.wigle = Wigle()
 
@@ -32,7 +33,7 @@ class Watchdog():
         for row in Tower.query.filter(Tower.rssi != 0.0).filter(Tower.rssi.isnot(None)).order_by(Tower.rssi.desc())[0:10]:
             if row is None:
                 continue
-            print(f"{row}, power: {row.rssi}")
+            self.logger.debug(f"{row}, power: {row.rssi}")
 
     def get_row_by_id(self, row_id):
         return Tower.query.get(row_id)
@@ -47,7 +48,7 @@ class Watchdog():
     def count(self):
         num_rows = Tower.query.count()
         num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
-        print(f"Found {num_towers} towers a total of {num_rows} times")
+        self.logger.info(f"Found {num_towers} towers a total of {num_rows} times")
 
     def get_gps(self):
         if self.disable_gps:
@@ -61,7 +62,7 @@ class Watchdog():
         return packet
 
     def process_tower(self, data):
-        print(f"server recd: {data}")
+        self.logger.debug(f"server recd: {data}")
         data = data.split(",")
         packet = self.get_gps()
         new_tower = Tower(
@@ -81,7 +82,7 @@ class Watchdog():
                 lat = packet.lat,
                 lon = packet.lon,
                 )
-        print(f"Adding a new tower: {new_tower}")
+        self.logger.info(f"Adding a new tower: {new_tower}")
         self.db_session.add(new_tower)
         self.db_session.commit()
         self.calculate_suspiciousness(new_tower)
@@ -199,11 +200,11 @@ class Watchdog():
 
     def check_wigle(self, tower):
         if self.disable_wigle:
-            print("Wigle API access disabled locally!")
+            self.logger.debug("Wigle API access disabled locally!")
         else:
             #self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
             resp = self.wigle.cell_search(tower.lat, tower.lon, 0.1, tower.cid, tower.tac)
-            print("conducting a cell search: " + str(resp))
+            self.logger.debug("conducting a cell search: " + str(resp))
             if resp["resultCount"] < 1:
                 tower.suspiciousness += 20
 
@@ -220,8 +221,8 @@ class Watchdog():
         self.db_session.commit()
 
     def start_daemon(self):
-        print(f"\b* Starting Watchdog")
-        print(f"\b* Creating socket {Watchdog.SOCK}")
+        self.logger.debug(f"Starting Watchdog")
+        self.logger.debug(f"Creating socket {Watchdog.SOCK}")
         if os.path.isfile(Watchdog.SOCK):
             os.remove(Watchdog.SOCK)
         RequestHandlerClass = self.create_request_handler_class(self)
@@ -230,7 +231,7 @@ class Watchdog():
         server_thread = Thread(target=self.server.serve_forever)
         server_thread.setDaemon(True)
         server_thread.start()
-        print("Watchdog server running")
+        self.logger.debug("Watchdog server running")
 
     def create_request_handler_class(self, wd_inst):
         class RequestHandler(socketserver.BaseRequestHandler):
@@ -242,7 +243,7 @@ class Watchdog():
 
 
     def shutdown(self):
-        print(f"\b* Stopping Watchdog")
+        self.logger.debug(f"Stopping Watchdog")
         if hasattr(self, 'server') and self.server:
             os.remove(Watchdog.SOCK)
             self.server.shutdown()
