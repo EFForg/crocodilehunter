@@ -7,3 +7,4 @@ sqlalchemy-utils
 mysqlclient
 numpy
 coloredlogs
+verboselogs

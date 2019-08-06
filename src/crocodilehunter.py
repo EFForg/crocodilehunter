@@ -16,7 +16,7 @@ import sys
 from subprocess import Popen
 from time import sleep, strftime
 from threading import Thread
-import coloredlogs, logging
+import coloredlogs, verboselogs
 
 from watchdog import Watchdog
 from webui import Webui
@@ -52,7 +52,7 @@ class CrocodileHunter():
             self.config[self.project_name] = {}
 
         # Set up logging
-        self.logger = args.logger = logging.getLogger("crocodile-hunter")
+        self.logger = args.logger = verboselogs.VerboseLogger("crocodile-hunter")
         fmt=f"\b * %(asctime)s {self.project_name} - %(levelname)s %(message)s"
         if(self.debug):
             log_level = "DEBUG"
