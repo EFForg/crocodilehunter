@@ -59,7 +59,7 @@ To run the full project, use:
 
 ```
 cd src
-sudo -E ./crocodilehunter.py
+./crocodilehunter.py <arguments>
 ```
 
 ### Usage
@@ -79,7 +79,7 @@ optional arguments:
 
 ### Web UI
 Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
-If you turn your device into a hotspot ([ubuntu instructions](https://www.linuxuprising.com/2018/09/how-to-create-wi-fi-hotspot-in-ubuntu.html)) you can connect to the web UI from a different device such as your phone by connecting to the hotspot IP (find this out using ifconfig) on port 5000. 
+The best way to keep an eye on it on the go is to connect your laptop to a mobile hotspot and then use your phone to view the web UI (that way your computer will still have internet access for making wigle queries.)
 
 ### Migrations
 If the database is changed or if you wish to change the database you can do so with migrations. **Note:** Migrations do not need to be run when setting up a new project, only when upgrading an existing project to a new database schema. 
