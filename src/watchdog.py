@@ -23,8 +23,10 @@ class Watchdog():
         self.debug = args.debug
         self.disable_gps = args.disable_gps
         self.logger = args.logger
+        self.config = args.config
         if not self.disable_wigle:
-            self.wigle = Wigle()
+            self.wigle = Wigle(self.config['general']['wigle_name'],
+                               self.config['general']['wigle_key'])
 
     def last_ten(self):
         return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
@@ -52,7 +54,8 @@ class Watchdog():
 
     def get_gps(self):
         if self.disable_gps:
-            packet = type('Packet', (object,), {'lat': 37.78, 'lon': -122.42})()
+            gps = self.config['general']['gps_default'].split(',')
+            packet = type('Packet', (object,), {'lat': float(gps[0]), 'lon': float(gps[1])})()
         else:
             gpsd.connect()
             packet = gpsd.get_current()

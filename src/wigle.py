@@ -12,9 +12,13 @@ import requests
 
 class Wigle():
 
-    def __init__(self):
-        self.api_name = os.environ["WIGLE_NAME"]
-        self.api_key = os.environ["WIGLE_KEY"]
+    def __init__(self, wigle_name=None, wigle_key=None):
+        if wigle_name is None:
+            self.api_name = os.environ["WIGLE_NAME"]
+            self.api_key = os.environ["WIGLE_KEY"]
+        else:
+            self.api_name = wigle_name
+            self.api_key = wigle_key
 
     def _api_request(self, api_stub, qs_params, method="GET"):
         """
