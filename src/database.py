@@ -44,7 +44,10 @@ class Tower(Base):
     raw_sib1 = Column(String(255))
 
     def __repr__(self):
-        return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {self.timestamp} with suspiciousness {self.suspiciousness}>"
+        repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
+            f"{self.lon}, time: {self.timestamp}, suspiciousness {self.suspiciousness}, " + \
+            f"freq: {self.frequency}>"
+        return repr
 
     def params(self):
         return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]
