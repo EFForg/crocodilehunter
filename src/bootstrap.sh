@@ -59,12 +59,12 @@ if [ ! -d ./srsLTE/build ]; then
     cd srsLTE
     mkdir build
     cd build
-    cmake ../ 2>&1 /dev/null
+    cmake ../ > /dev/null
 else
     cd srsLTE/build
 fi
 echo -e "Compiling srsUE"
-make 2>&1 /dev/null
+make > /dev/null
 echo -e "SrsUE built succesfully"
 echo -e "Reticulating Splines"
 
