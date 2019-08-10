@@ -84,10 +84,12 @@ class Watchdog():
                 sector_id = float(data[9]),
                 cfo = float(data[10]),
                 raw_sib1 = data[11],
-                timestamp = int(data[12]),
+                timestamp = datetime.fromtimestamp(int(data[12])),
                 lat = packet.lat,
                 lon = packet.lon,
                 )
+
+        new_tower.frequency = new_tower.get_frequency()
         self.logger.success(f"Adding a new tower: {new_tower}")
         self.db_session.add(new_tower)
         self.db_session.commit()
