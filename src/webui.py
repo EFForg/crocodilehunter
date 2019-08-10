@@ -31,7 +31,8 @@ class Webui:
         app_thread.start()
 
     def index(self):
-        last_ten = [t[1] for t in self.watchdog.last_ten()]
+        #last_ten = [t[1] for t in self.watchdog.last_ten()]
+        last_ten = self.watchdog.get_unique_enodebs()
         return render_template('index.html', name=self.watchdog.project_name,
                                towers=self.watchdog.get_all_by_suspicioussnes(),
                                last_ten=last_ten)

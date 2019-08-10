@@ -31,6 +31,9 @@ class Watchdog():
     def last_ten(self):
         return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
 
+    def get_unique_enodebs(self):
+        return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.enodeb_id).order_by(Tower.id.desc())
+
     def strongest(self):
         for row in Tower.query.filter(Tower.rssi != 0.0).filter(Tower.rssi.isnot(None)).order_by(Tower.rssi.desc())[0:10]:
             if row is None:
@@ -49,7 +52,7 @@ class Watchdog():
 
     def count(self):
         num_rows = Tower.query.count()
-        num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
+        num_towers = Tower.query.with_entities(Tower.enodeb_id).distinct().count()
         self.logger.verbose(f"Found {num_towers} towers a total of {num_rows} times")
 
     def get_gps(self):
