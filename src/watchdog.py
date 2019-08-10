@@ -168,19 +168,6 @@ class Watchdog():
         """ If it's the first time we've seen a tower in a given
         location (+- some threshold)."""
         # TODO: ask someone who has thought about this
-        # TODO: skip calculation until diameter is of a certain size ... half of 1/100th of a lat or lon.
-        existing_towers = self.db_session.query(Tower).filter(
-                Tower.mcc == tower.mcc,
-                Tower.mnc == tower.mnc,
-                Tower.cid == tower.cid,
-                Tower.phyid == tower.phyid,
-                Tower.earfcn == tower.earfcn,
-                ).all()
-
-        lats = [x.lat for x in existing_towers]
-        lons = [x.lon for x in existing_towers]
-        center_point = (numpy.mean(lats), numpy.mean(lons))
-        center_point_std_dev = (numpy.std(lats), numpy.std(lons))
         # pymcmc
         # bayseian statistics for hackers
         # distribution of points
@@ -188,11 +175,42 @@ class Watchdog():
         # what is the probability that the given point is part of thatd distribution
         # exponential lamdax
 
-        if abs(tower.lat) > abs(center_point[0] + center_point_std_dev[0]) or \
-           abs(tower.lat) < abs(center_point[0] - center_point_std_dev[0]) or \
-           abs(tower.lon) > abs(center_point[1] + center_point_std_dev[1]) or \
-           abs(tower.lon) < abs(center_point[1] - center_point_std_dev[1]):
-              tower.suspiciousness += 5 * 1000 * (abs(tower.lat - center_point[0]) - abs(tower.lon - center_point[1]))
+        existing_towers = self.db_session.query(Tower).filter(
+                Tower.mcc == tower.mcc,
+                Tower.mnc == tower.mnc,
+                Tower.enodeb_id == tower.enodeb_id,
+                ).all()
+
+        lats = numpy.unique([x.lat for x in existing_towers])
+        lons = numpy.unique([x.lon for x in existing_towers])
+        if abs(max(lats) - min(lats)) < 0.01 or abs(max(lons) - min(lons)) < 0.01:
+            # Skip calculation until diameter is of a certain size ... half of 1/100th of a lat or lon.
+            return
+
+        center_point = (numpy.mean(lats), numpy.mean(lons))
+        center_point_std_dev = (numpy.std(lats), numpy.std(lons))
+        border_point = (center_point[0] + center_point_std_dev[0], center_point[1] + center_point_std_dev[1])
+
+        self.logger.info(f"tower: {tower.lat}, {tower.lon}")
+        self.logger.info(f"center_point: {center_point}")
+
+        radius = self._get_point_distance(center_point, border_point)
+        self.logger.info(f"radius: {radius}")
+        distance = self._get_point_distance(center_point, [tower.lat, tower.lon])
+        self.logger.info(f"distance: {distance}")
+
+        if int(distance * 10000) > int(radius * 10000):
+            s_coeff = (10 * distance - radius) ** 2
+            self.logger.info('tower outside expected range')
+            self.logger.info(f'increasing suspiciousness by {s_coeff}')
+
+            tower.suspiciousness += s_coeff
+
+    def _get_point_distance(self, centerpoint, outpoint):
+        a = abs(abs(centerpoint[0]) - abs(outpoint[0]))
+        b = abs(abs(centerpoint[1]) - abs(outpoint[1]))
+        return math.sqrt(a*a + b*b)
+
 
     def check_rssi(self, tower):
         """ If a given tower has a power signal significantly stronger than we've ever seen."""
@@ -223,7 +241,7 @@ class Watchdog():
         self.check_mnc(tower)
         self.check_existing_rssi(tower)
         self.check_changed_tac(tower)
-        #self.check_new_location(tower)
+        self.check_new_location(tower)
         self.check_rssi(tower)
         self.check_wigle(tower)
         self.db_session.commit()
