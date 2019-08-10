@@ -46,6 +46,7 @@ class CrocodileHunter():
         self.config_fp = 'config.ini'
         self.config = args.config = configparser.ConfigParser()
         self.config.read(self.config_fp)
+        self.earfcn_list = []
         signal.signal(signal.SIGINT, self.signal_handler)
 
         if self.project_name not in self.config:
@@ -120,6 +121,7 @@ class CrocodileHunter():
         # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
         """ Start srsUE """
         earfcns = ",".join(map(str, self.earfcn_list))
+        self.logger.info(f"EARFCNS: {earfcns}")
         self.logger.info(f"Running srsUE")
         proc = Popen(["./srsLTE/build/lib/examples/cell_measurement", "-z", earfcns], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         self.logger.success(f"srsUE started with pid {proc.pid}")
@@ -146,6 +148,7 @@ class CrocodileHunter():
                 except IndexError as e:
                     pass
                 proc.kill()
+                self.update_earfcn_list()
                 proc = self.start_srslte()
                 self.monitor_srslte(proc)
 
