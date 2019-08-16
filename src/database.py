@@ -1,6 +1,8 @@
 import os
 import time
 
+import configparser
+
 from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, create_engine, func, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -9,7 +11,11 @@ from sqlalchemy_utils import create_database, database_exists
 Base = declarative_base()
 
 def init_db(project_name):
-    MYSQL_PATH = f"mysql://root:toor@localhost:3306"
+    config_fp = 'config.ini'
+    config = configparser.ConfigParser()
+    config.read(config_fp)
+
+    MYSQL_PATH = config['general']['mysql_path']
     DB_PATH = f"{MYSQL_PATH}/{project_name}"
 
     if not database_exists(DB_PATH):
