@@ -44,14 +44,8 @@ Additionally, you'll either need [Wigle](https://wigle.net/) [API credentials](h
 If you choose to enable Wigle access, you'll need to set the following environment variables (probably in your `~/.bashrc` file): `WIGLE_NAME` and `WIGLE_KEY`.
 
 ### Running
-You'll need to make a copy of `/src/ue.conf.example` in `/src` named `ue.conf` and update it to use the EARFCNs in your area. To easily figure out what EARFCNs are in use, we'd recommend installing the [Netmonitor app](https://play.google.com/store/apps/details?id=com.parizene.netmonitor) on an Android device.
+You'll need to make a copy of `/src/config.ini.example` in `/src` named `config.ini` and update it with your credentials for wigle and mysql and a default gps coordinate to use for testing.  
 
-For wigle database checks you will need to add wigle API keys to your bashrc file like so:
-
-```
-export WIGLE_NAME=<wigle name>
-export WIGLE_KEY=<wigle key>
-```
 You will want to get wigle pro API keys or you will hit your request limit very quickly.
 
 
@@ -59,7 +53,7 @@ To run the full project, use:
 
 ```
 cd src
-./crocodilehunter.py <arguments>
+./crocodilehunter.py <arguments> -p <project name>
 ```
 
 ### Usage
