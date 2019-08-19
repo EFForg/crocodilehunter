@@ -36,11 +36,11 @@ fi
 if [ ! -z $1 ]; then
     echo -e "Skipping GPS test"
 else
-    echo -e "Testing GPS"
-    killall -9 gpsd 2> /dev/null
-    service gpsd stop
+    echo -e "Starting GPS"
+    sudo killall -9 gpsd 2> /dev/null
+    sudo service gpsd stop
     if [ -e /dev/ttyUSB0 ]; then
-        gpsd /dev/ttyUSB0
+        sudo gpsd /dev/ttyUSB0
         echo -e "Waiting for GPS to sync"
         until ../experiments/gps.sh | grep -v null  > /dev/null; do
             echo -e "GPS failed to sync."
