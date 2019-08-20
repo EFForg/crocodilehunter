@@ -83,8 +83,10 @@ class Watchdog():
                 enodeb_id = float(data[8]),
                 sector_id = float(data[9]),
                 cfo = float(data[10]),
-                raw_sib1 = data[11],
-                timestamp = datetime.fromtimestamp(int(data[12])),
+                rsrq = float(data[11]),
+                snr = float(data[12]),
+                raw_sib1 = data[13],
+                timestamp = datetime.fromtimestamp(int(data[14])),
                 lat = packet.lat,
                 lon = packet.lon,
                 )

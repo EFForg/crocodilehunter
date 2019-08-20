@@ -1,5 +1,6 @@
 import os
 import time
+import math
 
 import configparser
 
@@ -47,6 +48,9 @@ class Tower(Base):
     enodeb_id = Column(Integer)
     sector_id = Column(Integer)
     cfo = Column(Float)
+    rsrq = Column(Float)
+    snr = Column(Float)
+    est_dist = Column(Float)
     raw_sib1 = Column(String(255))
 
     def __repr__(self):
