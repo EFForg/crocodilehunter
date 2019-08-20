@@ -72,7 +72,12 @@ if __name__ == "__main__":
     from watchdog import Watchdog
     import sys
     import os
-    import logging
+    import coloredlogs, verboselogs
+    import configparser
+
+    logger = verboselogs.VerboseLogger("crocodile-hunter")
+    fmt=f"\b * %(asctime)s crocodile-hunter - %(levelname)s %(message)s"
+    coloredlogs.install(level="DEBUG", fmt=fmt, datefmt='%H:%M:%S')
 
     if os.environ['CH_PROJ'] is None:
         print("Please set the CH_PROJ environment variable")
@@ -82,7 +87,10 @@ if __name__ == "__main__":
         disable_wigle = False
         debug = False
         project_name = os.environ['CH_PROJ']
-        logger = logging
+        logger = logger
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
     w = Watchdog(Args)
     webui = Webui(w)
     SQL_PATH = f"mysql://root:toor@localhost:3306"
