@@ -75,6 +75,9 @@ optional arguments:
 Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
 The best way to keep an eye on it on the go is to connect your laptop to a mobile hotspot and then use your phone to view the web UI (that way your computer will still have internet access for making wigle queries.)
 
+If you want to run the webUI without running the scanner simply run the following command:
+`export CH_PROJ=<project_name>; python3 webui.py`
+
 ### Migrations
 If the database is changed or if you wish to change the database you can do so with migrations. **Note:** Migrations do not need to be run when setting up a new project, only when upgrading an existing project to a new database schema. 
 
