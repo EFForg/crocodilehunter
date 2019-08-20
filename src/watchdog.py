@@ -91,7 +91,7 @@ class Watchdog():
                 lon = packet.lon,
                 )
 
-        new_tower.frequency = new_tower.get_frequency()
+        new_tower.est_distance()
         self.logger.success(f"Adding a new tower: {new_tower}")
         self.db_session.add(new_tower)
         self.db_session.commit()

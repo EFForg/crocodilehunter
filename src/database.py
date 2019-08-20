@@ -55,12 +55,25 @@ class Tower(Base):
 
     def __repr__(self):
         repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
-            f"{self.lon}, time: {self.timestamp}, suspiciousness {self.suspiciousness}, " + \
-            f"freq: {self.frequency}>"
+            f"{self.lon}, time: {self.timestamp}, susp {self.suspiciousness}, " + \
+            f"freq: {self.frequency}, dist {self.est_dist}m>"
         return repr
 
     def params(self):
         return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]
+
+    def est_distance(self):
+        """
+        calcluate distance in meters of enodeb from a reading using FSPL estimate
+        (https://en.wikipedia.org/wiki/Free-space_path_loss#Free-space_path_loss_in_decibels)
+        """
+        #fspl = tx_pow + tx_gain + rx_gain - rx_pow - fade_margin
+        tx_pow = 46 # standard transmit DBm for a tower
+        fspl = tx_pow - self.rssi - self.rsrq
+        distance = 10 ** ((27.55 - (20 * math.log10(self.frequency)) + fspl)/20)
+        self.est_dist = distance
+        return distance
+
 
     def get_frequency(self):
         band_list = [
