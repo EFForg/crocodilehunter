@@ -2,6 +2,7 @@
 
 import os
 import math
+from math import radians, cos, sin, asin, sqrt
 import socketserver
 from threading import Thread
 from datetime import datetime
@@ -9,6 +10,7 @@ from datetime import datetime
 import gpsd
 import numpy
 from sqlalchemy import func, text
+from scipy.optimize import minimize
 
 from database import Tower, init_db
 from wigle import Wigle
@@ -166,6 +168,13 @@ class Watchdog():
             if existing_tower.tac != tower.tac:
                 tower.suspiciousness += 10
 
+    def get_centroid(self, towers):
+        lats = numpy.unique([x.lat for x in towers])
+        lons = numpy.unique([x.lon for x in towers])
+        return (numpy.mean(lats), numpy.mean(lons))
+
+
+
     def check_new_location(self, tower):
         """ If it's the first time we've seen a tower in a given
         location (+- some threshold)."""
@@ -247,6 +256,60 @@ class Watchdog():
         self.check_rssi(tower)
         self.check_wigle(tower)
         self.db_session.commit()
+
+    def trilaterate_enodeb_location(self, tower):
+        """
+        perform trilateration on tower readings and distance estimates to estimate location of enodeb
+        return - tuple (est_lat, est_lon, confidence)
+        """
+        towers = Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.enodeb_id == tower.enodeb_id).group_by(func.concat(Tower.lat, Tower.lon))
+        centroid = self.get_centroid(towers)
+        print(f"count: {towers.count()}")
+        if towers.count() < 3:
+            return (centroid[0],centroid[1])
+
+        # locations: [ (lat1, long1), ... ]
+        # distances: [ distance1,     ... ]
+        locations = [(t.lat, t.lon) for t in towers]
+        distances = [t.est_dist for t in towers]
+
+        def _great_circle_distance(lat1, lon1, lat2, lon2):
+            """
+            Calculate the great circle distance between two points
+            on the earth (specified in decimal degrees)
+            """
+            # convert decimal degrees to radians
+            lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+            # haversine formula
+            dlon = lon2 - lon1
+            dlat = lat2 - lat1
+            a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+            c = 2 * asin(sqrt(a))
+            r = 6371088 # Radius of earth in meters
+            return c * r
+
+        # trilaterate(towers(lat, lon, est_dist))
+        def _mse(x, locations, distances):
+            mse = 0.0
+            for location, distance in zip(locations, distances):
+                distance_calculated = _great_circle_distance(x[0], x[1], location[0], location[1])
+                mse += math.pow(distance_calculated - distance, 2.0)
+            return mse / len(locations)
+
+        result = minimize(
+            _mse,                         # The error function
+            centroid,            # The initial guess
+            args=(locations, distances), # Additional parameters for mse
+            method='L-BFGS-B',           # The optimisation algorithm
+            options={
+                'ftol':1e-7,         # Tolerance
+                'maxiter': 1e+7      # Maximum iterations
+            })
+        location = result.x
+        print(f"result {result}")
+        self.logger.debug(f"location: {location}")
+        return location
 
     def start_daemon(self):
         self.logger.debug(f"Starting Watchdog")

@@ -43,14 +43,15 @@ class Webui:
     def detail(self, row_id):
         tower = self.watchdog.get_row_by_id(row_id)
         similar_towers = self.watchdog.get_similar_towers(tower)
-        lats = numpy.unique([x.lat for x in similar_towers if x.lat != 0.0])
-        lons = numpy.unique([x.lon for x in similar_towers if x.lon != 0.0])
+        trilat = self.watchdog.trilaterate_enodeb_location(tower)
+        centroid = self.watchdog.get_centroid(similar_towers)
 
-        center_point = (numpy.mean(lats), numpy.mean(lons))
         return render_template('detail.html', name=self.watchdog.project_name,
                 tower = tower,
+                trilat = trilat,
                 similar_towers = similar_towers,
-                centroid = center_point)
+                num_towers = similar_towers.count(),
+                centroid = centroid)
 
     def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None):
         self.app.add_url_rule(endpoint, endpoint_name, EndpointAction(handler))
