@@ -1,5 +1,8 @@
 import os
 import time
+import math
+
+import configparser
 
 from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, create_engine, func, text
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,7 +12,11 @@ from sqlalchemy_utils import create_database, database_exists
 Base = declarative_base()
 
 def init_db(project_name):
-    MYSQL_PATH = f"mysql://root:toor@localhost:3306"
+    config_fp = 'config.ini'
+    config = configparser.ConfigParser()
+    config.read(config_fp)
+
+    MYSQL_PATH = config['general']['mysql_path']
     DB_PATH = f"{MYSQL_PATH}/{project_name}"
 
     if not database_exists(DB_PATH):
@@ -41,13 +48,33 @@ class Tower(Base):
     enodeb_id = Column(Integer)
     sector_id = Column(Integer)
     cfo = Column(Float)
+    rsrq = Column(Float)
+    snr = Column(Float)
+    est_dist = Column(Float)
     raw_sib1 = Column(String(255))
 
     def __repr__(self):
-        return f"<Tower: {self.mcc}-{self.mnc}-{self.cid} with TAC {self.tac} spotted at {self.lat}, {self.lon} on {self.timestamp} with suspiciousness {self.suspiciousness}>"
+        repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
+            f"{self.lon}, time: {self.timestamp}, susp {self.suspiciousness}, " + \
+            f"freq: {self.frequency}, dist {self.est_dist}m>"
+        return repr
 
     def params(self):
         return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]
+
+    def est_distance(self):
+        """
+        calcluate distance in meters of enodeb from a reading using FSPL estimate
+        (https://en.wikipedia.org/wiki/Free-space_path_loss#Free-space_path_loss_in_decibels)
+        """
+        #fspl = tx_pow + tx_gain + rx_gain - rx_pow - fade_margin
+        tx_pow = 46 # standard transmit DBm for a tower
+        rx_gain = -1# default gain setting for bladRF
+        fspl = tx_pow - self.rssi - self.rsrq + rx_gain
+        distance = 10 ** ((27.55 - (20 * math.log10(self.frequency)) + fspl)/20)
+        self.est_dist = distance
+        return distance
+
 
     def get_frequency(self):
         band_list = [

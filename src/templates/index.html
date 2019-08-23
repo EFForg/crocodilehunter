@@ -2,15 +2,16 @@
     <head>
         <title>Crocodile Hunter: {{name}} </title>
         <meta http-equiv="refresh" content="3">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     </head>
     <body>
         <h1>Crocodile Hunter</h1>
         <h2>Project: {{name}}</h2>
         <a href="/check_all">Re-calculate suspisciousness levels</a>
-        <h2>Last 10 towers!</h2>
+        <h2>Enodebs spotted</h2>
         <ul>
-            {% for tower in last_ten %}
-            <li><a href="/detail/{{tower.id}}">{{tower}}</a></li>
+            {% for row in last_ten %}
+              <li><a href="/detail/{{row[0]}}">{{row[1]}}, {{row[2]}}</a></li>
             {% endfor %}
         </ul>
         <h2>Towers</h2>

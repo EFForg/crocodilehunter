@@ -2,6 +2,7 @@
 
 import os
 import math
+from math import radians, cos, sin, asin, sqrt
 import socketserver
 from threading import Thread
 from datetime import datetime
@@ -9,6 +10,7 @@ from datetime import datetime
 import gpsd
 import numpy
 from sqlalchemy import func, text
+from scipy.optimize import minimize
 
 from database import Tower, init_db
 from wigle import Wigle
@@ -22,17 +24,23 @@ class Watchdog():
         self.disable_wigle = args.disable_wigle
         self.debug = args.debug
         self.disable_gps = args.disable_gps
+        self.logger = args.logger
+        self.config = args.config
         if not self.disable_wigle:
-            self.wigle = Wigle()
+            self.wigle = Wigle(self.config['general']['wigle_name'],
+                               self.config['general']['wigle_key'])
 
     def last_ten(self):
         return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
+
+    def get_unique_enodebs(self):
+        return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.enodeb_id).order_by(Tower.id.desc())
 
     def strongest(self):
         for row in Tower.query.filter(Tower.rssi != 0.0).filter(Tower.rssi.isnot(None)).order_by(Tower.rssi.desc())[0:10]:
             if row is None:
                 continue
-            print(f"{row}, power: {row.rssi}")
+            self.logger.debug(f"{row}, power: {row.rssi}")
 
     def get_row_by_id(self, row_id):
         return Tower.query.get(row_id)
@@ -46,20 +54,25 @@ class Watchdog():
 
     def count(self):
         num_rows = Tower.query.count()
-        num_towers = Tower.query.with_entities(Tower.cid).distinct().count()
-        print(f"Found {num_towers} towers a total of {num_rows} times")
+        num_towers = Tower.query.with_entities(Tower.enodeb_id).distinct().count()
+        self.logger.verbose(f"Found {num_towers} towers a total of {num_rows} times")
 
-    def process_tower(self, data):
-        print(f"server recd: {data}")
-        data = data.split(",")
+    def get_gps(self):
         if self.disable_gps:
-            packet = type('Packet', (object,), {'lat': 0.0, 'lon': 0.0})()
+            gps = self.config['general']['gps_default'].split(',')
+            packet = type('Packet', (object,), {'lat': float(gps[0]), 'lon': float(gps[1])})()
         else:
             gpsd.connect()
             packet = gpsd.get_current()
             while packet.lat == 0.0 and packet.lon == 0.0:
                 packet = gpsd.get_current()
 
+        return packet
+
+    def process_tower(self, data):
+        self.logger.debug(f"server recd: {data}")
+        data = data.split(",")
+        packet = self.get_gps()
         new_tower = Tower(
                 mcc = int(data[0]),
                 mnc = int(data[1]),
@@ -72,12 +85,16 @@ class Watchdog():
                 enodeb_id = float(data[8]),
                 sector_id = float(data[9]),
                 cfo = float(data[10]),
-                raw_sib1 = data[11],
-                timestamp = int(data[12]),
+                rsrq = float(data[11]),
+                snr = float(data[12]),
+                raw_sib1 = data[13],
+                timestamp = datetime.fromtimestamp(int(data[14])),
                 lat = packet.lat,
                 lon = packet.lon,
                 )
-        print(f"Adding a new tower: {new_tower}")
+
+        new_tower.est_distance()
+        self.logger.success(f"Adding a new tower: {new_tower}")
         self.db_session.add(new_tower)
         self.db_session.commit()
         self.calculate_suspiciousness(new_tower)
@@ -151,23 +168,17 @@ class Watchdog():
             if existing_tower.tac != tower.tac:
                 tower.suspiciousness += 10
 
+    def get_centroid(self, towers):
+        lats = numpy.unique([x.lat for x in towers])
+        lons = numpy.unique([x.lon for x in towers])
+        return (numpy.mean(lats), numpy.mean(lons))
+
+
+
     def check_new_location(self, tower):
         """ If it's the first time we've seen a tower in a given
         location (+- some threshold)."""
         # TODO: ask someone who has thought about this
-        # TODO: skip calculation until diameter is of a certain size ... half of 1/100th of a lat or lon.
-        existing_towers = self.db_session.query(Tower).filter(
-                Tower.mcc == tower.mcc,
-                Tower.mnc == tower.mnc,
-                Tower.cid == tower.cid,
-                Tower.phyid == tower.phyid,
-                Tower.earfcn == tower.earfcn,
-                ).all()
-
-        lats = [x.lat for x in existing_towers]
-        lons = [x.lon for x in existing_towers]
-        center_point = (numpy.mean(lats), numpy.mean(lons))
-        center_point_std_dev = (numpy.std(lats), numpy.std(lons))
         # pymcmc
         # bayseian statistics for hackers
         # distribution of points
@@ -175,11 +186,42 @@ class Watchdog():
         # what is the probability that the given point is part of thatd distribution
         # exponential lamdax
 
-        if abs(tower.lat) > abs(center_point[0] + center_point_std_dev[0]) or \
-           abs(tower.lat) < abs(center_point[0] - center_point_std_dev[0]) or \
-           abs(tower.lon) > abs(center_point[1] + center_point_std_dev[1]) or \
-           abs(tower.lon) < abs(center_point[1] - center_point_std_dev[1]):
-              tower.suspiciousness += 5 * 1000 * (abs(tower.lat - center_point[0]) - abs(tower.lon - center_point[1]))
+        existing_towers = self.db_session.query(Tower).filter(
+                Tower.mcc == tower.mcc,
+                Tower.mnc == tower.mnc,
+                Tower.enodeb_id == tower.enodeb_id,
+                ).all()
+
+        lats = numpy.unique([x.lat for x in existing_towers])
+        lons = numpy.unique([x.lon for x in existing_towers])
+        if abs(max(lats) - min(lats)) < 0.01 or abs(max(lons) - min(lons)) < 0.01:
+            # Skip calculation until diameter is of a certain size ... half of 1/100th of a lat or lon.
+            return
+
+        center_point = (numpy.mean(lats), numpy.mean(lons))
+        center_point_std_dev = (numpy.std(lats), numpy.std(lons))
+        border_point = (center_point[0] + center_point_std_dev[0], center_point[1] + center_point_std_dev[1])
+
+        self.logger.info(f"tower: {tower.lat}, {tower.lon}")
+        self.logger.info(f"center_point: {center_point}")
+
+        radius = self._get_point_distance(center_point, border_point)
+        self.logger.info(f"radius: {radius}")
+        distance = self._get_point_distance(center_point, [tower.lat, tower.lon])
+        self.logger.info(f"distance: {distance}")
+
+        if int(distance * 10000) > int(radius * 10000):
+            s_coeff = (10 * distance - radius) ** 2
+            self.logger.info('tower outside expected range')
+            self.logger.info(f'increasing suspiciousness by {s_coeff}')
+
+            tower.suspiciousness += s_coeff
+
+    def _get_point_distance(self, centerpoint, outpoint):
+        a = abs(abs(centerpoint[0]) - abs(outpoint[0]))
+        b = abs(abs(centerpoint[1]) - abs(outpoint[1]))
+        return math.sqrt(a*a + b*b)
+
 
     def check_rssi(self, tower):
         """ If a given tower has a power signal significantly stronger than we've ever seen."""
@@ -195,11 +237,11 @@ class Watchdog():
 
     def check_wigle(self, tower):
         if self.disable_wigle:
-            print("Wigle API access disabled locally!")
+            self.logger.warning("Wigle API access disabled locally!")
         else:
             #self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
             resp = self.wigle.cell_search(tower.lat, tower.lon, 0.1, tower.cid, tower.tac)
-            print("conducting a cell search: " + str(resp))
+            self.logger.debug("conducting a cell search: " + str(resp))
             if resp["resultCount"] < 1:
                 tower.suspiciousness += 20
 
@@ -210,14 +252,68 @@ class Watchdog():
         self.check_mnc(tower)
         self.check_existing_rssi(tower)
         self.check_changed_tac(tower)
-        #self.check_new_location(tower)
+        self.check_new_location(tower)
         self.check_rssi(tower)
         self.check_wigle(tower)
         self.db_session.commit()
 
+    def trilaterate_enodeb_location(self, tower):
+        """
+        perform trilateration on tower readings and distance estimates to estimate location of enodeb
+        return - tuple (est_lat, est_lon, confidence)
+        """
+        towers = Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.enodeb_id == tower.enodeb_id).group_by(func.concat(Tower.lat, Tower.lon))
+        centroid = self.get_centroid(towers)
+        print(f"count: {towers.count()}")
+        if towers.count() < 3:
+            return (centroid[0],centroid[1])
+
+        # locations: [ (lat1, long1), ... ]
+        # distances: [ distance1,     ... ]
+        locations = [(t.lat, t.lon) for t in towers]
+        distances = [t.est_dist for t in towers]
+
+        def _great_circle_distance(lat1, lon1, lat2, lon2):
+            """
+            Calculate the great circle distance between two points
+            on the earth (specified in decimal degrees)
+            """
+            # convert decimal degrees to radians
+            lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+            # haversine formula
+            dlon = lon2 - lon1
+            dlat = lat2 - lat1
+            a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+            c = 2 * asin(sqrt(a))
+            r = 6371088 # Radius of earth in meters
+            return c * r
+
+        # trilaterate(towers(lat, lon, est_dist))
+        def _mse(x, locations, distances):
+            mse = 0.0
+            for location, distance in zip(locations, distances):
+                distance_calculated = _great_circle_distance(x[0], x[1], location[0], location[1])
+                mse += math.pow(distance_calculated - distance, 2.0)
+            return mse / len(locations)
+
+        result = minimize(
+            _mse,                         # The error function
+            centroid,            # The initial guess
+            args=(locations, distances), # Additional parameters for mse
+            method='L-BFGS-B',           # The optimisation algorithm
+            options={
+                'ftol':1e-7,         # Tolerance
+                'maxiter': 1e+7      # Maximum iterations
+            })
+        location = result.x
+        print(f"result {result}")
+        self.logger.debug(f"location: {location}")
+        return location
+
     def start_daemon(self):
-        print(f"\b* Starting Watchdog")
-        print(f"\b* Creating socket {Watchdog.SOCK}")
+        self.logger.debug(f"Starting Watchdog")
+        self.logger.debug(f"Creating socket {Watchdog.SOCK}")
         if os.path.isfile(Watchdog.SOCK):
             os.remove(Watchdog.SOCK)
         RequestHandlerClass = self.create_request_handler_class(self)
@@ -226,7 +322,7 @@ class Watchdog():
         server_thread = Thread(target=self.server.serve_forever)
         server_thread.setDaemon(True)
         server_thread.start()
-        print("Watchdog server running")
+        self.logger.success("Watchdog server running")
 
     def create_request_handler_class(self, wd_inst):
         class RequestHandler(socketserver.BaseRequestHandler):
@@ -238,7 +334,7 @@ class Watchdog():
 
 
     def shutdown(self):
-        print(f"\b* Stopping Watchdog")
+        self.logger.warning(f"Stopping Watchdog")
         if hasattr(self, 'server') and self.server:
             os.remove(Watchdog.SOCK)
             self.server.shutdown()

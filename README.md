@@ -44,14 +44,8 @@ Additionally, you'll either need [Wigle](https://wigle.net/) [API credentials](h
 If you choose to enable Wigle access, you'll need to set the following environment variables (probably in your `~/.bashrc` file): `WIGLE_NAME` and `WIGLE_KEY`.
 
 ### Running
-You'll need to make a copy of `/src/ue.conf.example` in `/src` named `ue.conf` and update it to use the EARFCNs in your area. To easily figure out what EARFCNs are in use, we'd recommend installing the [Netmonitor app](https://play.google.com/store/apps/details?id=com.parizene.netmonitor) on an Android device.
+You'll need to make a copy of `/src/config.ini.example` in `/src` named `config.ini` and update it with your credentials for wigle and mysql and a default gps coordinate to use for testing.  
 
-For wigle database checks you will need to add wigle API keys to your bashrc file like so:
-
-```
-export WIGLE_NAME=<wigle name>
-export WIGLE_KEY=<wigle key>
-```
 You will want to get wigle pro API keys or you will hit your request limit very quickly.
 
 
@@ -59,7 +53,7 @@ To run the full project, use:
 
 ```
 cd src
-sudo -E ./crocodilehunter.py
+./crocodilehunter.py <arguments> -p <project name>
 ```
 
 ### Usage
@@ -79,7 +73,10 @@ optional arguments:
 
 ### Web UI
 Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
-If you turn your device into a hotspot ([ubuntu instructions](https://www.linuxuprising.com/2018/09/how-to-create-wi-fi-hotspot-in-ubuntu.html)) you can connect to the web UI from a different device such as your phone by connecting to the hotspot IP (find this out using ifconfig) on port 5000. 
+The best way to keep an eye on it on the go is to connect your laptop to a mobile hotspot and then use your phone to view the web UI (that way your computer will still have internet access for making wigle queries.)
+
+If you want to run the webUI without running the scanner simply run the following command:
+`export CH_PROJ=<project_name>; python3 webui.py`
 
 ### Migrations
 If the database is changed or if you wish to change the database you can do so with migrations. **Note:** Migrations do not need to be run when setting up a new project, only when upgrading an existing project to a new database schema. 

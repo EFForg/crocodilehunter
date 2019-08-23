@@ -12,9 +12,13 @@ import requests
 
 class Wigle():
 
-    def __init__(self):
-        self.api_name = os.environ["WIGLE_NAME"]
-        self.api_key = os.environ["WIGLE_KEY"]
+    def __init__(self, wigle_name=None, wigle_key=None):
+        if wigle_name is None:
+            self.api_name = os.environ["WIGLE_NAME"]
+            self.api_key = os.environ["WIGLE_KEY"]
+        else:
+            self.api_name = wigle_name
+            self.api_key = wigle_key
 
     def _api_request(self, api_stub, qs_params, method="GET"):
         """
@@ -27,10 +31,20 @@ class Wigle():
         # TODO raise a useful error if either env variable is missing
         query = urllib.parse.urlencode(qs_params)
         full_url = f"https://api.wigle.net/api/v2/{api_stub}?{query}"
-        print(full_url)
+        #print(full_url)
         resp = requests.request(method, full_url,
                                 auth=(self.api_name, self.api_key,))
         resp = json.loads(resp.text)
+        prev_resp = resp
+        while prev_resp['searchAfter'] is not None:
+            qs_params['searchAfter'] = prev_resp['searchAfter']
+            query = urllib.parse.urlencode(qs_params)
+            full_url = f"https://api.wigle.net/api/v2/{api_stub}?{query}"
+            #print(full_url)
+            prev_resp = json.loads(requests.request(method, full_url,
+                                    auth=(self.api_name, self.api_key,)).text)
+            resp['results'] += prev_resp['results']
+
         return resp
 
     def get_cell_detail(self, operator, lac, cid):
@@ -43,7 +57,7 @@ class Wigle():
         }
         return self._api_request("network/detail", qs_params)
 
-    def cell_search(self, lat, lon, gps_offset, cell_id, tac = None):
+    def cell_search(self, lat, lon, gps_offset, cell_id = None, tac = None):
         """ gps_offset is so that we can specify the search radius around the GPS coords."""
         # TODO: this doesn't return results as often as it should, meaning we end up marking things are more suspicious than they actually are.
         params = {
@@ -51,20 +65,34 @@ class Wigle():
             "latrange2": lat - gps_offset,
             "longrange1": lon + gps_offset,
             "longrange2": lon - gps_offset,
-            "cell_id": cell_id,
+            "showGsm": False,
+            "showCdma": False,
+            "showWcdma": False
         }
+        if cell_id is not None:
+            params["cell_id"] = tac
         if tac is not None:
             params["cell_net"] = tac
         return self._api_request("cell/search", params)
 
-#    def cell_search(self, latrange1, latrange2, longrange1, longrange2):
-#        qs_params = {
-#            "latrange1": latrange1,
-#            "latrange2": latrange2,
-#            "longrange1": longrange1,
-#            "longrange2": longrange2,
-#        }
-#        return _api_request("cell/search", qs_params)
+    def earfcn_search(self, lat, lon, offset):
+        qs_params = {
+            "latrange1": lat + offset,
+            "latrange2": lat - offset,
+            "longrange1": lon + offset,
+            "longrange2": lon - offset,
+            "showGsm": False,
+            "showCdma": False,
+            "showWcdma": False
+        }
+        res = self._api_request("cell/search", qs_params)
+
+        def _noneorzero(element):
+            return element is not None and element != 0
+
+        return set(filter(_noneorzero, [x['channel'] for x in res['results']] ))
+
+
 
     def run_test(self):
         """ Run some basic tests """
@@ -78,6 +106,9 @@ class Wigle():
 
         resp = self.cell_search(37.72, -122.156, 0.1, 8410908)
         print(f"\n=============\n{resp}\n============")
+
+        resp = self.earfcn_search(37.72, -122.156, 0.1, 8410908)
+        print(f"\n=============\nLocal EARFCN\n{resp}\n============")
 
 
 if __name__ == "__main__":

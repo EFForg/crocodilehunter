@@ -1,0 +1,11 @@
+[general]
+gps_default = 0, 0
+mysql_path = mysql://root:toor@localhost:3306
+wigle_name = AIC1234
+wigle_key = deadbeef
+
+;project specific settings
+;earfcn list will be cacluated once for each new project, or can be pre-calculated for a specific
+;project using the earfcn_list.py script.
+;[example]
+;earfcns = 1,2,3,4,5

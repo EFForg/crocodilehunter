@@ -6,6 +6,7 @@ Find stingrays in the wild. Hunt them down. Get revenge for Steve Irwin
 TODO Create logging subsystem
 """
 import argparse
+import configparser
 import itertools
 import os
 import signal
@@ -15,6 +16,7 @@ import sys
 from subprocess import Popen
 from time import sleep, strftime
 from threading import Thread
+import coloredlogs, verboselogs
 
 from watchdog import Watchdog
 from webui import Webui
@@ -41,13 +43,23 @@ class CrocodileHunter():
         self.debug = args.debug
         self.disable_gps = args.disable_gps
         self.disable_wigle = args.disable_wigle
+        self.config_fp = 'config.ini'
+        self.config = args.config = configparser.ConfigParser()
+        self.config.read(self.config_fp)
+        self.earfcn_list = []
         signal.signal(signal.SIGINT, self.signal_handler)
 
-        # Create project folder if necessary
-        self.project_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data", self.project_name)
-        if not os.path.exists(self.project_path):
-            print("Creating new project directory: " + self.project_path)
-            os.mkdir(self.project_path)
+        if self.project_name not in self.config:
+            self.config[self.project_name] = {}
+
+        # Set up logging
+        self.logger = args.logger = verboselogs.VerboseLogger("crocodile-hunter")
+        fmt=f"\b * %(asctime)s {self.project_name} - %(levelname)s %(message)s"
+        if(self.debug):
+            log_level = "DEBUG"
+        else:
+            log_level = "VERBOSE"
+        coloredlogs.install(level=log_level, fmt=fmt, datefmt='%H:%M:%S')
 
         self.watchdog = Watchdog(args)
 
@@ -62,9 +74,16 @@ class CrocodileHunter():
             args = "./bootstrap.sh -g"
         else:
             args = "./bootstrap.sh"
-        try:
-            subprocess.run(args, shell=True, check=True)
-        except subprocess.CalledProcessError:
+
+        proc = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+        for stdout_line in iter(proc.stdout.readline, b""):
+            self.logger.info(stdout_line.decode("utf-8").rstrip())
+        proc.stdout.close()
+        return_code = proc.wait()
+
+        if return_code:
+            self.logger.critical("Bootstrapping failed")
             self.cleanup(True)
 
         #Start watchdog dæmon
@@ -75,31 +94,37 @@ class CrocodileHunter():
         webui.start_daemon()
 
         # Monitor and restart srsUE if it crashes
+        self.update_earfcn_list()
         proc = self.start_srslte()
         self.subprocs.append(proc)
         monitor = Thread(target=self.monitor_srslte, args=(proc,))
         monitor.start()
         self.threads.append(monitor)
 
-    # Exit gracefully on SIGINT
     def signal_handler(self, sig, frame):
-        print(f"\b\b{bcolors.WARNING}I{bcolors.ENDC} You pressed Ctrl+C!")
+        """ Exit gracefully on SIGINT """
+        self.logger.critical("You pressed Ctrl+C!")
         self.cleanup()
+
+    def update_earfcn_list(self):
+        """ call to wigle to update the local EARFCN list or use a statically configured list """
+        if 'earfcns' in self.config[self.project_name]:
+            self.earfcn_list = map(int, self.config[self.project_name]['earfcns'].split(','))
+        else:
+            self.logger.warning("Getting earcn list for the first time, this might take a while")
+            gps = self.watchdog.get_gps()
+            self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
+            self.config[self.project_name]['earfcns'] = ",".join(map(str, self.earfcn_list))
+        self.logger.notice(f"Using earfcn list {self.config[self.project_name]['earfcns']}")
 
     def start_srslte(self):
         # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
         """ Start srsUE """
-#        pcap_file = f"ue{strftime('%Y%m%d-%H%M%S')}.pcap"
-#        pcap_file = os.path.join(self.project_path, pcap_file)
-#        nas_pcap_file = f"nas-ue{strftime('%Y%m%d-%H%M%S')}.pcap"
-#        nas_pcap_file = os.path.join(self.project_path, nas_pcap_file)
-
-        print(f"\b{bcolors.OK}*{bcolors.ENDC} Running srsUE")
-#        proc = Popen(["./srsLTE/build/srsue/src/srsue", "./ue.conf", "--pcap.filename",
-#            pcap_file, "--pcap.nas_filename", nas_pcap_file], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        proc = Popen(["./srsLTE/build/lib/examples/cell_measurement", "-z", "900,2325,5255,5815,4412,2585"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        print(f"\b{bcolors.OK}*{bcolors.ENDC} srsUE started with pid {proc.pid}")
-        print(f"\b{bcolors.OK}*{bcolors.ENDC} Tail /tmp/ue.log to see output")
+        earfcns = ",".join(map(str, self.earfcn_list))
+        self.logger.info(f"EARFCNS: {earfcns}")
+        self.logger.info(f"Running srsUE")
+        proc = Popen(["./srsLTE/build/lib/examples/cell_measurement", "-z", earfcns], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        self.logger.success(f"srsUE started with pid {proc.pid}")
         return proc
 
     def monitor_srslte(self, proc):
@@ -112,17 +137,18 @@ class CrocodileHunter():
         line = ''
         while not EXIT:
             line = nbsr.readline(CRASH_TIMEOUT)
-            if self.debug and (line is not None):
-                print(line.decode("ascii").rstrip())
+            if line is not None:
+                self.logger.debug(line.decode("ascii").rstrip())
             out.append(line)
 
             if proc.poll() is not None or line is None:
-                print(f"\b{bcolors.FAIL}E{bcolors.ENDC} srsUE has exited unexpectedly")
+                self.logger.warning(f"srsUE has exited unexpectedly")
                 try:
-                    print(f"\b{bcolors.FAIL}E{bcolors.ENDC} It's dying words were: {out[-2].decode('ascii').rstrip()}")
+                    self.logger.warning(f"It's dying words were: {out[-2].decode('ascii').rstrip()}")
                 except IndexError as e:
                     pass
                 proc.kill()
+                self.update_earfcn_list()
                 proc = self.start_srslte()
                 self.monitor_srslte(proc)
 
@@ -138,8 +164,13 @@ class CrocodileHunter():
 
     def cleanup(self, error=False):
         """ Gracefully exit when program is quit """
-        print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Exiting...")
         global EXIT
+
+        self.logger.error(f"Exiting...")
+
+        with open(self.config_fp, 'w') as cf:
+            self.config.write(cf)
+
         EXIT = True
         for thread in self.threads:
             thread.join()
@@ -147,18 +178,8 @@ class CrocodileHunter():
             proc.kill()
         subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
         self.watchdog.shutdown()
-        print(f"\b{bcolors.WARNING}I{bcolors.ENDC} Goodbye for now.")
+        self.logger.success(f"See you space cowboy...")
         os._exit(int(error))
-
-class bcolors:
-    """ colors for text """
-    HEADER = '\033[95m'
-    OK = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
@@ -166,6 +187,25 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true',)
     parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
     parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
+
+
+    # Clear screen
+    print(chr(27)+'[2j')
+    print('\033c')
+    print('\x1bc')
+
+    print("\033[0;31m") #Red
+    print(" ▄████▄   ██▀███   ▒█████   ▄████▄   ▒█████  ▓█████▄  ██▓ ██▓    ▓█████     ██░ ██  █    ██  ███▄    █ ▄▄▄█████▓▓█████  ██▀███  ")
+    print("▒██▀ ▀█  ▓██ ▒ ██▒▒██▒  ██▒▒██▀ ▀█  ▒██▒  ██▒▒██▀ ██▌▓██▒▓██▒    ▓█   ▀    ▓██░ ██▒ ██  ▓██▒ ██ ▀█   █ ▓  ██▒ ▓▒▓█   ▀ ▓██ ▒ ██▒")
+    print("▒▓█    ▄ ▓██ ░▄█ ▒▒██░  ██▒▒▓█    ▄ ▒██░  ██▒░██   █▌▒██▒▒██░    ▒███      ▒██▀▀██░▓██  ▒██░▓██  ▀█ ██▒▒ ▓██░ ▒░▒███   ▓██ ░▄█ ▒")
+    print("▒▓▓▄ ▄██▒▒██▀▀█▄  ▒██   ██░▒▓▓▄ ▄██▒▒██   ██░░▓█▄   ▌░██░▒██░    ▒▓█  ▄    ░▓█ ░██ ▓▓█  ░██░▓██▒  ▐▌██▒░ ▓██▓ ░ ▒▓█  ▄ ▒██▀▀█▄  ")
+    print("▒ ▓███▀ ░░██▓ ▒██▒░ ████▓▒░▒ ▓███▀ ░░ ████▓▒░░▒████▓ ░██░░██████▒░▒████▒   ░▓█▒░██▓▒▒█████▓ ▒██░   ▓██░  ▒██▒ ░ ░▒████▒░██▓ ▒██▒")
+    print("░ ░▒ ▒  ░░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ░▒ ▒  ░░ ▒░▒░▒░  ▒▒▓  ▒ ░▓  ░ ▒░▓  ░░░ ▒░ ░    ▒ ░░▒░▒░▒▓▒ ▒ ▒ ░ ▒░   ▒ ▒   ▒ ░░   ░░ ▒░ ░░ ▒▓ ░▒▓░")
+    print("  ░  ▒     ░▒ ░ ▒░  ░ ▒ ▒░   ░  ▒     ░ ▒ ▒░  ░ ▒  ▒  ▒ ░░ ░ ▒  ░ ░ ░  ░    ▒ ░▒░ ░░░▒░ ░ ░ ░ ░░   ░ ▒░    ░     ░ ░  ░  ░▒ ░ ▒░")
+    print("░          ░░   ░ ░ ░ ░ ▒  ░        ░ ░ ░ ▒   ░ ░  ░  ▒ ░  ░ ░      ░       ░  ░░ ░ ░░░ ░ ░    ░   ░ ░   ░         ░     ░░   ░ ")
+    print("░ ░         ░         ░ ░  ░ ░          ░ ░     ░     ░      ░  ░   ░  ░    ░  ░  ░   ░              ░             ░  ░   ░     ")
+    print("\033[0m") # No Color
+
     args = parser.parse_args()
     crocodile_hunter = CrocodileHunter(args)
     crocodile_hunter.start()
