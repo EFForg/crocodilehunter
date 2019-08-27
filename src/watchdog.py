@@ -6,11 +6,13 @@ from math import radians, cos, sin, asin, sqrt
 import socketserver
 from threading import Thread
 from datetime import datetime
+from geopy.distance import vincenty
 
 import gpsd
 import numpy
 from sqlalchemy import func, text
 from scipy.optimize import minimize
+
 
 from database import Tower, init_db
 from wigle import Wigle
@@ -45,12 +47,17 @@ class Watchdog():
     def get_row_by_id(self, row_id):
         return Tower.query.get(row_id)
 
-    def get_similar_towers(self, tower):
-        """ Gets towers with similar mnc, mcc, and tac."""
-        return Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.enodeb_id == tower.enodeb_id)
+    def get_similar_towers(self, tower, trilat=False):
+        towers = self.get_towers_by_enodeb(tower.mnc, tower.mcc, tower.enodeb_id)
 
-    def get_towers_by_cid(self, cid):
-        return Tower.query.filter(Tower.cid == cid)
+        return towers
+
+    def get_towers_by_enodeb(self, mnc, mcc, enodeb_id):
+        """ Gets towers with similar mnc, mcc, and tac."""
+        return Tower.query.filter(Tower.mnc == mnc).filter(Tower.mcc == mcc).filter(Tower.enodeb_id == enodeb_id)
+
+    def get_towers_by_cid(self, mnc, mcc, cid):
+        return Tower.query.filter(Tower.mnc == mnc).filter(Tower.mcc == mcc).filter(Tower.cid == cid)
 
     def count(self):
         num_rows = Tower.query.count()
@@ -257,15 +264,14 @@ class Watchdog():
         self.check_wigle(tower)
         self.db_session.commit()
 
-    def trilaterate_enodeb_location(self, tower):
+    def trilaterate_enodeb_location(self, towers):
         """
         perform trilateration on tower readings and distance estimates to estimate location of enodeb
         return - tuple (est_lat, est_lon, confidence)
         """
-        towers = Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.enodeb_id == tower.enodeb_id).group_by(func.concat(Tower.lat, Tower.lon))
         centroid = self.get_centroid(towers)
-        print(f"count: {towers.count()}")
-        if towers.count() < 3:
+        towers = towers.group_by(func.concat(func.round(Tower.lat,3), Tower.lon)).all()
+        if len(towers) < 3:
             return (centroid[0],centroid[1])
 
         # locations: [ (lat1, long1), ... ]
@@ -297,17 +303,18 @@ class Watchdog():
                 mse += math.pow(distance_calculated - distance, 2.0)
             return mse / len(locations)
 
+
         result = minimize(
             _mse,                         # The error function
             centroid,            # The initial guess
             args=(locations, distances), # Additional parameters for mse
             method='L-BFGS-B',           # The optimisation algorithm
             options={
-                'ftol':1e-7,         # Tolerance
-                'maxiter': 1e+7      # Maximum iterations
+                'ftol':1e-5,         # Tolerance
+                'maxiter': 1000      # Maximum iterations
             })
-        location = result.x
         print(f"result {result}")
+        location = result.x
         self.logger.debug(f"location: {location}")
         return location
 
