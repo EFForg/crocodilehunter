@@ -4,7 +4,7 @@ import math
 
 import configparser
 
-from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, create_engine, func, text
+from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, Text, create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import create_database, database_exists
@@ -120,3 +120,13 @@ class Tower(Base):
     def get_sector_id(self):
         # The last 8 bits are sector id.
         return self.cid & 255
+
+class KnownTower(Base):
+    __tablename__ = "known_towers"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    lat = Column(Float)
+    lon = Column(Float)
+    description = Column(Text)
+
+
