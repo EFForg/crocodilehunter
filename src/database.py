@@ -68,10 +68,11 @@ class Tower(Base):
         (https://en.wikipedia.org/wiki/Free-space_path_loss#Free-space_path_loss_in_decibels)
         """
         #fspl = tx_pow + tx_gain + rx_gain - rx_pow - fade_margin
-        tx_pow = 46 # standard transmit DBm for a tower
+        tx_pow = 10 # standard transmit DBm for a tower
         rx_gain = -1# default gain setting for bladRF
+        plc = 2.2 # path loss coefficient
         fspl = tx_pow - self.rssi - self.rsrq + rx_gain
-        distance = 10 ** ((27.55 - (20 * math.log10(self.frequency)) + fspl)/20)
+        distance = 10 ** ((27.55 - ((10 * plc) * math.log10(self.frequency)) + fspl)/(10 * plc))
         self.est_dist = distance
         return distance
 
