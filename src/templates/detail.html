@@ -36,7 +36,7 @@
 
             var point;
             var points = [];
-            var opacity = 1.2 / {{num_towers}}
+            var opacity = 0.2
             {% for t in similar_towers %}
               // Don't display towers which have no GPS data attached
               if ({{t.lat}} != 0 && {{t.lon}} != 0) {
@@ -51,7 +51,7 @@
                   fillOpacity: opacity,
                   map: map,
                   center: point,
-                  radius: {{t.est_dist}}
+                  radius: {{t.est_dist * 10}}
                 });
               }
             {% endfor %}
