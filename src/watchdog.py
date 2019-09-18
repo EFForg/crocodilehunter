@@ -7,6 +7,7 @@ import socketserver
 from threading import Thread
 from datetime import datetime
 from geopy.distance import vincenty
+from types import SimpleNamespace
 
 import gpsd
 import numpy
@@ -14,7 +15,7 @@ from sqlalchemy import func, text
 from scipy.optimize import minimize
 
 
-from database import Tower, init_db
+from database import Tower, KnownTower, init_db
 from wigle import Wigle
 
 class Watchdog():
@@ -58,6 +59,33 @@ class Watchdog():
 
     def get_towers_by_cid(self, mnc, mcc, cid):
         return Tower.query.filter(Tower.mnc == mnc).filter(Tower.mcc == mcc).filter(Tower.cid == cid)
+
+    def get_trilateration_points(self):
+        points = []
+        cells = {}
+        enbys = Tower.query.group_by(func.concat(Tower.mcc, Tower.mnc, Tower.cid))
+        print(enbys)
+        for enb in enbys:
+            enbid = enb.enodeb_id
+            if not enbid in cells:
+                cells[enbid] = []
+            towers = Tower.query.filter(Tower.mnc == enb.mnc).filter(Tower.mcc == enb.mcc).filter(Tower.cid == enb.cid)
+            towers = towers.group_by(func.concat(func.round(Tower.lat,3), Tower.lon))
+            print(f"towers: {towers.all()}")
+            if towers.count() > 3:
+                res = self.trilaterate_enodeb_location(towers)
+                cells[enbid].append(SimpleNamespace(lat=res[0], lon=res[1], est_dist=50))
+
+        for i in cells:
+            print(f"cells[{i}] = {cells[i]}")
+            if len(cells[i]) > 3:
+                res = self.trilaterate_enodeb_location(cells[i], False)
+                points.append((res[0], res[1], i))
+
+        return points
+
+    def get_known_towers(self):
+        return KnownTower.query.all()
 
     def count(self):
         num_rows = Tower.query.count()
@@ -264,15 +292,16 @@ class Watchdog():
         self.check_wigle(tower)
         self.db_session.commit()
 
-    def trilaterate_enodeb_location(self, towers):
+    def trilaterate_enodeb_location(self, towers, run_checks=True):
         """
         perform trilateration on tower readings and distance estimates to estimate location of enodeb
         return - tuple (est_lat, est_lon, confidence)
         """
         centroid = self.get_centroid(towers)
-        towers = towers.group_by(func.concat(func.round(Tower.lat,3), Tower.lon)).all()
-        if len(towers) < 3:
-            return (centroid[0],centroid[1])
+        if run_checks:
+            towers = towers.group_by(func.concat(func.round(Tower.lat,3), Tower.lon)).all()
+            if len(towers) < 3:
+                return (centroid[0],centroid[1])
 
         # locations: [ (lat1, long1), ... ]
         # distances: [ distance1,     ... ]

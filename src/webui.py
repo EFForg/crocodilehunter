@@ -26,12 +26,12 @@ class Webui:
         self.add_endpoint("/", "index", self.index)
         self.add_endpoint("/check_all", "checkall", self.check_all)
         self.add_endpoint("/detail/<row_id>", "detail", self.detail)
+        self.add_endpoint("/map", "map", self.map)
 
         app_thread = Thread(target=self.app.run, kwargs={'host':'0.0.0.0'})
         app_thread.start()
 
     def index(self):
-        #last_ten = [t[1] for t in self.watchdog.last_ten()]
         last_ten = self.watchdog.get_unique_enodebs()
         return render_template('index.html', name=self.watchdog.project_name,
                                towers=self.watchdog.get_all_by_suspicioussnes(),
@@ -52,6 +52,17 @@ class Webui:
                 similar_towers = similar_towers,
                 num_towers = similar_towers.count(),
                 centroid = centroid)
+    def map(self):
+        # trilat_points = [(lat, long, enodeb_id), ...]
+        trilat_pts = self.watchdog.get_trilateration_points()
+        known_towers = self.watchdog.get_known_towers()
+        if len(trilat_pts) == 0:
+            return("nothing to see yet")
+
+        return render_template('map.html', name=self.watchdog.project_name,
+                               trilat_pts = trilat_pts,
+                               known_towers = known_towers)
+
 
     def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None):
         self.app.add_url_rule(endpoint, endpoint_name, EndpointAction(handler))

@@ -45,13 +45,13 @@
                 points.push(point);
                 new google.maps.Circle({
                   strokeColor: '#FF0000',
-                  strokeOpacity: 0,
+                  strokeOpacity: 1,
                   strokeWeight: 2,
                   fillColor: '#FF0000',
-                  fillOpacity: opacity,
+                  fillOpacity: 0,
                   map: map,
                   center: point,
-                  radius: {{t.est_dist * 10}}
+                  radius: {{t.est_dist}}
                 });
               }
             {% endfor %}

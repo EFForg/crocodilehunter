@@ -125,8 +125,8 @@ class KnownTower(Base):
     __tablename__ = "known_towers"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    lat = Column(Float)
-    lon = Column(Float)
+    lat = Column(Float(32))
+    lon = Column(Float(32))
     description = Column(Text)
 
 
