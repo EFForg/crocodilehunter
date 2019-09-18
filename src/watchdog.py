@@ -122,8 +122,10 @@ class Watchdog():
                 cfo = float(data[10]),
                 rsrq = float(data[11]),
                 snr = float(data[12]),
-                raw_sib1 = data[13],
-                timestamp = datetime.fromtimestamp(int(data[14])),
+                rsrp = float(data[13]),
+                tx_pwr = float(data[14]),
+                raw_sib1 = data[15],
+                timestamp = datetime.fromtimestamp(int(data[16])),
                 lat = packet.lat,
                 lon = packet.lon,
                 )
