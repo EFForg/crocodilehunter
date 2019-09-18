@@ -88,6 +88,11 @@ Change the database schema in src/database.py then run
 To run migrations:
 `export CH_PROJ=wardrive; sudo -E python3 ./webui.py db upgrade`
 
+### Importing known towers:
+`curl http://ge.fccinfo.com/googleEarthASR.php?LOOK=-122.2092858690129,37.71980519866521,50915.07,0,60.7 | grep coordinates`
+vim `%s/\s*<coordinates>\([0-9\.\-]*\),\([0-9\.\-]*\),0<.coordinates>/\2,\1,imported from ge.fccinfo.com/g`
+`python3 src/add_known_towers.py <project> <csv_file>
+
 ### Misc
 
 \* It's named *Crocodile Hunter* because a stingray killed Steve Irwin.
