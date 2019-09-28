@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block container %}
+  <div id="map" class="jumbotron"></div>
+  <script>
+    var map;
+    function initMap() {
+      var bounds = new google.maps.LatLngBounds();
+      var trilat = new google.maps.LatLng({{trilat[0]}}, {{trilat[1]}});
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: trilat,
+        zoom: 15
+      });
+
+      bounds.extend(trilat);
+      new google.maps.Marker({
+        position: trilat,
+        map: map,
+        label:'Trilateration',
+        title:""+trilat.lat()+", "+trilat.lng()+""
+      });
+
+      var point;
+      var points = [];
+      var opacity = 0.2
+      {% for t in known_towers %}
+          point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
+          new google.maps.Marker({position: point, map: map, title:"{{t.description}}", icon:"http://icons.iconarchive.com/icons/icons8/windows-8/24/Industry-Radio-Tower-icon.png"});
+      /*
+          new google.maps.Circle({
+            strokeColor: '#000000',
+            strokeOpacity: 1,
+            strokeWeight: 1,
+            fillColor: '#00FF00',
+            fillOpacity: 0.5,
+            map: map,
+            center: point,
+            radius: 100
+          });
+          */
+      {% endfor %}
+      {% for t in sightings %}
+        // Don't display towers which have no GPS data attached
+        if ({{t.lat}} != 0 && {{t.lon}} != 0) {
+          point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
+          //new google.maps.Marker({position: point, map: map, title:""+point.lat()+", "+point.lng()+"" });
+          points.push(point);
+          new google.maps.Circle({
+            strokeColor: '#FF0000', strokeOpacity: 0.5,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0,
+            map: map,
+            center: point,
+            radius: {{t.est_dist}}
+          });
+        }
+      {% endfor %}
+      for (let p of points) {
+        bounds.extend(p);
+      }
+      map.fitBounds(bounds);
+    }
+  </script>
+  <h2>Details</h2>
+  <div class='bs-component table-responsive'>
+    <table class="table table-striped">
+      <tbody>
+      {% for k in details %}
+        <tr><th scope='row'>{{ k.replace('_', ' ').title() }}</th><td> {{ details[k] }}</td></tr>
+      {% endfor %}
+      <tr><th scope='row'>Trilateration</th><td>{{trilat[0]}}, {{trilat[1]}}</td></tr>
+      <tbody>
+    </table>
+  </div>
+  <h2>{{details['number_of_sightings']}} Sightings for This eNodeB</h2>
+  <div class='bs-component table-responsive'>
+    <table class="table table-hover table-striped data-table table-sm">
+      <thead class="thead-light ">
+      <tr>
+          <th>Ⓐ</th>
+          {% for p in showcols%}
+            {% if p == "suspiciousness" %}
+              <th>sus</th>
+            {% elif p == "sector_id" %}
+              <th>sid</th>
+            {% elif p == "frequency" %}
+              <th>Mhz</th>
+            {% else %}
+              <th>{{ p }}</th>
+            {% endif %}
+          {% endfor %}
+      </tr>
+      </thead>
+      <tbody>
+      {% for tower in sightings%}
+          <tr>
+              <td><a href="/detail/{{ tower.id }}">Ⓐ</a></td>
+              {% for col in showcols %}
+              <td>{{ tower[col] }}</td>
+              {% endfor %}
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

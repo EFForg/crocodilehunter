@@ -1,95 +1,85 @@
-<html>
-    <head>
-        <title>Crocodile Hunter: {{name}} </title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    </head>
-    <body>
-        <h1>Crocodile Hunter</h1>
-        <h2>Project: {{name}}</h2>
-        <div id="map"></div>
-        <script>
-          var map;
-          function initMap() {
-            var bounds = new google.maps.LatLngBounds();
-            var centroid = new google.maps.LatLng({{centroid[0]}}, {{centroid[1]}});
-            map = new google.maps.Map(document.getElementById('map'), {
-              center: centroid,
-              zoom: 15
-            });
+{% extends 'base.html' %}
 
-            /*
-            var centerpoint = new google.maps.Marker({
-              position: centroid,
-              map: map,
-              label:'Centroid',
-              title:""+centroid.lat()+", "+centroid.lng()+""
-            });
-            */
-            var trilat = new google.maps.LatLng({{trilat[0]}}, {{trilat[1]}});
-            bounds.extend(trilat);
-            new google.maps.Marker({
-              position: trilat,
-              map: map,
-              label:'Trilateration',
-              title:""+trilat.lat()+", "+trilat.lng()+""
-            });
+{% block container %}
+  <div id="map"></div>
+  <script>
+    var map;
+    function initMap() {
+      var bounds = new google.maps.LatLngBounds();
+      var centroid = new google.maps.LatLng({{centroid[0]}}, {{centroid[1]}});
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: centroid,
+        zoom: 15
+      });
 
-            var point;
-            var points = [];
-            var opacity = 0.2
-            {% for t in similar_towers %}
-              // Don't display towers which have no GPS data attached
-              if ({{t.lat}} != 0 && {{t.lon}} != 0) {
-                point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
-                //new google.maps.Marker({position: point, map: map, title:""+point.lat()+", "+point.lng()+"" });
-                points.push(point);
-                new google.maps.Circle({
-                  strokeColor: '#FF0000',
-                  strokeOpacity: 1,
-                  strokeWeight: 2,
-                  fillColor: '#FF0000',
-                  fillOpacity: 0,
-                  map: map,
-                  center: point,
-                  radius: {{t.est_dist}}
-                });
-              }
-            {% endfor %}
-            for (let p of points) {
-              bounds.extend(p);
-            }
-            map.fitBounds(bounds);
-          }
-        </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaSz9Z1-Gx8qwbCF7krj76K4l7msf-eHA&callback=initMap"
-        async defer></script>
+     /*
+      var centerpoint = new google.maps.Marker({
+        position: centroid,
+        map: map,
+        label:'Centroid',
+        title:""+centroid.lat()+", "+centroid.lng()+""
+      });
+      */
+      var trilat = new google.maps.LatLng({{trilat[0]}}, {{trilat[1]}});
+      bounds.extend(trilat);
+      new google.maps.Marker({
+        position: trilat,
+        map: map,
+        label:'Trilateration',
+        title:""+trilat.lat()+", "+trilat.lng()+""
+      });
 
-        <ul>
-            {% for col in tower.params() %}
-            <li>{{ col }}: {{ tower[col] }}</li>
-            {% endfor %}
-            <li>Frequency: {{ tower.get_frequency() }}</li>
-            <li>Sector id: {{ tower.get_sector_id() }}</li>
-            <li>eNodeB id: {{ tower.get_enodeb_id() }}</li>
-        </ul>
-        <h2>{{num_towers}} other sightings for this enodeb</h2>
-        <table border="1">
-            <tr>
-                {% for p in tower.params() %}
-                <th>{{ p }}</th>
-                {% endfor %}
-                <th>Link!!!</th>
-            </tr>
-            {% for tower in similar_towers %}
-                <tr>
-                    {% for col in tower.params() %}
-                    <td>{{ tower[col] }}</td>
-                    {% endfor %}
-                    <td><a href="/detail/{{ tower.id }}">Link!!!</a></td>
-                </tr>
-            {% endfor %}
-        </table>
-    </body>
-</html>
+      var point;
+      var points = [];
+      var opacity = 0.2
+      {% for t in similar_towers %}
+        // Don't display towers which have no GPS data attached
+        if ({{t.lat}} != 0 && {{t.lon}} != 0) {
+          point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
+          //new google.maps.Marker({position: point, map: map, title:""+point.lat()+", "+point.lng()+"" });
+          points.push(point);
+          new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 1,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0,
+            map: map,
+            center: point,
+            radius: {{t.est_dist}}
+          });
+        }
+      {% endfor %}
+      for (let p of points) {
+        bounds.extend(p);
+      }
+      map.fitBounds(bounds);
+    }
+  </script>
 
-
+  <ul>
+      {% for col in tower.params() %}
+      <li>{{ col }}: {{ tower[col] }}</li>
+      {% endfor %}
+      <li>Frequency: {{ tower.get_frequency() }}</li>
+      <li>Sector id: {{ tower.get_sector_id() }}</li>
+      <li>eNodeB id: {{ tower.get_enodeb_id() }}</li>
+  </ul>
+  <h2>{{num_towers}} other sightings for this enodeb</h2>
+  <table border="1">
+      <tr>
+          {% for p in tower.params() %}
+          <th>{{ p }}</th>
+          {% endfor %}
+          <th>Link!!!</th>
+      </tr>
+      {% for tower in similar_towers %}
+          <tr>
+              {% for col in tower.params() %}
+              <td>{{ tower[col] }}</td>
+              {% endfor %}
+              <td><a href="/detail/{{ tower.id }}">Link!!!</a></td>
+          </tr>
+      {% endfor %}
+  </table>
+{% endblock %}

@@ -24,18 +24,41 @@ class Webui:
 
         #Add each endpoint manually
         self.add_endpoint("/", "index", self.index)
+        self.add_endpoint("/home", "home", self.index)
         self.add_endpoint("/check_all", "checkall", self.check_all)
         self.add_endpoint("/detail/<row_id>", "detail", self.detail)
+        self.add_endpoint("/enb_detail/<enodeb_id>", "enb_detail", self.enb_detail)
         self.add_endpoint("/map", "map", self.map)
+        self.add_endpoint("/addknowntower", "addknowntower", self.add_known_tower)
 
         app_thread = Thread(target=self.app.run, kwargs={'host':'0.0.0.0'})
         app_thread.start()
 
     def index(self):
-        last_ten = self.watchdog.get_unique_enodebs()
+        trilat_pts = []
+        enodebs = []
+        known_towers = self.watchdog.get_known_towers()
+        towers = self.watchdog.get_unique_enodebs()
+        for t in towers:
+            self.watchdog.get_max_column_by_enodeb
+            sightings = self.watchdog.get_sightings_for_enodeb(t)
+
+            trilat = self.watchdog.trilaterate_enodeb_location(sightings)
+            trilat_pts.append(trilat)
+            enodebs.append({
+                "enodeb_id": t.enodeb_id,
+                "closest_tower": self.watchdog.closest_known_tower(trilat[0], trilat[1]),
+                "unique_cells": self.watchdog.get_cells_count_for_enodebid(t),
+                "sightings": sightings.count(),
+                "max_suspiciousness": self.watchdog.get_max_column_by_enodeb(t, 'suspiciousness'),
+                "first_seen": self.watchdog.get_min_column_by_enodeb(t, 'timestamp'),
+                "last_seen": self.watchdog.get_max_column_by_enodeb(t, 'timestamp')
+
+            })
         return render_template('index.html', name=self.watchdog.project_name,
-                               towers=self.watchdog.get_all_by_suspicioussnes(),
-                               last_ten=last_ten)
+                                trilat_pts = trilat_pts,
+                                known_towers = known_towers,
+                                enodebs=enodebs)
     def check_all(self):
         self.watchdog.check_all()
         return redirect('/')
@@ -52,6 +75,49 @@ class Webui:
                 similar_towers = similar_towers,
                 num_towers = similar_towers.count(),
                 centroid = centroid)
+
+    def enb_detail(self, enodeb_id):
+        t = self.watchdog.get_enodeb(enodeb_id)
+        known_towers = self.watchdog.get_known_towers()
+        sightings = self.watchdog.get_sightings_for_enodeb(t)
+        trilat = self.watchdog.trilaterate_enodeb_location(sightings)
+        hidecols = [
+            "lat",
+            "lon",
+            "raw_sib1",
+            "id",
+            "mcc",
+            "mnc",
+            "tac",
+            "enodeb_id",
+        ]
+        showcols = list(set(t.params()) - set(hidecols))
+        showcols.sort()
+        details = {
+            "enodeb_id": t.enodeb_id,
+            "max_suspiciousness": self.watchdog.get_max_column_by_enodeb(t, 'suspiciousness'),
+            "closest_known_tower": self.watchdog.closest_known_tower(trilat[0], trilat[1]),
+            "PLMN": f"{t.mcc}_{t.mnc}_{t.tac}",
+            "min_power": self.watchdog.get_min_column_by_enodeb(t, 'tx_pwr'),
+            "max_power": self.watchdog.get_max_column_by_enodeb(t, 'tx_pwr'),
+            "unique_cells": self.watchdog.get_cells_count_for_enodebid(t),
+            "number_of_sightings": sightings.count(),
+            "first_seen": self.watchdog.get_min_column_by_enodeb(t, 'timestamp'),
+            "last_seen": self.watchdog.get_max_column_by_enodeb(t, 'timestamp')
+
+        }
+
+        return render_template('enb_detail.html', name=self.watchdog.project_name,
+                tower = t,
+                trilat = trilat,
+                details = details,
+                showcols = showcols,
+                known_towers = known_towers,
+                sightings = sightings)
+
+    def add_known_tower(self):
+        return render_template('add_known_tower.html')
+
     def map(self):
         # trilat_points = [(lat, long, enodeb_id), ...]
         trilat_pts = self.watchdog.get_trilateration_points()

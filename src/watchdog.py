@@ -37,7 +37,40 @@ class Watchdog():
         return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
 
     def get_unique_enodebs(self):
-        return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.enodeb_id).order_by(Tower.id.desc())
+        return self.db_session.query(Tower).group_by(func.concat(Tower.mnc, Tower.mcc, Tower.tac, Tower.enodeb_id)).order_by(Tower.id.desc())
+
+    def get_enodeb(self, enodeb_id):
+        return self.db_session.query(Tower).filter(Tower.enodeb_id == enodeb_id).first()
+
+    def get_unique_phyids(self):
+        return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(func.concat(Tower.mnc, Tower.mcc, Tower.tac, Tower.phyid)).order_by(Tower.id.desc())
+
+    def get_sightings_for_enodeb(self, t):
+        return self.db_session.query(Tower).filter(Tower.mnc == t.mnc, Tower.mcc == t.mcc, Tower.tac == t.tac, Tower.enodeb_id == t.enodeb_id)
+
+    def get_cells_count_for_enodebid(self, t):
+        return self.get_sightings_for_enodeb(t).group_by(Tower.cid).count()
+
+    def get_max_column_by_enodeb(self, t, colname):
+        row = self.get_sightings_for_enodeb(t).add_columns(func.max(getattr(Tower, colname))).first()
+        return row[1]
+
+    def get_min_column_by_enodeb(self, t, colname):
+        row = self.get_sightings_for_enodeb(t).add_columns(func.min(getattr(Tower, colname))).first()
+        return row[1]
+
+    def closest_known_tower(self, lat, lon):
+        r = 6371088 # Radius of earth in meters
+        stmt = text(f" \
+            SELECT id, ( {r} * acos(cos(radians({lat})) * cos(radians(known_towers.lat))\
+            * cos(radians(known_towers.lon) - radians({lon})) + sin(radians({lat}))\
+            * sin(radians(known_towers.lat )))) AS dist FROM known_towers ORDER BY\
+            dist")
+        q = self.db_session.query(KnownTower).from_statement(stmt)
+        kt = q.first()
+        dist = self._great_circle_distance(lat, lon, kt.lat, kt.lon)
+
+        return(dist)
 
     def strongest(self):
         for row in Tower.query.filter(Tower.rssi != 0.0).filter(Tower.rssi.isnot(None)).order_by(Tower.rssi.desc())[0:10]:
@@ -48,10 +81,10 @@ class Watchdog():
     def get_row_by_id(self, row_id):
         return Tower.query.get(row_id)
 
-    def get_similar_towers(self, tower, trilat=False):
-        towers = self.get_towers_by_enodeb(tower.mnc, tower.mcc, tower.enodeb_id)
-
-        return towers
+    def get_similar_towers(self, tower):
+        return Tower.query.filter(Tower.mnc == tower.mnc).filter(Tower.mcc == tower.mcc).filter(Tower.phyid == tower.phyid).filter(Tower.tac == tower.tac)
+        #towers = self.get_towers_by_enodeb(tower.mnc, tower.mcc, tower.enodeb_id)
+        #return towers
 
     def get_towers_by_enodeb(self, mnc, mcc, enodeb_id):
         """ Gets towers with similar mnc, mcc, and tac."""
@@ -60,25 +93,33 @@ class Watchdog():
     def get_towers_by_cid(self, mnc, mcc, cid):
         return Tower.query.filter(Tower.mnc == mnc).filter(Tower.mcc == mcc).filter(Tower.cid == cid)
 
+    def get_rough_trilateration_points(self):
+        points = []
+        enbys = self.get_unique_enodebs()
+        for enb in enbys:
+            towers = self.get_sightings_for_enodeb(enb).group_by(func.concat(func.round(Tower.lat,3), Tower.lon))
+            if towers.count() > 3:
+                res = self.trilaterate_enodeb_location(towers)
+                points.append((res[0], res[1], enb.enodeb_id))
+
+        return points
+
     def get_trilateration_points(self):
         points = []
         cells = {}
         enbys = Tower.query.group_by(func.concat(Tower.mcc, Tower.mnc, Tower.cid))
-        print(enbys)
         for enb in enbys:
             enbid = enb.enodeb_id
             if not enbid in cells:
                 cells[enbid] = []
             towers = Tower.query.filter(Tower.mnc == enb.mnc).filter(Tower.mcc == enb.mcc).filter(Tower.cid == enb.cid)
             towers = towers.group_by(func.concat(func.round(Tower.lat,3), Tower.lon))
-            print(f"towers: {towers.all()}")
             if towers.count() > 3:
                 res = self.trilaterate_enodeb_location(towers)
                 cells[enbid].append(SimpleNamespace(lat=res[0], lon=res[1], est_dist=50))
 
         for i in cells:
-            print(f"cells[{i}] = {cells[i]}")
-            if len(cells[i]) > 3:
+            if len(cells[i]) > 0:
                 res = self.trilaterate_enodeb_location(cells[i], False)
                 points.append((res[0], res[1], i))
 
@@ -310,27 +351,11 @@ class Watchdog():
         locations = [(t.lat, t.lon) for t in towers]
         distances = [t.est_dist for t in towers]
 
-        def _great_circle_distance(lat1, lon1, lat2, lon2):
-            """
-            Calculate the great circle distance between two points
-            on the earth (specified in decimal degrees)
-            """
-            # convert decimal degrees to radians
-            lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-
-            # haversine formula
-            dlon = lon2 - lon1
-            dlat = lat2 - lat1
-            a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-            c = 2 * asin(sqrt(a))
-            r = 6371088 # Radius of earth in meters
-            return c * r
-
         # trilaterate(towers(lat, lon, est_dist))
         def _mse(x, locations, distances):
             mse = 0.0
             for location, distance in zip(locations, distances):
-                distance_calculated = _great_circle_distance(x[0], x[1], location[0], location[1])
+                distance_calculated = self._great_circle_distance(x[0], x[1], location[0], location[1])
                 mse += math.pow(distance_calculated - distance, 2.0)
             return mse / len(locations)
 
@@ -344,7 +369,7 @@ class Watchdog():
                 'ftol':1e-5,         # Tolerance
                 'maxiter': 1000      # Maximum iterations
             })
-        print(f"result {result}")
+        #print(f"result {result}")
         location = result.x
         self.logger.debug(f"location: {location}")
         return location
@@ -376,6 +401,24 @@ class Watchdog():
         if hasattr(self, 'server') and self.server:
             os.remove(Watchdog.SOCK)
             self.server.shutdown()
+
+    @staticmethod
+    def _great_circle_distance(lat1, lon1, lat2, lon2):
+        """
+        Calculate the great circle distance between two points
+        on the earth (specified in decimal degrees)
+        """
+        # convert decimal degrees to radians
+        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+        # haversine formula
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+        c = 2 * asin(sqrt(a))
+        r = 6371088 # Radius of earth in meters
+        return c * r
+
 
 class ThreadedUnixServer(socketserver.UnixStreamServer):
     pass

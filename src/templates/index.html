@@ -1,25 +1,33 @@
-<html>
-    <head>
-        <title>Crocodile Hunter: {{name}} </title>
-        <meta http-equiv="refresh" content="3">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    </head>
-    <body>
-        <h1>Crocodile Hunter</h1>
-        <h2>Project: {{name}}</h2>
-        <a href="/check_all">Re-calculate suspisciousness levels</a>
-        <h2>Enodebs spotted</h2>
-        <ul>
-            {% for row in last_ten %}
-              <li><a href="/detail/{{row[0]}}">{{row[1]}}, {{row[2]}}</a></li>
-            {% endfor %}
-        </ul>
-        <h2>Towers</h2>
-        <ul id="towers">
-            {% for tower in towers %}
-            <li class='tower'><a href="/detail/{{tower.id}}">{{tower}}</a></li>
-            {% endfor %}
-        </ul>
-    </body>
-</html>
+{% extends 'base.html' %}
 
+{% block container %}
+  <div id="map" class="jumbotron"></div>
+  {% include "basemap.html" %}
+  <div class='bs-component table-responsive'>
+    <table class="table table-hover table-striped data-table">
+      <thead class="thead-light ">
+        <tr>
+          <th>eNodeb id</th>
+          <th>Closest Tower (m)</th>
+          <th>Uniuqe Cells</th>
+          <th>Sightings</th>
+          <th>Susp</th>
+          <th>First Seen</th>
+          <th>Last Seen</th>
+        </tr>
+        <tbody>
+        {% for enb in enodebs %}
+          <tr>
+            <th scope="row"><a href="/enb_detail/{{enb['enodeb_id']}}">{{enb['enodeb_id']}}</a></th>
+            <td>{{enb["closest_tower"]}}</td>
+            <td>{{enb["unique_cells"]}}</td>
+            <td>{{enb["sightings"]}}</td>
+            <td>{{enb["max_suspiciousness"]}}</td>
+            <td>{{enb["first_seen"]}}</td>
+            <td>{{enb["last_seen"]}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+    </ul>
+  </div>
+{% endblock %}

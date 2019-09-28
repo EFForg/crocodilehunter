@@ -1,4 +1,4 @@
-
+/*
 html {
   font-family: sans-serif;
   background: #eee;
@@ -20,8 +20,13 @@ h1, h2, h3, h4, h5, h6 {
 a {
   color: #377ba8;
 }
+*/
 
 #map {
   height: 500px;
-  width: 500px;
+  width: 100%;
+}
+
+.bigmap {
+  height: 100%;
 }
