@@ -3,16 +3,15 @@
           function initMap() {
             var bounds = new google.maps.LatLngBounds();
             var centroid = new google.maps.LatLng({{trilat_pts[0][0]}}, {{trilat_pts[0][1]}});
-            map = new google.maps.Map(document.getElementById('map'), {
+            var map = new google.maps.Map(document.getElementById('map'), {
               center: centroid,
               zoom: 15
             });
 
-            var point;
             var points = [];
             var opacity = 0.2
             {% for t in known_towers %}
-                point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
+                var point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
                 new google.maps.Marker({position: point, map: map, title:"{{t.description}}", icon:"http://icons.iconarchive.com/icons/icons8/windows-8/24/Industry-Radio-Tower-icon.png"});
                 new google.maps.Circle({
                   strokeColor: '#000000',
@@ -26,10 +25,13 @@
                 });
             {% endfor %}
             {% for t in trilat_pts %}
-              // Don't display towers which have no GPS data attached
-                point = new google.maps.LatLng({{t[0]}}, {{t[1]}});
-                new google.maps.Marker({position: point, map: map, title:"{{t[2]}}" });
-                points.push(point);
+              addMarker({{t[0]}}, {{t[1]}}, {{t[2]}});
+            {% endfor %}
+
+            function addMarker(lat, lng, enodeb_id) {
+                var point = new google.maps.LatLng(lat, lng);
+                bounds.extend(point);
+              let marker = new google.maps.Marker({position: point, map: map, title: enodeb_id });
                 new google.maps.Circle({
                   strokeColor: '#000000',
                   strokeOpacity: 1,
@@ -40,10 +42,36 @@
                   center: point,
                   radius: 100
                 });
-            {% endfor %}
-            for (let p of points) {
-              bounds.extend(p);
+
+                // Begin example code to get custom infobox
+                let boxText = document.createElement("div");
+              boxText.innerHTML = "<a href='/enb_detail/" + enodeb_id + "'>" + enodeb_id + "</a>";
+                boxText.style.cssText = "color: black; margin-top: 8px; padding: 5px;";
+
+                let  myOptions = {
+                  content: boxText
+                  ,disableAutoPan: false
+                  ,zIndex: null
+                  ,boxStyle: {
+                    background: "url('tipbox.gif') no-repeat"
+                    ,opacity: 0.75
+                    ,width: "280px"
+                  }
+                  ,closeBoxMargin: "10px 2px 2px 2px"
+                  ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
+                  ,infoBoxClearance: new google.maps.Size(1, 1)
+                  ,isHidden: false
+                  ,pane: "floatPane"
+                  ,enableEventPropagation: false
+                };
+
+                let iw = new google.maps.InfoWindow(myOptions);
+
+                marker.addListener("click", function (e) {
+                  iw.open(map, marker);  // change the map variable appropriately
+                });
             }
+
             map.fitBounds(bounds);
           }
         </script>

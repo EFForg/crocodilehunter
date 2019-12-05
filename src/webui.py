@@ -44,6 +44,7 @@ class Webui:
             sightings = self.watchdog.get_sightings_for_enodeb(t)
 
             trilat = self.watchdog.trilaterate_enodeb_location(sightings)
+            trilat = (trilat[0], trilat[1], t.enodeb_id)
             trilat_pts.append(trilat)
             enodebs.append({
                 "enodeb_id": t.enodeb_id,
