@@ -7,6 +7,7 @@ from werkzeug import wrappers
 import numpy
 from database import Base
 import os
+import json
 
 class Webui:
     def __init__(self, watchdog):
@@ -37,29 +38,27 @@ class Webui:
     def index(self):
         trilat_pts = []
         enodebs = []
-        known_towers = self.watchdog.get_known_towers()
+        known_towers = [kt.to_dict() for kt in self.watchdog.get_known_towers().all()]
         towers = self.watchdog.get_unique_enodebs()
         for t in towers:
             self.watchdog.get_max_column_by_enodeb
             sightings = self.watchdog.get_sightings_for_enodeb(t)
 
             trilat = self.watchdog.trilaterate_enodeb_location(sightings)
-            trilat = (trilat[0], trilat[1], t.enodeb_id)
-            trilat_pts.append(trilat)
             enodebs.append({
+                "trilat": list(trilat),
                 "enodeb_id": t.enodeb_id,
                 "closest_tower": self.watchdog.closest_known_tower(trilat[0], trilat[1]),
                 "unique_cells": self.watchdog.get_cells_count_for_enodebid(t),
                 "sightings": sightings.count(),
-                "max_suspiciousness": self.watchdog.get_max_column_by_enodeb(t, 'suspiciousness'),
-                "first_seen": self.watchdog.get_min_column_by_enodeb(t, 'timestamp'),
-                "last_seen": self.watchdog.get_max_column_by_enodeb(t, 'timestamp')
+                "max_suspiciousness": self.watchdog.get_suspicious_percentage_by_enodeb(t),
+                "first_seen": str(self.watchdog.get_min_column_by_enodeb(t, 'timestamp')),
+                "last_seen": str(self.watchdog.get_max_column_by_enodeb(t, 'timestamp'))
 
             })
         return render_template('index.html', name=self.watchdog.project_name,
-                                trilat_pts = trilat_pts,
-                                known_towers = known_towers,
-                                enodebs=enodebs)
+                                known_towers = json.dumps(known_towers),
+                                enodebs=json.dumps(enodebs))
     def check_all(self):
         self.watchdog.check_all()
         return redirect('/')
@@ -79,9 +78,12 @@ class Webui:
 
     def enb_detail(self, enodeb_id):
         t = self.watchdog.get_enodeb(enodeb_id)
-        known_towers = self.watchdog.get_known_towers()
+        known_towers = self.watchdog.get_known_towers().all()
+        known_towers_json = json.dumps([kt.to_dict() for kt in known_towers])
         sightings = self.watchdog.get_sightings_for_enodeb(t)
+        sightings_json = json.dumps([s.to_dict() for s in sightings], default=str)
         trilat = self.watchdog.trilaterate_enodeb_location(sightings)
+        print(f"TRILAT {trilat}")
         hidecols = [
             "lat",
             "lon",
@@ -113,8 +115,8 @@ class Webui:
                 trilat = trilat,
                 details = details,
                 showcols = showcols,
-                known_towers = known_towers,
-                sightings = sightings)
+                known_towers = known_towers_json,
+                sightings = sightings_json)
 
     def add_known_tower(self):
         return render_template('add_known_tower.html')
@@ -122,13 +124,13 @@ class Webui:
     def map(self):
         # trilat_points = [(lat, long, enodeb_id), ...]
         trilat_pts = self.watchdog.get_trilateration_points()
-        known_towers = self.watchdog.get_known_towers()
+        known_towers = [kt.to_dict() for kt in self.watchdog.get_known_towers().all()]
         if len(trilat_pts) == 0:
             return("nothing to see yet")
 
         return render_template('map.html', name=self.watchdog.project_name,
-                               trilat_pts = trilat_pts,
-                               known_towers = known_towers)
+                               trilat_pts = json.dumps(trilat_pts),
+                               known_towers = json.dumps(known_towers))
 
 
     def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None):

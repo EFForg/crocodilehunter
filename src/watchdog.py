@@ -15,7 +15,7 @@ from sqlalchemy import func, text
 from scipy.optimize import minimize
 
 
-from database import Tower, KnownTower, init_db
+from database import Tower, KnownTower, init_db, TowerClassification, ExternalTowers
 from wigle import Wigle
 
 class Watchdog():
@@ -58,6 +58,13 @@ class Watchdog():
     def get_min_column_by_enodeb(self, t, colname):
         row = self.get_sightings_for_enodeb(t).add_columns(func.min(getattr(Tower, colname))).first()
         return row[1]
+
+    def get_suspicious_percentage_by_enodeb(self, t):
+        hits = self.get_sightings_for_enodeb(t)
+        cnt = hits.count()
+        scnt = hits.filter(Tower.classification == TowerClassification.suspicious).count()
+        return int((scnt / cnt) * 100)
+
 
     def closest_known_tower(self, lat, lon):
         r = 6371088 # Radius of earth in meters
@@ -116,17 +123,21 @@ class Watchdog():
             towers = towers.group_by(func.concat(func.round(Tower.lat,3), Tower.lon))
             if towers.count() > 3:
                 res = self.trilaterate_enodeb_location(towers)
-                cells[enbid].append(SimpleNamespace(lat=res[0], lon=res[1], est_dist=50))
+                cells[enbid].append(SimpleNamespace(lat=res[0], lon=res[1], est_dist=50, sus_pct=self.get_suspicious_percentage_by_enodeb(towers[0])))
 
         for i in cells:
             if len(cells[i]) > 0:
                 res = self.trilaterate_enodeb_location(cells[i], False)
-                points.append((res[0], res[1], i))
+                points.append({
+                    'trilat': (res[0], res[1]),
+                    'enodeb_id': i,
+                    'max_suspiciousness': cells[i][0].sus_pct
+                    })
 
         return points
 
     def get_known_towers(self):
-        return KnownTower.query.all()
+        return self.db_session.query(KnownTower)
 
     def count(self):
         num_rows = Tower.query.count()

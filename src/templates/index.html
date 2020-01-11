@@ -1,5 +1,31 @@
 {% extends 'base.html' %}
 
+{% block scripts %}
+  <script>
+    const known_towers = {{known_towers|safe}};
+    const enodebs = {{enodebs|safe}};
+  </script>
+  <script>
+  $(document).ready(function(){
+    let tdata = ""
+    for(const enb of enodebs){
+      tdata += `
+      <tr>
+        <th scope="row"><a href="/enb_detail/${enb.enodeb_id}">${enb.enodeb_id}</a></th>
+        <td>${enb.closest_tower}</td>
+        <td>${enb.unique_cells}</td>
+        <td>${enb.sightings}</td>
+        <td>${enb.max_suspiciousness}%</td>
+        <td>${enb.first_seen}</td>
+        <td>${enb.last_seen}</td>
+      </tr>
+      `
+    }
+    $('tbody#enb-table').html(tdata);
+  });
+  </script>
+{% endblock %}
+
 {% block container %}
   <div id="map" class="jumbotron"></div>
   {% include "basemap.html" %}
@@ -11,22 +37,11 @@
           <th>Closest Tower (m)</th>
           <th>Uniuqe Cells</th>
           <th>Sightings</th>
-          <th>Susp</th>
+          <th>Suspicious %</th>
           <th>First Seen</th>
           <th>Last Seen</th>
         </tr>
-        <tbody>
-        {% for enb in enodebs %}
-          <tr>
-            <th scope="row"><a href="/enb_detail/{{enb['enodeb_id']}}">{{enb['enodeb_id']}}</a></th>
-            <td>{{enb["closest_tower"]}}</td>
-            <td>{{enb["unique_cells"]}}</td>
-            <td>{{enb["sightings"]}}</td>
-            <td>{{enb["max_suspiciousness"]}}</td>
-            <td>{{enb["first_seen"]}}</td>
-            <td>{{enb["last_seen"]}}</td>
-          </tr>
-        {% endfor %}
+        <tbody id='enb-table'>
         </tbody>
     </ul>
   </div>

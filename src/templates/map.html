@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% block scripts %}
+    <script>
+      const enodebs = {{trilat_pts|safe}};
+      const known_towers = {{known_towers|safe}};
+    </script>
+{% endblock %}
 {% block container %}
         <div id="map" class="jumbotron bigmap"></div>
         {% include "basemap.html" %}

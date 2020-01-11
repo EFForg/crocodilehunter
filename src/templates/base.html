@@ -42,6 +42,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaSz9Z1-Gx8qwbCF7krj76K4l7msf-eHA&callback=initMap" async defer></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  {% block scripts %}{% endblock %}
   <script>
     $(document).ready(function() {
       $('.data-table').DataTable({

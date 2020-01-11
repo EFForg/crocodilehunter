@@ -2,7 +2,7 @@
           var map;
           function initMap() {
             var bounds = new google.maps.LatLngBounds();
-            var centroid = new google.maps.LatLng({{trilat_pts[0][0]}}, {{trilat_pts[0][1]}});
+            var centroid = new google.maps.LatLng(enodebs[0].trilat[0], enodebs[0].trilat[1]);
             var map = new google.maps.Map(document.getElementById('map'), {
               center: centroid,
               zoom: 15
@@ -10,42 +10,29 @@
 
             var points = [];
             var opacity = 0.2
-            {% for t in known_towers %}
-                var point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
-                new google.maps.Marker({position: point, map: map, title:"{{t.description}}", icon:"http://icons.iconarchive.com/icons/icons8/windows-8/24/Industry-Radio-Tower-icon.png"});
-                new google.maps.Circle({
-                  strokeColor: '#000000',
-                  strokeOpacity: 1,
-                  strokeWeight: 1,
-                  fillColor: '#00FF00',
-                  fillOpacity: 0.5,
-                  map: map,
-                  center: point,
-                  radius: 100
-                });
-            {% endfor %}
-            {% for t in trilat_pts %}
-              addMarker({{t[0]}}, {{t[1]}}, {{t[2]}});
-            {% endfor %}
+            for (const t of known_towers) {
+                var point = new google.maps.LatLng(t.lat, t.lon);
+              new google.maps.Marker({position: point, map: map, title: t.description,
+                icon: "{{ url_for('static', filename='skull.png') }}"});
+            }
 
-            function addMarker(lat, lng, enodeb_id) {
-                var point = new google.maps.LatLng(lat, lng);
+            for(const enb of enodebs){
+              addMarker(enb)
+            }
+
+            function addMarker(enb) {
+                let lat = enb.trilat[0]
+                let lon = enb.trilat[1]
+                var point = new google.maps.LatLng(lat, lon);
                 bounds.extend(point);
-              let marker = new google.maps.Marker({position: point, map: map, title: enodeb_id });
-                new google.maps.Circle({
-                  strokeColor: '#000000',
-                  strokeOpacity: 1,
-                  strokeWeight: 1,
-                  fillColor: '#FF0000',
-                  fillOpacity: opacity,
-                  map: map,
-                  center: point,
-                  radius: 100
-                });
+                let marker = new google.maps.Marker({position: point, map: map, title: enb.enodeb_id.toString() });
+                if(enb.max_suspiciousness >= 30){
+                  marker.setIcon("{{ url_for('static', filename='skull.png') }}");
+                }
 
                 // Begin example code to get custom infobox
                 let boxText = document.createElement("div");
-              boxText.innerHTML = "<a href='/enb_detail/" + enodeb_id + "'>" + enodeb_id + "</a>";
+                boxText.innerHTML = "<a href='/enb_detail/" + enb.enodeb_id + "'>" + enb.enodeb_id + "</a>";
                 boxText.style.cssText = "color: black; margin-top: 8px; padding: 5px;";
 
                 let  myOptions = {
@@ -75,4 +62,3 @@
             map.fitBounds(bounds);
           }
         </script>
-

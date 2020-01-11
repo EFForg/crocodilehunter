@@ -1,7 +1,26 @@
 {% extends 'base.html' %}
 
-{% block container %}
-  <div id="map" class="jumbotron"></div>
+{% block scripts %}
+  <script>
+    const known_towers = {{known_towers|safe}};
+    const sightings  = {{sightings|safe}};
+  </script>
+  <script>
+  $(document).ready(function(){
+    let tdata = "";
+    for(const tower of sightings){
+      tdata += `
+        <tr>
+            <td><a href="/detail/${ tower.id }">Ⓐ</a></td>
+            {% for col in showcols %}
+              <td>${ tower.{{col}} }</td>
+            {% endfor %}
+        </tr>
+      `
+    }
+    $('tbody#hits').html(tdata);
+    });
+  </script>
   <script>
     var map;
     function initMap() {
@@ -22,47 +41,43 @@
 
       var point;
       var points = [];
-      var opacity = 0.2
-      {% for t in known_towers %}
-          point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
-          new google.maps.Marker({position: point, map: map, title:"{{t.description}}", icon:"http://icons.iconarchive.com/icons/icons8/windows-8/24/Industry-Radio-Tower-icon.png"});
-      /*
-          new google.maps.Circle({
-            strokeColor: '#000000',
-            strokeOpacity: 1,
-            strokeWeight: 1,
-            fillColor: '#00FF00',
-            fillOpacity: 0.5,
-            map: map,
-            center: point,
-            radius: 100
-          });
-          */
-      {% endfor %}
-      {% for t in sightings %}
+      var opacity = 0.1
+      for(const t of known_towers) {
+          point = new google.maps.LatLng(t.lat, t.lon);
+          new google.maps.Marker({position: point, map: map, title:t.description, icon:"http://icons.iconarchive.com/icons/icons8/windows-8/24/Industry-Radio-Tower-icon.png"});
+      }
+
+      for(const t of sightings) {
         // Don't display towers which have no GPS data attached
-        if ({{t.lat}} != 0 && {{t.lon}} != 0) {
-          point = new google.maps.LatLng({{t.lat}}, {{t.lon}});
+        if (t.lat != 0 && t.lon != 0) {
+          point = new google.maps.LatLng(t.lat, t.lon);
           //new google.maps.Marker({position: point, map: map, title:""+point.lat()+", "+point.lng()+"" });
           points.push(point);
           new google.maps.Circle({
-            strokeColor: '#FF0000', strokeOpacity: 0.5,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0,
+            strokeColor: '#00CCCC',
+            strokeOpacity: opacity,
+            strokeWeight: 1,
+            fillColor: '#00CCCC',
+            fillOpacity: opacity,
             map: map,
             center: point,
-            radius: {{t.est_dist}}
+            radius: t.est_dist
           });
         }
-      {% endfor %}
+      }
       for (let p of points) {
         bounds.extend(p);
       }
       map.fitBounds(bounds);
     }
   </script>
-  <h2>Details</h2>
+
+
+{% endblock %}
+
+{% block container %}
+  <div id="map" class="jumbotron"></div>
+    <h2>Details</h2>
   <div class='bs-component table-responsive'>
     <table class="table table-striped">
       <tbody>
@@ -92,15 +107,7 @@
           {% endfor %}
       </tr>
       </thead>
-      <tbody>
-      {% for tower in sightings%}
-          <tr>
-              <td><a href="/detail/{{ tower.id }}">Ⓐ</a></td>
-              {% for col in showcols %}
-              <td>{{ tower[col] }}</td>
-              {% endfor %}
-          </tr>
-      {% endfor %}
+      <tbody id='hits'>
       </tbody>
     </table>
   </div>
