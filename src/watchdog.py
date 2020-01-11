@@ -206,7 +206,7 @@ class Watchdog():
 
     def check_mnc(self, tower):
         """ In case mnc isn't a standard value."""
-        known_mncs = [410,260,480]
+        known_mncs = [410,260,480,120]
         """
         known_mncs = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 23, 24,
                 25, 26, 30, 31, 32, 34, 38, 40, 46, 50, 60, 70, 80, 90, 100, 110, 120, 130,
@@ -325,14 +325,37 @@ class Watchdog():
                 tower.suspiciousness += tower.rssi - rssi_mean
 
     def check_wigle(self, tower):
-        if self.disable_wigle:
-            self.logger.warning("Wigle API access disabled locally!")
-        else:
-            #self.wigle.cell_search(tower.lat, tower.lon, 0.0001, tower.cid, tower.tac)
+        precache = self.db_session.query(Tower).filter(Tower.mcc == tower.mcc, Tower.mnc == tower.mnc, Tower.tac == tower.tac, Tower.cid == tower.cid, Tower.external_db != ExternalTowers.unknown).all()
+
+        if len(precache) > 0 and tower.external_db == ExternalTowers.unknown:
+            self.logger.info(f"Marking external DB tower as {precheck[0].external_db} based on existing db records")
+            tower.external_db = precache[0].external_db
+            if tower.classification == TowerClassification.unknown:
+                tower.classification = precache[0].classification
+
+        elif tower.external_db == ExternalTowers.unknown:
+            # Check CID in Wigle
             resp = self.wigle.cell_search(tower.lat, tower.lon, 0.1, tower.cid, tower.tac)
-            self.logger.debug("conducting a cell search: " + str(resp))
+            self.logger.debug("conducting a cell search in wigle: " + str(resp))
+
+            if resp["success"] == False:
+                self.logger.error(f"wigle connection failed: {resp}")
+                return
+
             if resp["resultCount"] < 1:
-                tower.suspiciousness += 20
+                tower.external_db = ExternalTowers.not_present
+            else:
+                tower.external_db = ExternalTowers.wigle
+
+        if tower.external_db == ExternalTowers.not_present:
+            self.logger.warning(f"Tower not externally confirmed {tower}")
+            tower.suspiciousness += 30
+            tower.classification = TowerClassification.suspicious
+        elif tower.external_db in [ExternalTowers.wigle, ExternalTowers.opencellid]:
+            self.logger.warning(f"Tower externally confirmed {tower}")
+
+        self.logger.info(f"saving tower {tower.external_db}, {tower.classification} score: {tower.suspiciousness}")
+        self.db_session.commit()
 
     def calculate_suspiciousness(self, tower):
         tower.suspiciousness = 0
@@ -343,7 +366,13 @@ class Watchdog():
         self.check_changed_tac(tower)
         self.check_new_location(tower)
         self.check_rssi(tower)
-        self.check_wigle(tower)
+        if not self.disable_wigle:
+            self.check_wigle(tower)
+
+        if tower.suspiciousness >= 20:
+            tower.classification = TowerClassification.suspicious
+        else:
+            tower.classification = TowerClassification.unknown
         self.db_session.commit()
 
     def trilaterate_enodeb_location(self, towers, run_checks=True):
