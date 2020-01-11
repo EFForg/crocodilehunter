@@ -74,23 +74,17 @@
     <table class="table table-hover table-striped data-table table-sm">
       <thead class="thead-light ">
       <tr>
-          {% for p in tower.params() %}
-              {% if p == 'id' %}
-                <th>Ⓐ</th>
-              {% else %}
-                <th>{{ p }}</th>
-              {% endif %}
+          <th>Ⓐ</th>
+          {% for col in showcols %}
+            <th>{{ col }}</th>
           {% endfor %}
       </tr>
       <tbody id='hits'>
       {% for tower in similar_towers %}
         <tr>
-            {% for col in tower.params() %}
-              {% if col == 'id' %}
-                <td><a href="/detail/{{ tower.id }}">Ⓐ</a></td>
-              {% else %}
-                <td>{{ tower[col] }}</td>
-              {% endif %}
+            <td><a href="/detail/{{ tower.id }}">Ⓐ</a></td>
+            {% for col in showcols %}
+              <td>{{ tower[col] }}</td>
             {% endfor %}
         </tr>
       {% endfor %}

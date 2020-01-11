@@ -68,11 +68,27 @@ class Webui:
         similar_towers = self.watchdog.get_towers_by_cid(tower.mnc, tower.mcc, tower.cid)
         trilat = self.watchdog.trilaterate_enodeb_location(similar_towers)
         centroid = self.watchdog.get_centroid(similar_towers)
+        hidecols = [
+            "raw_sib1",
+            "id",
+            "sector_id",
+            "est_dist",
+            "cid",
+            "enodeb_id",
+            "mcc",
+            "mnc",
+            "suspiciousness",
+            "external_db",
+            "tx_pwr"
+        ]
+        showcols = list(set(tower.params()) - set(hidecols))
+        showcols.sort()
 
         return render_template('detail.html', name=self.watchdog.project_name,
                 tower = tower,
                 trilat = trilat,
                 similar_towers = similar_towers,
+                showcols = showcols,
                 num_towers = similar_towers.count(),
                 centroid = centroid)
 
@@ -83,7 +99,6 @@ class Webui:
         sightings = self.watchdog.get_sightings_for_enodeb(t)
         sightings_json = json.dumps([s.to_dict() for s in sightings], default=str)
         trilat = self.watchdog.trilaterate_enodeb_location(sightings)
-        print(f"TRILAT {trilat}")
         hidecols = [
             "lat",
             "lon",
