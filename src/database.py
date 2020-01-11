@@ -37,11 +37,17 @@ class TowerClassification(enum.Enum):
     suspicious = 4
     CSS = 5
 
+    def __str__(self):
+        return self.name.title()
+
 class ExternalTowers(enum.Enum):
     not_present=0
     unknown=1
     wigle=2
     opencellid=3
+
+    def __str__(self):
+        return self.name.title()
 
 class Tower(Base):
     __tablename__ = "tower_data"
