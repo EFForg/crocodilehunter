@@ -39,11 +39,11 @@
           //new google.maps.Marker({position: point, map: map, title:""+point.lat()+", "+point.lng()+"" });
           points.push(point);
           new google.maps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 1,
+            strokeColor: '#00cccc',
+            strokeOpacity: 0.1,
             strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0,
+            fillColor: '#00cccc',
+            fillOpacity: 0.1,
             map: map,
             center: point,
             radius: {{t.est_dist}}
@@ -57,29 +57,44 @@
     }
   </script>
 
-  <ul>
+  <h2>Details</h2>
+  <div class='bs-component table-responsive'>
+    <table class="table table-striped">
+      <tbody>
       {% for col in tower.params() %}
-      <li>{{ col }}: {{ tower[col] }}</li>
+        <tr><th scope='row'>{{ col.replace('_', ' ').title() }}</th><td> {{ tower[col] }}</td></tr>
       {% endfor %}
-      <li>Frequency: {{ tower.get_frequency() }}</li>
-      <li>Sector id: {{ tower.get_sector_id() }}</li>
-      <li>eNodeB id: {{ tower.get_enodeb_id() }}</li>
-  </ul>
-  <h2>{{num_towers}} other sightings for this enodeb</h2>
-  <table border="1">
+      <tr><th scope='row'>Trilateration</th><td>{{trilat[0]}}, {{trilat[1]}}</td></tr>
+      <tbody>
+    </table>
+  </div>
+
+  <h2>{{num_towers}} Total Sightings for this Antenna</h2>
+  <div class='bs-component table-responsive'>
+    <table class="table table-hover table-striped data-table table-sm">
+      <thead class="thead-light ">
       <tr>
           {% for p in tower.params() %}
-          <th>{{ p }}</th>
+              {% if p == 'id' %}
+                <th>Ⓐ</th>
+              {% else %}
+                <th>{{ p }}</th>
+              {% endif %}
           {% endfor %}
-          <th>Link!!!</th>
       </tr>
+      <tbody id='hits'>
       {% for tower in similar_towers %}
-          <tr>
-              {% for col in tower.params() %}
-              <td>{{ tower[col] }}</td>
-              {% endfor %}
-              <td><a href="/detail/{{ tower.id }}">Link!!!</a></td>
-          </tr>
+        <tr>
+            {% for col in tower.params() %}
+              {% if col == 'id' %}
+                <td><a href="/detail/{{ tower.id }}">Ⓐ</a></td>
+              {% else %}
+                <td>{{ tower[col] }}</td>
+              {% endif %}
+            {% endfor %}
+        </tr>
       {% endfor %}
-  </table>
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
