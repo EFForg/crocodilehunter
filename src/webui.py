@@ -65,7 +65,7 @@ class Webui:
 
     def detail(self, row_id):
         tower = self.watchdog.get_row_by_id(row_id)
-        similar_towers = self.watchdog.get_similar_towers(tower)
+        similar_towers = self.watchdog.get_towers_by_cid(tower.mnc, tower.mcc, tower.cid)
         trilat = self.watchdog.trilaterate_enodeb_location(similar_towers)
         centroid = self.watchdog.get_centroid(similar_towers)
 
