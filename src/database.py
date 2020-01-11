@@ -1,10 +1,11 @@
 import os
 import time
 import math
+import enum
 
 import configparser
 
-from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, Text, create_engine, func
+from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, Text, create_engine, func, Enum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import create_database, database_exists
@@ -28,6 +29,19 @@ def init_db(project_name):
     Base.query = db_session.query_property()
     Base.metadata.create_all(bind=engine)
     return db_session
+
+class TowerClassification(enum.Enum):
+    unknown = 1
+    legitimate = 2
+    small_cell = 3
+    suspicious = 4
+    CSS = 5
+
+class ExternalTowers(enum.Enum):
+    not_present=0
+    unknown=1
+    wigle=2
+    opencellid=3
 
 class Tower(Base):
     __tablename__ = "tower_data"
@@ -54,15 +68,19 @@ class Tower(Base):
     tx_pwr = Column(Float)
     est_dist = Column(Float)
     raw_sib1 = Column(String(255))
+    classification = Column(Enum(TowerClassification), default=1, nullable=False)
+    external_db = Column(Enum(ExternalTowers), default=1, nullable=False)
 
     def __repr__(self):
         repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
-            f"{self.lon}, time: {self.timestamp}, susp {self.suspiciousness}, " + \
-            f"freq: {self.frequency}, dist {self.est_dist}m>"
+            f"{self.lon}, time: {self.timestamp}, freq: {self.frequency}>"
         return repr
 
     def params(self):
         return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def est_distance(self):
         """
@@ -70,7 +88,7 @@ class Tower(Base):
         (https://en.wikipedia.org/wiki/Free-space_path_loss#Free-space_path_loss_in_decibels)
         """
         #fspl = tx_pow + tx_gain + rx_gain - rx_pow - fade_margin
-        #tx_pow = 30 # standard transmit DBm for a tower
+        tx_pow = 30 # standard transmit DBm for a tower
         rx_gain = -1# default gain setting for bladRF
         plc = 2.2 # path loss coefficient
         fspl = self.tx_pwr - self.rssi + rx_gain
@@ -131,4 +149,24 @@ class KnownTower(Base):
     lon = Column(Float(32))
     description = Column(Text)
 
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+
+class EnodeB(Base):
+    __tablename__ = "enodebs"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    mcc = Column(Integer)
+    mnc = Column(Integer)
+    tac = Column(Integer)
+    enodeb_id = Column(Integer)
+    classification = Column(Enum(TowerClassification), default=1, nullable=False)
+
+    def plmn(self):
+        return f"{self.mcc}_{self.mnc}_{self.tac}"
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def __repr__(self):
+        return f"{self.plmn}_{self.enodeb_id}: {classification}"
