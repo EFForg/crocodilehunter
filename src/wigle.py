@@ -34,7 +34,13 @@ class Wigle():
         #print(full_url)
         resp = requests.request(method, full_url,
                                 auth=(self.api_name, self.api_key,))
+        if resp.status_code >= 400:
+            return resp
+
+        print(resp)
+
         resp = json.loads(resp.text)
+        print(resp)
         prev_resp = resp
         while prev_resp['searchAfter'] is not None:
             qs_params['searchAfter'] = prev_resp['searchAfter']
@@ -70,7 +76,7 @@ class Wigle():
             "showWcdma": False
         }
         if cell_id is not None:
-            params["cell_id"] = tac
+            params["cell_id"] = cell_id
         if tac is not None:
             params["cell_net"] = tac
         return self._api_request("cell/search", params)
