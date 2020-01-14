@@ -10,7 +10,7 @@
     let tdata = ""
     for(const enb of enodebs){
       tdata += `
-      <tr>
+      <tr id="${enb.enodeb_id}">
         <th scope="row"><a href="/enb_detail/${enb.enodeb_id}">${enb.enodeb_id}</a></th>
         <td>${enb.closest_tower}</td>
         <td>${enb.unique_cells}</td>
@@ -22,6 +22,14 @@
       `
     }
     $('tbody#enb-table').html(tdata);
+    $('tr').click( function(){
+      var id = this.id;
+      console.log(id);
+      console.log(markers[id]);
+      $("#map").get(0).scrollIntoView();
+      google.maps.event.trigger(markers[id], 'click')
+    });
+
   });
   </script>
 {% endblock %}
