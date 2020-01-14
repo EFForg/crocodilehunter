@@ -24,18 +24,19 @@ class Webui:
         self.logger.info(f"Starting WebUI")
 
         #Add each endpoint manually
-        self.add_endpoint("/", "index", self.index)
-        self.add_endpoint("/home", "home", self.index)
+        self.add_endpoint("/", "index", self.enodeb_sightings)
+        self.add_endpoint("/cell-sightings", "cell_sightings", self.cell_sightings)
         self.add_endpoint("/check_all", "checkall", self.check_all)
         self.add_endpoint("/detail/<row_id>", "detail", self.detail)
         self.add_endpoint("/enb_detail/<enodeb_id>", "enb_detail", self.enb_detail)
+        self.add_endpoint("/cid_detail/<cid>", "cid_detail", self.cid_detail)
         self.add_endpoint("/map", "map", self.map)
         self.add_endpoint("/addknowntower", "addknowntower", self.add_known_tower)
 
         app_thread = Thread(target=self.app.run, kwargs={'host':'0.0.0.0'})
         app_thread.start()
 
-    def index(self):
+    def enodeb_sightings(self):
         trilat_pts = []
         enodebs = []
         known_towers = [kt.to_dict() for kt in self.watchdog.get_known_towers().all()]
@@ -58,7 +59,33 @@ class Webui:
             })
         return render_template('index.html', name=self.watchdog.project_name,
                                 known_towers = json.dumps(known_towers),
+                                key = 'enodeb_id',
                                 enodebs=json.dumps(enodebs))
+
+    def cell_sightings(self):
+        trilat_pts = []
+        cells = []
+        known_towers = [kt.to_dict() for kt in self.watchdog.get_known_towers().all()]
+        towers = self.watchdog.get_unique_cids()
+        for t in towers:
+            sightings = self.watchdog.get_sightings_for_cid(t)
+
+            trilat = self.watchdog.trilaterate_enodeb_location(sightings)
+            cells.append({
+                "trilat": list(trilat),
+                "cid": t.cid,
+                "closest_tower": self.watchdog.closest_known_tower(trilat[0], trilat[1]),
+                "sightings": sightings.count(),
+                "max_suspiciousness": self.watchdog.get_suspicious_percentage_by_cid(t),
+                "first_seen": str(self.watchdog.get_min_column_by_cid(t, 'timestamp')),
+                "last_seen": str(self.watchdog.get_max_column_by_cid(t, 'timestamp'))
+
+            })
+        return render_template('by_cid.html', name=self.watchdog.project_name,
+                                known_towers = json.dumps(known_towers),
+                                key = 'cid',
+                                enodebs=json.dumps(cells))
+
     def check_all(self):
         self.watchdog.check_all()
         return redirect('/')
@@ -128,6 +155,46 @@ class Webui:
         return render_template('enb_detail.html', name=self.watchdog.project_name,
                 tower = t,
                 trilat = trilat,
+                type = "ENodeB",
+                details = details,
+                showcols = showcols,
+                known_towers = known_towers_json,
+                sightings = sightings_json)
+
+    def cid_detail(self, cid):
+        t = self.watchdog.get_cid(cid)
+        known_towers = self.watchdog.get_known_towers().all()
+        known_towers_json = json.dumps([kt.to_dict() for kt in known_towers])
+        sightings = self.watchdog.get_sightings_for_cid(t)
+        sightings_json = json.dumps([s.to_dict() for s in sightings], default=str)
+        trilat = self.watchdog.trilaterate_enodeb_location(sightings)
+        hidecols = [
+            "lat",
+            "lon",
+            "raw_sib1",
+            "id",
+            "cid",
+        ]
+        showcols = list(set(t.params()) - set(hidecols))
+        showcols.sort()
+        details = {
+            "cell_id": t.cid,
+            "enodeb_id": t.enodeb_id,
+            "max_suspiciousness": self.watchdog.get_max_column_by_enodeb(t, 'suspiciousness'),
+            "closest_known_tower": self.watchdog.closest_known_tower(trilat[0], trilat[1]),
+            "PLMN": f"{t.mcc}_{t.mnc}_{t.tac}",
+            "min_power": self.watchdog.get_min_column_by_cid(t, 'tx_pwr'),
+            "max_power": self.watchdog.get_max_column_by_cid(t, 'tx_pwr'),
+            "number_of_sightings": sightings.count(),
+            "first_seen": self.watchdog.get_min_column_by_cid(t, 'timestamp'),
+            "last_seen": self.watchdog.get_max_column_by_cid(t, 'timestamp')
+
+        }
+
+        return render_template('enb_detail.html', name=self.watchdog.project_name,
+                tower = t,
+                trilat = trilat,
+                type = "Cell ID",
                 details = details,
                 showcols = showcols,
                 known_towers = known_towers_json,
@@ -144,6 +211,7 @@ class Webui:
             return("nothing to see yet")
 
         return render_template('map.html', name=self.watchdog.project_name,
+                               key = 'enodeb_id',
                                trilat_pts = json.dumps(trilat_pts),
                                known_towers = json.dumps(known_towers))
 

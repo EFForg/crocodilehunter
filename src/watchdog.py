@@ -39,14 +39,23 @@ class Watchdog():
     def get_unique_enodebs(self):
         return self.db_session.query(Tower).group_by(func.concat(Tower.mnc, Tower.mcc, Tower.tac, Tower.enodeb_id)).order_by(Tower.id.desc())
 
+    def get_unique_cids(self):
+        return self.db_session.query(Tower).group_by(func.concat(Tower.mnc, Tower.mcc, Tower.tac, Tower.cid)).order_by(Tower.id.desc())
+
     def get_enodeb(self, enodeb_id):
         return self.db_session.query(Tower).filter(Tower.enodeb_id == enodeb_id).first()
+
+    def get_cid(self, cid):
+        return self.db_session.query(Tower).filter(Tower.cid == cid).first()
 
     def get_unique_phyids(self):
         return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(func.concat(Tower.mnc, Tower.mcc, Tower.tac, Tower.phyid)).order_by(Tower.id.desc())
 
     def get_sightings_for_enodeb(self, t):
         return self.db_session.query(Tower).filter(Tower.mnc == t.mnc, Tower.mcc == t.mcc, Tower.tac == t.tac, Tower.enodeb_id == t.enodeb_id)
+
+    def get_sightings_for_cid(self, t):
+        return self.db_session.query(Tower).filter(Tower.mnc == t.mnc, Tower.mcc == t.mcc, Tower.tac == t.tac, Tower.cid == t.cid)
 
     def get_cells_count_for_enodebid(self, t):
         return self.get_sightings_for_enodeb(t).group_by(Tower.cid).count()
@@ -59,8 +68,23 @@ class Watchdog():
         row = self.get_sightings_for_enodeb(t).add_columns(func.min(getattr(Tower, colname))).first()
         return row[1]
 
+    def get_max_column_by_cid(self, t, colname):
+        row = self.get_sightings_for_cid(t).add_columns(func.max(getattr(Tower, colname))).first()
+        return row[1]
+
+    def get_min_column_by_cid(self, t, colname):
+        row = self.get_sightings_for_cid(t).add_columns(func.min(getattr(Tower, colname))).first()
+        return row[1]
+
     def get_suspicious_percentage_by_enodeb(self, t):
         hits = self.get_sightings_for_enodeb(t)
+        return self._calcPercent(hits)
+
+    def get_suspicious_percentage_by_cid(self, t):
+        hits = self.get_sightings_for_cid(t)
+        return self._calcPercent(hits)
+
+    def _calcPercent(self, hits):
         cnt = hits.count()
         scnt = hits.filter(Tower.classification == TowerClassification.suspicious).count()
         return int((scnt / cnt) * 100)
@@ -131,7 +155,12 @@ class Watchdog():
                 points.append({
                     'trilat': (res[0], res[1]),
                     'enodeb_id': i,
-                    'max_suspiciousness': cells[i][0].sus_pct
+                    'max_suspiciousness': cells[i][0].sus_pct,
+                    "closest_tower": self.closest_known_tower(res[0], res[1]),
+                    "unique_cells": "NA", #self.get_cells_count_for_enodebid(cells[i]),
+                    "sightings": "NA", #self.get_sightings_for_enodeb(cells[i]).count(),
+                    "first_seen": "NA", #str(self.get_min_column_by_enodeb(cells[i], 'timestamp')),
+                    "last_seen": "NA" #str(self.get_max_column_by_enodeb(cells[i], 'timestamp'))
                     })
 
         return points

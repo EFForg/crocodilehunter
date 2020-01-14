@@ -13,7 +13,11 @@
         <tr>
             <td><a href="/detail/${ tower.id }">Ⓐ</a></td>
             {% for col in showcols %}
-              <td>${ tower.{{col}} }</td>
+              {% if col == 'cid' %}
+                <td><a href='/cid_detail/${tower.cid}'>${ tower.cid }</a></td>
+              {% else %}
+                <td>${ tower.{{col}} }</td>
+              {% endif %}
             {% endfor %}
         </tr>
       `
@@ -77,18 +81,24 @@
 
 {% block container %}
   <div id="map" class="jumbotron"></div>
-    <h2>Details</h2>
+  <h2>{{type}} Details</h2>
   <div class='bs-component table-responsive'>
     <table class="table table-striped">
       <tbody>
       {% for k in details %}
-        <tr><th scope='row'>{{ k.replace('_', ' ').title() }}</th><td> {{ details[k] }}</td></tr>
+        <tr><th scope='row'>{{ k.replace('_', ' ').title() }}</th><td>
+            {% if k == 'enodeb_id' %}
+              <a href='/enb_detail/{{ details[k] }}'>{{ details[k] }}</a>
+            {% else %}
+              {{ details[k] }}
+            {% endif %}
+          </td></tr>
       {% endfor %}
       <tr><th scope='row'>Trilateration</th><td>{{trilat[0]}}, {{trilat[1]}}</td></tr>
       <tbody>
     </table>
   </div>
-  <h2>{{details['number_of_sightings']}} Sightings for This eNodeB</h2>
+  <h2>{{details['number_of_sightings']}} Sightings for This {{type}}</h2>
   <div class='bs-component table-responsive'>
     <table class="table table-hover table-striped data-table table-sm">
       <thead class="thead-light ">

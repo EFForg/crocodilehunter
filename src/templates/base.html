@@ -12,7 +12,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
       <div class='container'>
-          <a class="navbar-brand" href="{{ url_for('home')}}">Crocodile Hunter</a>
+          <a class="navbar-brand" href="{{ url_for('index')}}">Crocodile Hunter</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -25,7 +25,13 @@
               </div>
             </li>
             <li class='nav-item'>
-              <a class="nav-link" href="{{ url_for('map')}}">Big Map</a>
+              <a class="nav-link" href="{{ url_for('cell_sightings')}}">Cells</a>
+            </li>
+            <li class='nav-item'>
+              <a class="nav-link" href="{{ url_for('index')}}">Enodebs</a>
+            </li>
+            <li class='nav-item'>
+              <a class="nav-link" href="{{ url_for('map')}}">Combined</a>
             </li>
           </ul>
           <span class="navbar-brand text-muted text-right">Project: {{name}}</span>

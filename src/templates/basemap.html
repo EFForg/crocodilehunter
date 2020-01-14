@@ -20,7 +20,7 @@
 
             for(const enb of enodebs){
               var m = addMarker(enb)
-              markers[enb.enodeb_id] = m
+              markers[enb[key]] = m
             }
 
             function addMarker(enb) {
@@ -29,7 +29,7 @@
                 var point = new google.maps.LatLng(lat, lon);
                 bounds.extend(point);
                 let marker = new google.maps.Marker({
-                  position: point, map: map, title: enb.enodeb_id.toString()
+                  position: point, map: map, title: enb[key].toString()
                 });
                 if(enb.max_suspiciousness >= 30){
                   marker.setIcon("{{ url_for('static', filename='skull.png') }}");
@@ -48,12 +48,30 @@
             var s_infowindow = new google.maps.InfoWindow({});
             function openInfoWindow(enb, map, marker){
                 let boxText = document.createElement("div");
-                boxText.innerHTML = `
-                <table>
-                  <tr>
-                    <th scope="row">ENodeB ID</th>
-                    <td><a href="/enb_detail/${enb.enodeb_id}">${enb.enodeb_id}</a></td>
-                  </tr>
+                let header;
+                if(key == 'enodeb_id') {
+                  header = `
+                  <table>
+                    <tr>
+                      <th scope="row">ENodeB ID</th>
+                      <td><a href="/enb_detail/${enb.enodeb_id}">${enb.enodeb_id}</a></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Sightings</th>
+                      <td>${enb.sightings}</td>
+                    </tr>
+                  `
+                } else {
+                  header = `
+                  <table>
+                    <tr>
+                      <th scope="row">Cell ID</th>
+                      <td><a href="/cid_detail/${enb.cid}">${enb.cid}</a></td>
+                    </tr>
+                    `
+                }
+
+                boxText.innerHTML = header + `
                   <tr>
                     <th scope="row">Closest Tower</th>
                     <td>${Math.round(enb.closest_tower)}M</td>
@@ -61,10 +79,6 @@
                   <tr>
                     <th scope="row">Unique Cells</th>
                     <td>${enb.unique_cells}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Sightings</th>
-                    <td>${enb.sightings}</td>
                   </tr>
                   <tr>
                     <th scope="row">Suspicious Cells</th>
