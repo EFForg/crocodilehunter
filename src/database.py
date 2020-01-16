@@ -74,8 +74,8 @@ class Tower(Base):
     tx_pwr = Column(Float)
     est_dist = Column(Float)
     raw_sib1 = Column(String(255))
-    classification = Column(Enum(TowerClassification), default=1, nullable=False)
-    external_db = Column(Enum(ExternalTowers), default=1, nullable=False)
+    classification = Column(Enum(TowerClassification), default=TowerClassification.unknown, nullable=False)
+    external_db = Column(Enum(ExternalTowers), default=ExternalTowers.unknown, nullable=False)
 
     def __repr__(self):
         repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
