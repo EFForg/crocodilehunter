@@ -57,29 +57,30 @@
         map.fitBounds(bounds);
       }
 
-      function showCurrent(position){
-        console.log('showCurrent', position)
-        var point = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        placeMarker(point, map);
-      }
-
   </script>
   <script>
     $(document).ready(function(){
 
       $('#getLoc').click(function(e){
         e.preventDefault();
-        if (navigator.geolocation) {
-          console.log('getting position')
-          navigator.geolocation.getCurrentPosition(showCurrent);
-        } else {
-          alert("Geolocation is not supported by this browser.");
-        }
+        console.log('getting position')
+        navigator.geolocation.getCurrentPosition(showCurrent, error);
       });
 
       map.addListener('click', function(e) {
         placeMarker(e.latLng, map);
       });
+
+      function showCurrent(position){
+        console.log('showCurrent', position)
+        var point = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        placeMarker(point, map);
+      }
+
+      function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+      }
+
 
       function placeMarker(position, map) {
         console.log('placing marker at', position)
