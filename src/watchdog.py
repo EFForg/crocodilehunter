@@ -99,6 +99,8 @@ class Watchdog():
             dist")
         q = self.db_session.query(KnownTower).from_statement(stmt)
         kt = q.first()
+        if kt is None:
+            return('None')
         dist = self._great_circle_distance(lat, lon, kt.lat, kt.lon)
 
         return(dist)
@@ -455,7 +457,6 @@ class Watchdog():
             })
         #print(f"result {result}")
         location = result.x
-        self.logger.debug(f"location: {location}")
         return location
 
     def start_daemon(self):
