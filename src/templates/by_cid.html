@@ -2,7 +2,7 @@
 
 {% block scripts %}
   <script>
-    const known_towers = {{known_towers|safe}};
+    const known_towers = {{known_towers|tojson}};
     const enodebs = {{enodebs|safe}};
     const key = "{{ key }}";
   </script>

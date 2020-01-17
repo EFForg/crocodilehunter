@@ -124,7 +124,7 @@ class Webui:
     def enb_detail(self, enodeb_id):
         t = self.watchdog.get_enodeb(enodeb_id)
         known_towers = self.watchdog.get_known_towers().all()
-        known_towers_json = json.dumps([kt.to_dict() for kt in known_towers])
+        known_towers_json = [kt.to_dict() for kt in known_towers]
         sightings = self.watchdog.get_sightings_for_enodeb(t)
         sightings_json = json.dumps([s.to_dict() for s in sightings], default=str)
         trilat = self.watchdog.trilaterate_enodeb_location(sightings)
@@ -166,7 +166,7 @@ class Webui:
     def cid_detail(self, cid):
         t = self.watchdog.get_cid(cid)
         known_towers = self.watchdog.get_known_towers().all()
-        known_towers_json = json.dumps([kt.to_dict() for kt in known_towers])
+        known_towers_json = [kt.to_dict() for kt in known_towers]
         sightings = self.watchdog.get_sightings_for_cid(t)
         sightings_json = json.dumps([s.to_dict() for s in sightings], default=str)
         trilat = self.watchdog.trilaterate_enodeb_location(sightings)
@@ -233,7 +233,7 @@ class Webui:
         return render_template('map.html', name=self.watchdog.project_name,
                                key = 'enodeb_id',
                                trilat_pts = json.dumps(trilat_pts),
-                               known_towers = json.dumps(known_towers))
+                               known_towers = known_towers)
 
 
     def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None):
