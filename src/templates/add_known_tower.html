@@ -1,5 +1,140 @@
 {% extends 'base.html' %}
 
+{% block scripts %}
+  <script>
+    const known_towers = {{known_towers|tojson}};
+    let markers = {};
+    let map = {};
+
+    function escape(str) {
+      return $('<div/>').text(str).html();
+    }
+  </script>
+  <script>
+  $(document).ready(function(){
+    let tdata = ""
+    for(const kt of known_towers){
+      tdata += `
+      <tr id="${kt.id}">
+        <td><a href='/known-towers/delete/${kt.id}' title='delete tower'>🗑️</a></td>
+        <td>${escape(kt.lat)}</td>
+        <td>${escape(kt.lon)}</td>
+        <td>${escape(kt.description)}</td>
+      </tr>
+      `
+    }
+    $('tbody#kt-table').html(tdata);
+    $('tr').click( function(){
+      var id = this.id;
+      console.log(id);
+      console.log(markers[id]);
+      $("#map").get(0).scrollIntoView();
+      google.maps.event.trigger(markers[id], 'click')
+      map.setZoom(17);
+      map.panTo(markers[id].position);
+    });
+
+  });
+  </script>
+  <script>
+      function initMap() {
+        var bounds = new google.maps.LatLngBounds();
+        var centroid = new google.maps.LatLng(32, -122);
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: centroid,
+          zoom: 15
+        });
+
+        var points = [];
+        for (const t of known_towers) {
+          var point = new google.maps.LatLng(t.lat, t.lon);
+          var m = new google.maps.Marker({position: point, map: map, title: t.description,
+            icon: "{{ url_for('static', filename='tower.png') }}"
+          });
+          bounds.extend(point);
+          markers[t.id] = m;
+        }
+        map.fitBounds(bounds);
+      }
+
+      function showCurrent(position){
+        console.log('showCurrent', position)
+        var point = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        placeMarker(point, map);
+      }
+
+  </script>
+  <script>
+    $(document).ready(function(){
+
+      $('#getLoc').click(function(e){
+        e.preventDefault();
+        if (navigator.geolocation) {
+          console.log('getting position')
+          navigator.geolocation.getCurrentPosition(showCurrent);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      });
+
+      map.addListener('click', function(e) {
+        placeMarker(e.latLng, map);
+      });
+
+      function placeMarker(position, map) {
+        console.log('placing marker at', position)
+        setFormPosition(position);
+        var m = new google.maps.Marker({
+          position: position,
+          map: map,
+          draggable: true
+        });
+        google.maps.event.addListener(m, 'dragend', function(marker){
+          console.log('dragend ',  marker);
+          setFormPosition(m.position);
+        });
+        map.panTo(position);
+        map.setZoom(17);
+      }
+
+      function setFormPosition(position){
+        $("#lat").val(position.lat());
+        $("#lon").val(position.lng());
+      }
+
+
+
+    });
+  </script>
+
+{% endblock %}
+
 {% block container %}
-yea yea...
-{%endblock%}
+{% if flash %}
+  <div id='flash' class='flash'>
+    {{flash}}
+  </div>
+{% endif %}
+  <div id="map" class="jumbotron"></div>
+  <div class='bs-component'>
+    <form action='{{url_for('add_known_tower')}}'>
+      <button id='getLoc'>Get Current Location</button>
+      <input id='lat' name='lat' placeholder='latitude'/>
+      <input id='lon' name='lon' placeholder='longitude'/>
+      <input id='desc' name='desc' placeholder='description'/>
+      <button type=submit>Add Confirmed Tower</button>
+  </div>
+  <div class='bs-component table-responsive'>
+    <table class="table table-hover table-striped data-table">
+      <thead class="thead-light ">
+        <tr>
+          <th>🗑️</th>
+          <th>Lat</th>
+          <th>Lon</th>
+          <th>Notes</th>
+        </tr>
+        <tbody id='kt-table'>
+        </tbody>
+    </ul>
+  </div>
+{% endblock %}

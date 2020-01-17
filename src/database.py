@@ -155,6 +155,9 @@ class KnownTower(Base):
     lon = Column(Float(32))
     description = Column(Text)
 
+    def __repr__(self):
+        return f"{self.lat}, {self.lon}, {self.description}"
+
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 

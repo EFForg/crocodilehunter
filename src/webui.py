@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, Response, render_template, redirect, url_for
+from flask import Flask, Response, render_template, redirect, url_for, request
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from threading import Thread
@@ -31,7 +31,9 @@ class Webui:
         self.add_endpoint("/enb_detail/<enodeb_id>", "enb_detail", self.enb_detail)
         self.add_endpoint("/cid_detail/<cid>", "cid_detail", self.cid_detail)
         self.add_endpoint("/map", "map", self.map)
-        self.add_endpoint("/addknowntower", "addknowntower", self.add_known_tower)
+        self.add_endpoint("/known-towers", "list_known_towers", self.list_known_towers)
+        self.add_endpoint("/known-towers/add", "add_known_tower", self.add_known_tower)
+        self.add_endpoint("/known-towers/delete/<id>", "del_known_tower", self.delete_known_tower)
 
         app_thread = Thread(target=self.app.run, kwargs={'host':'0.0.0.0'})
         app_thread.start()
@@ -200,8 +202,26 @@ class Webui:
                 known_towers = known_towers_json,
                 sightings = sightings_json)
 
+    def list_known_towers(self):
+        known_towers = self.watchdog.get_known_towers().all()
+        known_towers_json = [kt.to_dict() for kt in known_towers]
+        flash = request.args.get('flash')
+        return render_template('add_known_tower.html', name=self.watchdog.project_name,
+                flash = flash,
+                known_towers = known_towers_json)
+
     def add_known_tower(self):
-        return render_template('add_known_tower.html')
+        lat = request.args.get('lat')
+        lon = request.args.get('lon')
+        desc = request.args.get('desc')
+
+        kt = self.watchdog.add_known_tower(lat, lon, desc)
+        return redirect(url_for('list_known_towers', flash=f'Added Tower: {kt}'))
+
+    def delete_known_tower(self, id):
+        self.watchdog.delete_known_tower(id)
+        return redirect(url_for('list_known_towers', flash=f'Deleted Tower {id}'))
+
 
     def map(self):
         # trilat_points = [(lat, long, enodeb_id), ...]

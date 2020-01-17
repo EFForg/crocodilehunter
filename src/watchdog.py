@@ -166,7 +166,22 @@ class Watchdog():
         return points
 
     def get_known_towers(self):
-        return self.db_session.query(KnownTower)
+        return self.db_session.query(KnownTower).order_by(KnownTower.id.desc())
+
+    def add_known_tower(self, lat, lon, desc):
+        kt = KnownTower(
+            lat = lat,
+            lon = lon,
+            description = desc
+        )
+        self.db_session.add(kt)
+        self.db_session.commit()
+        return kt
+
+    def delete_known_tower(self, id):
+        kt = KnownTower.query.get(id)
+        self.db_session.delete(kt)
+        self.db_session.commit()
 
     def count(self):
         num_rows = Tower.query.count()
