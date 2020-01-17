@@ -93,8 +93,8 @@ To run migrations:
 vim `%s/\s*<coordinates>\([0-9\.\-]*\),\([0-9\.\-]*\),0<.coordinates>/\2,\1,imported from ge.fccinfo.com/g`
 `python3 src/add_known_towers.py <project> <csv_file>
 
-### Misc
+### Important notes
 
-\* It's named *Crocodile Hunter* because a stingray killed Steve Irwin.
+\* Make sure you use mariadb and not mysql or very strange errors will occur! (e.g. this kind of error `SELECT list is not in GROUP BY clause and contains nonaggregated column` from here: https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html)
 
 \* USB3 is powerful enough that when using a bladeRF with a usb cable that is not well shielded there can sometimes be radio interference which can lead to weird errors. Be sure to either use a well shielded USB cable or plug into a USB2 port.
