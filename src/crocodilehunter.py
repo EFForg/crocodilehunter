@@ -111,6 +111,9 @@ class CrocodileHunter():
         if 'earfcns' in self.config[self.project_name]:
             self.earfcn_list = map(int, self.config[self.project_name]['earfcns'].split(','))
         else:
+            if self.disable_wigle:
+                self.logger.critical("Wigle is disabled so we cant fetch an EARFCN list, either run again with wigle enabled or copy an EARFCN list from another project in config.ini")
+                self.cleanup()
             self.logger.warning("Getting earcn list for the first time, this might take a while")
             gps = self.watchdog.get_gps()
             self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
