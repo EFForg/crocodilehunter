@@ -13,6 +13,7 @@
       tdata += `
       <tr id="${enb.enodeb_id}">
         <th scope="row"><a href="/enb_detail/${enb.enodeb_id}">${enb.enodeb_id}</a></th>
+        <td>${enb.plmn}</td>
         <td>${enb.closest_tower}</td>
         <td>${enb.unique_cells}</td>
         <td>${enb.sightings}</td>
@@ -43,6 +44,7 @@
       <thead class="thead-light ">
         <tr>
           <th>eNodeb id</th>
+          <th>PLMN</th>
           <th>Closest Tower (m)</th>
           <th>Uniuqe Cells</th>
           <th>Sightings</th>

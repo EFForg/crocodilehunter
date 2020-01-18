@@ -85,6 +85,9 @@ class Tower(Base):
     def params(self):
         return [str(t).replace('tower_data.','') for t in Tower.__table__.columns]
 
+    def plmn(self):
+        return f"{self.mcc}-{self.mnc}"
+
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 

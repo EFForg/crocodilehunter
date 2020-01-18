@@ -13,6 +13,7 @@
       tdata += `
       <tr id="${enb.cid}">
         <th scope="row"><a href="/cid_detail/${enb.cid}">${enb.cid}</a></th>
+        <td>${enb.plmn}</td>
         <td>${enb.closest_tower}</td>
         <td>${enb.sightings}</td>
         <td>${enb.max_suspiciousness}%</td>
@@ -42,6 +43,7 @@
       <thead class="thead-light ">
         <tr>
           <th>Cell Id</th>
+          <th>PLMN</th>
           <th>Closest Tower (m)</th>
           <th>Sightings</th>
           <th>Suspicious %</th>
