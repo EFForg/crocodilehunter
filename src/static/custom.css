@@ -34,3 +34,11 @@ a {
 .table-hover {
   cursor: pointer;
 }
+
+table.dataTable tbody > tr.selected {
+  background-color: #0ff;
+  color: #000;
+}
+table.dataTable tbody > tr.selected a{
+  color: #000;
+}

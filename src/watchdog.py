@@ -89,6 +89,12 @@ class Watchdog():
         scnt = hits.filter(Tower.classification == TowerClassification.suspicious).count()
         return int((scnt / cnt) * 100)
 
+    def reclassify_tower(self, id, classification, batch=False):
+        tower = self.db_session.query(Tower).get(id)
+        tower.classification = getattr(TowerClassification, classification)
+        if not batch:
+            self.db_session.commit()
+
 
     def closest_known_tower(self, lat, lon):
         r = 6371088 # Radius of earth in meters

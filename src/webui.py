@@ -34,6 +34,7 @@ class Webui:
         self.add_endpoint("/known-towers", "list_known_towers", self.list_known_towers)
         self.add_endpoint("/known-towers/add", "add_known_tower", self.add_known_tower)
         self.add_endpoint("/known-towers/delete/<id>", "del_known_tower", self.delete_known_tower)
+        self.add_endpoint("/reclassify-towers", "reclassify_towers", self.reclassify_towers, methods=['POST'])
 
         app_thread = Thread(target=self.app.run, kwargs={'host':'0.0.0.0'})
         app_thread.start()
@@ -226,6 +227,15 @@ class Webui:
         self.watchdog.delete_known_tower(id)
         return redirect(url_for('list_known_towers', flash=f'Deleted Tower {id}'))
 
+    def reclassify_towers(self):
+        ids = json.loads(request.form.get('ids'))
+        classification = request.form.get('classification')
+        for id in ids:
+            self.logger.debug(f'reclassifying {id} as {classification}')
+            self.watchdog.reclassify_tower(int(id), classification, True)
+        self.watchdog.db_session.commit()
+        return redirect(request.referrer)
+
 
     def map(self):
         # trilat_points = [(lat, long, enodeb_id), ...]
@@ -240,8 +250,8 @@ class Webui:
                                known_towers = known_towers)
 
 
-    def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None):
-        self.app.add_url_rule(endpoint, endpoint_name, EndpointAction(handler))
+    def add_endpoint(self, endpoint=None, endpoint_name=None, handler=None, **options):
+        self.app.add_url_rule(endpoint, endpoint_name, EndpointAction(handler), **options)
 
 
 class EndpointAction(object):
