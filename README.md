@@ -26,12 +26,7 @@ git submodule update --recursive
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
-sudo apt-get install python3-pip gpsd gpsd-clients mariadb-server python3-dev libmysqlclient-dev cmake libitpp-dev librtlsdr-dev libopenblas-dev libncurses5-dev libpcsclite-dev
-```
-
-Note: for installation on a Raspberry Pi, you might also need:
-```
-sudo apt-get install libpolarssl-dev
+sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev
 ```
 
 Install the required python packages:
@@ -41,7 +36,7 @@ pip3 install -r src/requirements.txt
 
 Additionally, you'll either need [Wigle](https://wigle.net/) [API credentials](https://api.wigle.net/) or you'll need to set the `enable_wigle` flag in `watchdog.py` to `False`. Note that the free API access only allows 10 `GET` queries per day.
 
-If you choose to enable Wigle access, you'll need to set the following environment variables (probably in your `~/.bashrc` file): `WIGLE_NAME` and `WIGLE_KEY`.
+If you choose to enable Wigle access, you'll need to set the appropriate options in your config.ini file described below.
 
 ### Running
 You'll need to make a copy of `/src/config.ini.example` in `/src` named `config.ini` and update it with your credentials for wigle and mysql and a default gps coordinate to use for testing.  

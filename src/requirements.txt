@@ -6,6 +6,5 @@ gpsd-py3
 sqlalchemy-utils
 mysqlclient
 numpy
-scipy
 coloredlogs
 verboselogs
