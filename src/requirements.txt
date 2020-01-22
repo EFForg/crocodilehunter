@@ -8,3 +8,4 @@ mysqlclient
 numpy
 coloredlogs
 verboselogs
+geopy
