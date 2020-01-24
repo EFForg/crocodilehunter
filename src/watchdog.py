@@ -201,9 +201,10 @@ class Watchdog():
             gps = self.config['general']['gps_default'].split(',')
             packet = type('Packet', (object,), {'lat': float(gps[0]), 'lon': float(gps[1])})()
         else:
+            gpsd.logger.setLevel("WARNING")
             gpsd.connect()
             packet = gpsd.get_current()
-            while packet.lat == 0.0 and packet.lon == 0.0:
+            while packet.mode < 2:
                 packet = gpsd.get_current()
 
         return packet
@@ -380,7 +381,7 @@ class Watchdog():
         precache = self.db_session.query(Tower).filter(Tower.mcc == tower.mcc, Tower.mnc == tower.mnc, Tower.tac == tower.tac, Tower.cid == tower.cid, Tower.external_db != ExternalTowers.unknown).all()
 
         if len(precache) > 0 and tower.external_db == ExternalTowers.unknown:
-            self.logger.info(f"Marking external DB tower as {precheck[0].external_db} based on existing db records")
+            self.logger.info(f"Marking external DB tower as {precache[0].external_db} based on existing db records")
             tower.external_db = precache[0].external_db
             if tower.classification == TowerClassification.unknown:
                 tower.classification = precache[0].classification
