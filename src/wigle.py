@@ -37,10 +37,7 @@ class Wigle():
         if resp.status_code >= 400:
             return resp
 
-        print(resp)
-
         resp = json.loads(resp.text)
-        print(resp)
         prev_resp = resp
         while prev_resp['searchAfter'] is not None:
             qs_params['searchAfter'] = prev_resp['searchAfter']
