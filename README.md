@@ -8,7 +8,10 @@ The main project is located in `/src` and is based off of [srsLTE](https://githu
 
 [Driver installation for the USRP B200](https://files.ettus.com/manual/page_install.html#install_linux).
 
-[Driver installation for the bladeRF x40](https://github.com/Nuand/bladeRF/wiki/Getting-Started%3A-Linux#Easy_installation_for_Ubuntu_The_bladeRF_PPA). Note: our bootstrapping script will take care of updating the firmware + FPGA on your bladeRF to the latest version when you try to run the Crocodile Hunter project.
+[Driver installation for the bladeRF x40](https://github.com/Nuand/bladeRF/wiki/Getting-Started%3A-Linux#Easy_installation_for_Ubuntu_The_bladeRF_PPA).
+**Note:** our bootstrapping script will take care of updating the firmware + FPGA on your bladeRF to the latest version when you try to run the Crocodile Hunter project.
+**Note:** installing from apt on debian or raspbian will install an incompativle version of libbladerf. The version must be at least 7.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
+
 
 ### Project Setup
 
@@ -26,7 +29,7 @@ git submodule update --recursive
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
-sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev
+sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq  libfftw3-dev libboost-dev libboost-program-options-dev libconfig++-dev gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libuhd-dev libbladerf-dev libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev
 ```
 
 Install the required python packages:

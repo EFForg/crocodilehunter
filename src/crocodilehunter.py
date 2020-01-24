@@ -24,7 +24,6 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 
 # Global flag to exit forever running threads
 EXIT = False
-CRASH_TIMEOUT = 25
 
 class CrocodileHunter():
     def __init__(self, args):
@@ -139,7 +138,7 @@ class CrocodileHunter():
         nbsr = NBSR(proc.stdout)
         line = ''
         while not EXIT:
-            line = nbsr.readline(CRASH_TIMEOUT)
+            line = nbsr.readline(int(self.config["general"]["crash_timeout"]))
             if line is not None:
                 self.logger.debug(line.decode("ascii").rstrip())
             out.append(line)

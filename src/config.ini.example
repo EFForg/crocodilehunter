@@ -3,6 +3,7 @@ gps_default = 0, 0
 mysql_path = mysql://root:toor@localhost:3306
 wigle_name = AIC1234
 wigle_key = deadbeef
+crash_timeout = 30 ;number of seconds until we assume process has crashed. On a raspberry pi this needs to be more like 120
 
 ;project specific settings
 ;earfcn list will be cacluated once for each new project, or can be pre-calculated for a specific
