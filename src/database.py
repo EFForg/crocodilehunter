@@ -5,7 +5,7 @@ import enum
 
 import configparser
 
-from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, Text, create_engine, func, Enum
+from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, Text, create_engine, func, Enum, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import create_database, database_exists
@@ -49,8 +49,9 @@ class ExternalTowers(enum.Enum):
     def __str__(self):
         return self.name.title()
 
-class Tower(Base):
+class BaseTower(Base):
     __tablename__ = "tower_data"
+    __abstract__ = True
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     mcc = Column(Integer)
@@ -77,6 +78,7 @@ class Tower(Base):
     classification = Column(Enum(TowerClassification), default=TowerClassification.unknown, nullable=False)
     external_db = Column(Enum(ExternalTowers), default=ExternalTowers.unknown, nullable=False)
 
+class Tower(BaseTower):
     def __repr__(self):
         repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
             f"{self.lon}, time: {self.timestamp}, freq: {self.frequency}>"
@@ -149,6 +151,21 @@ class Tower(Base):
     def get_sector_id(self):
         # The last 8 bits are sector id.
         return self.cid & 255
+
+
+class ApiTower(BaseTower):
+    __tablename__ = "api_tower_data"
+    api_key = Column(String(32), ForeignKey('api_users.api_key'), nullable=False)
+    ext_id = Column(Integer, nullable=False)
+    uploaded = Column(DateTime, nullable=False)
+
+class ApiUser(Base):
+    __tablename__ = "api_users"
+    api_key = Column(String(32), primary_key=True)
+    name = Column(Text, nullable=False)
+    contact = Column(String(255), nullable=False)
+    description = Column(Text, nullable=False)
+
 
 class KnownTower(Base):
     __tablename__ = "known_towers"
