@@ -166,6 +166,9 @@ class ApiUser(Base):
     contact = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
 
+    def __repr__(self):
+        return f"{self.name} <{self.contact}> - {self.description}"
+
 
 class KnownTower(Base):
     __tablename__ = "known_towers"
