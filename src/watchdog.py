@@ -8,6 +8,7 @@ from threading import Thread
 from datetime import datetime
 from geopy.distance import vincenty
 from types import SimpleNamespace
+from collections import namedtuple
 
 import gpsd
 import numpy
@@ -199,7 +200,8 @@ class Watchdog():
     def get_gps(self):
         if self.disable_gps:
             gps = self.config['general']['gps_default'].split(',')
-            packet = type('Packet', (object,), {'lat': float(gps[0]), 'lon': float(gps[1])})()
+            Packet = namedtuple("Packet", ("lat", "lon"))
+            packet = Packet(float(gps[0]), float(gps[1]))
         else:
             gpsd.logger.setLevel("WARNING")
             gpsd.connect()

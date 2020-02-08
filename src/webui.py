@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, Response, render_template, redirect, url_for, request
+from flask import Flask, Response, render_template, redirect, url_for, request, jsonify
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from threading import Thread
@@ -35,6 +35,7 @@ class Webui:
         self.add_endpoint("/known-towers/add", "add_known_tower", self.add_known_tower)
         self.add_endpoint("/known-towers/delete/<id>", "del_known_tower", self.delete_known_tower)
         self.add_endpoint("/reclassify-towers", "reclassify_towers", self.reclassify_towers, methods=['POST'])
+        self.add_endpoint("/gps", "get_gps", self.get_gps)
 
         app_thread = Thread(target=self.app.run, kwargs={'host':'0.0.0.0'})
         app_thread.start()
@@ -236,6 +237,10 @@ class Webui:
         self.watchdog.db_session.commit()
         return redirect(request.referrer)
 
+    def get_gps(self):
+        coords = self.watchdog.get_gps()._asdict()
+        return jsonify(coords)
+
 
     def map(self):
         # trilat_points = [(lat, long, enodeb_id), ...]
@@ -281,7 +286,7 @@ if __name__ == "__main__":
         print("Please set the CH_PROJ environment variable")
         sys.exit()
     class Args:
-        disable_gps = False
+        disable_gps = True
         disable_wigle = False
         debug = False
         project_name = os.environ['CH_PROJ']
