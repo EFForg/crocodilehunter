@@ -254,6 +254,9 @@ class Watchdog():
         towers.sort(key=lambda t: t.suspiciousness, reverse=True)
         return towers
 
+    def get_all_towers_after(self, starting_id):
+        return self.db_session.query(Tower).filter(Tower.id > starting_id).all()
+
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
         if tower.mcc not in (310, 311, 316):
@@ -520,9 +523,9 @@ class ThreadedUnixServer(socketserver.UnixStreamServer):
 
 if __name__ == "__main__":
     class Args:
-        disable_gps = False
+        disable_gps = True
         disable_wigle = False
-        debug = False
+        debug = True
         project_name = "test"
     dog = Watchdog(Args)
     dog.start_daemon()

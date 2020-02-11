@@ -282,7 +282,7 @@ if __name__ == "__main__":
     fmt=f"\b * %(asctime)s crocodile-hunter - %(levelname)s %(message)s"
     coloredlogs.install(level="DEBUG", fmt=fmt, datefmt='%H:%M:%S')
 
-    if os.environ['CH_PROJ'] is None:
+    if not 'CH_PROJ' in os.environ:
         print("Please set the CH_PROJ environment variable")
         sys.exit()
     class Args:

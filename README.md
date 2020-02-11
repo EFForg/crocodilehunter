@@ -81,15 +81,25 @@ If the database is changed or if you wish to change the database you can do so w
 
 To create a migration file:
 Change the database schema in src/database.py then run
-`export CH_PROJ=projectname; sudo -E python3 ./webui.py db migrate -m "migration message"`
+`export CH_PROJ=<projectname>; sudo -E python3 ./webui.py db migrate -m "migration message"`
 
 To run migrations:
-`export CH_PROJ=wardrive; sudo -E python3 ./webui.py db upgrade`
+`export CH_PROJ=<projectname>; sudo -E python3 ./webui.py db upgrade`
 
 ### Importing known towers:
 `curl http://ge.fccinfo.com/googleEarthASR.php?LOOK=-122.2092858690129,37.71980519866521,50915.07,0,60.7 | grep coordinates`
-vim `%s/\s*<coordinates>\([0-9\.\-]*\),\([0-9\.\-]*\),0<.coordinates>/\2,\1,imported from ge.fccinfo.com/g`
-`python3 src/add_known_towers.py <project> <csv_file>
+`vim %s/\s*<coordinates>\([0-9\.\-]*\),\([0-9\.\-]*\),0<.coordinates>/\2,\1,imported from ge.fccinfo.com/g`
+`python3 src/add_known_towers.py <project> <csv_file>`
+
+### API:
+To run the API Server set the appropriate paramaters in config.ini and then run `python3 api_server.py` 
+To use the API first configure the host and port in config.ini and then get an API key by running
+`export CH_PROJ=<projectname>; python3 api_client.py signup`
+Then to push new towers to the server run
+`export CH_PROJ=<projectname>; python3 api_client.py add_towers`
+
+It is reccomended to add this command to a cron job to regularly push towers. 
+
 
 ### Important notes
 

@@ -13,7 +13,7 @@ class ApiController():
         self.config = args.config
 
     def user_tower_count(self, api_key):
-        if ApiTower.query.count():
+        if ApiTower.query.filter(ApiTower.api_key == api_key).count():
             tower = ApiTower.query.filter(ApiTower.api_key == api_key).order_by(ApiTower.ext_id.desc())[0]
             return tower.ext_id
         else:
@@ -35,9 +35,9 @@ class ApiController():
             t = ApiTower(**tower)
             self.db_session.add(t)
             self.db_session.commit()
-        delta_tc = self.all_tower_count - old_tc
+        delta_tc = self.all_tower_count() - old_tc
 
-        return (delta_tc, user_tower_count(api_key))
+        return (delta_tc, self.user_tower_count(api_key))
 
 
     def add_user(self, name, contact, description):

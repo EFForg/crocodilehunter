@@ -63,7 +63,7 @@ class ApiView:
         return jsonify({
             "error": None,
             "response": {
-                "towers_sent": len(towers)
+                "towers_sent": len(towers),
                 "towers_added": towers_added,
                 "last_record": last_record
             }

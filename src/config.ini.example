@@ -5,6 +5,12 @@ wigle_name = AIC1234
 wigle_key = deadbeef
 crash_timeout = 30 ;number of seconds until we assume process has crashed. On a raspberry pi this needs to be more like 120
 
+;api server settings, if you are running an API set these to the host and port you are running on and your contact info. If you are a client set these to the host and port the provider gave you.
+[api]
+host = 0.0.0.0
+port = 5000
+contact = test@example.com
+
 ;project specific settings
 ;earfcn list will be cacluated once for each new project, or can be pre-calculated for a specific
 ;project using the earfcn_list.py script.
