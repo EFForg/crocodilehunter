@@ -469,7 +469,7 @@ class Watchdog():
     def start_daemon(self):
         self.logger.debug(f"Starting Watchdog")
         self.logger.debug(f"Creating socket {Watchdog.SOCK}")
-        if os.path.isfile(Watchdog.SOCK):
+        if os.path.exists(Watchdog.SOCK):
             os.remove(Watchdog.SOCK)
         RequestHandlerClass = self.create_request_handler_class(self)
         self.server = ThreadedUnixServer(Watchdog.SOCK, RequestHandlerClass)
