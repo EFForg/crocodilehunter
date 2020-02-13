@@ -203,7 +203,7 @@ class Watchdog():
         ocid_key = self.config.get('general', 'ocid_key')
         if ocid_key:
             resp = ocid.ocid_get_location(ocid_key)
-            self.logger.debug(resp)
+            self.logger.info(f"opencellid location {resp}")
             if 'lat' in resp:
                 packet = Packet(float(resp['lat']), float(resp['lon']))
                 return packet
@@ -427,6 +427,23 @@ class Watchdog():
                 tower.external_db = ExternalTowers.not_present
             else:
                 tower.external_db = ExternalTowers.wigle
+
+        if (not tower.external_db == ExternalTowers.wigle) \
+        and self.config.get('general', 'ocid_key'):
+
+            resp = ocid.ocid_search_cell(self.config['general']['ocid_key'],
+                                        tower.mcc,
+                                        tower.mnc,
+                                        tower.tac,
+                                        tower.cid)
+
+            self.logger.info(f"open cell id response {resp}")
+            if 'error' in resp:
+                tower.external_db = ExternalTowers.not_present
+            else:
+                tower.external_db = ExternalTowers.opencellid
+
+
 
         if tower.external_db == ExternalTowers.not_present:
             self.logger.warning(f"Tower not externally confirmed {tower}")
