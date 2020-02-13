@@ -8,6 +8,7 @@ from threading import Thread
 from datetime import datetime
 from geopy.distance import vincenty
 from types import SimpleNamespace
+from collections import namedtuple
 
 import gpsd
 import numpy
@@ -17,6 +18,7 @@ from scipy.optimize import minimize
 
 from database import Tower, KnownTower, init_db, TowerClassification, ExternalTowers
 from wigle import Wigle
+import ocid
 
 class Watchdog():
     SOCK = f"/tmp/croc.sock"
@@ -196,15 +198,38 @@ class Watchdog():
         num_towers = Tower.query.with_entities(Tower.enodeb_id).distinct().count()
         self.logger.verbose(f"Found {num_towers} towers a total of {num_rows} times")
 
+    def get_ocid_location(self):
+        Packet = namedtuple("Packet", ("lat", "lon"))
+        ocid_key = self.config.get('general', 'ocid_key')
+        if ocid_key:
+            resp = ocid.ocid_get_location(ocid_key)
+            self.logger.info(f"opencellid location {resp}")
+            if 'lat' in resp:
+                packet = Packet(float(resp['lat']), float(resp['lon']))
+                return packet
+
+        return None
+
     def get_gps(self):
         if self.disable_gps:
+            packet = self.get_ocid_location()
+            if packet:
+                return packet
+            Packet = namedtuple("Packet", ("lat", "lon"))
             gps = self.config['general']['gps_default'].split(',')
-            packet = type('Packet', (object,), {'lat': float(gps[0]), 'lon': float(gps[1])})()
+            packet = Packet(float(gps[0]), float(gps[1]))
         else:
             gpsd.logger.setLevel("WARNING")
             gpsd.connect()
             packet = gpsd.get_current()
+            tries = 1
             while packet.mode < 2:
+                # After every 10 tries try to get a packet from ocid
+                if not tries % 10:
+                    packet = self.get_ocid_location()
+                    if packet:
+                        return packet
+                tries += 1
                 packet = gpsd.get_current()
 
         return packet
@@ -251,6 +276,9 @@ class Watchdog():
         towers = self.db_session.query(Tower).all()
         towers.sort(key=lambda t: t.suspiciousness, reverse=True)
         return towers
+
+    def get_all_towers_after(self, starting_id):
+        return self.db_session.query(Tower).filter(Tower.id > starting_id).all()
 
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
@@ -400,6 +428,23 @@ class Watchdog():
             else:
                 tower.external_db = ExternalTowers.wigle
 
+        if (not tower.external_db == ExternalTowers.wigle) \
+        and self.config.get('general', 'ocid_key'):
+
+            resp = ocid.ocid_search_cell(self.config['general']['ocid_key'],
+                                        tower.mcc,
+                                        tower.mnc,
+                                        tower.tac,
+                                        tower.cid)
+
+            self.logger.info(f"open cell id response {resp}")
+            if 'error' in resp:
+                tower.external_db = ExternalTowers.not_present
+            else:
+                tower.external_db = ExternalTowers.opencellid
+
+
+
         if tower.external_db == ExternalTowers.not_present:
             self.logger.warning(f"Tower not externally confirmed {tower}")
             tower.suspiciousness += 30
@@ -518,9 +563,9 @@ class ThreadedUnixServer(socketserver.UnixStreamServer):
 
 if __name__ == "__main__":
     class Args:
-        disable_gps = False
+        disable_gps = True
         disable_wigle = False
-        debug = False
+        debug = True
         project_name = "test"
     dog = Watchdog(Args)
     dog.start_daemon()
