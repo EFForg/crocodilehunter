@@ -9,3 +9,5 @@ numpy
 coloredlogs
 verboselogs
 geopy
+requests
+access-points

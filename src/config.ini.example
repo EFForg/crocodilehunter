@@ -3,6 +3,7 @@ gps_default = 0, 0
 mysql_path = mysql://root:toor@localhost:3306
 wigle_name = AIC1234
 wigle_key = deadbeef
+ocid_key = "1312acab"
 crash_timeout = 30 ;number of seconds until we assume process has crashed. On a raspberry pi this needs to be more like 120
 
 ;api server settings, if you are running an API set these to the host and port you are running on and your contact info. If you are a client set these to the host and port the provider gave you.

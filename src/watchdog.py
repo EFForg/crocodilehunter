@@ -18,6 +18,7 @@ from scipy.optimize import minimize
 
 from database import Tower, KnownTower, init_db, TowerClassification, ExternalTowers
 from wigle import Wigle
+import ocid
 
 class Watchdog():
     SOCK = f"/tmp/croc.sock"
@@ -197,16 +198,38 @@ class Watchdog():
         num_towers = Tower.query.with_entities(Tower.enodeb_id).distinct().count()
         self.logger.verbose(f"Found {num_towers} towers a total of {num_rows} times")
 
+    def get_ocid_location(self):
+        Packet = namedtuple("Packet", ("lat", "lon"))
+        ocid_key = self.config.get('general', 'ocid_key')
+        if ocid_key:
+            resp = ocid.ocid_get_location(ocid_key)
+            self.logger.debug(resp)
+            if 'lat' in resp:
+                packet = Packet(float(resp['lat']), float(resp['lon']))
+                return packet
+
+        return None
+
     def get_gps(self):
         if self.disable_gps:
-            gps = self.config['general']['gps_default'].split(',')
+            packet = self.get_ocid_location()
+            if packet:
+                return packet
             Packet = namedtuple("Packet", ("lat", "lon"))
+            gps = self.config['general']['gps_default'].split(',')
             packet = Packet(float(gps[0]), float(gps[1]))
         else:
             gpsd.logger.setLevel("WARNING")
             gpsd.connect()
             packet = gpsd.get_current()
+            tries = 1
             while packet.mode < 2:
+                # After every 10 tries try to get a packet from ocid
+                if not tries % 10:
+                    packet = self.get_ocid_location()
+                    if packet:
+                        return packet
+                tries += 1
                 packet = gpsd.get_current()
 
         return packet
