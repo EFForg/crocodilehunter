@@ -1,6 +1,6 @@
-# crocodilehunter
+# Crocodile Hunter
 
-This repository is part of a project studying the newest generation (i.e. 4G/LTE) of Cell Site Simulators.
+This repository is part of an EFF project studying the newest generation (i.e. 4G/LTE) of Cell Site Simulators.
 
 The main project is located in `/src` and is based off of [srsLTE](https://github.com/srsLTE/srsLTE) and our setup currently supports the USRP B200 and the bladeRF x40.
 
@@ -9,8 +9,10 @@ The main project is located in `/src` and is based off of [srsLTE](https://githu
 [Driver installation for the USRP B200](https://files.ettus.com/manual/page_install.html#install_linux).
 
 [Driver installation for the bladeRF x40](https://github.com/Nuand/bladeRF/wiki/Getting-Started%3A-Linux#Easy_installation_for_Ubuntu_The_bladeRF_PPA).
+
 **Note:** our bootstrapping script will take care of updating the firmware + FPGA on your bladeRF to the latest version when you try to run the Crocodile Hunter project.
-**Note:** installing from apt on debian or raspbian will install an incompativle version of libbladerf. The version must be at least 7.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
+
+**Note:** installing from apt on debian or raspbian will install an incompatible version of libbladerf. The version must be at least 7.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
 
 
 ### Project Setup
