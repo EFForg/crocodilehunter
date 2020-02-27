@@ -36,6 +36,7 @@ class Webui:
         self.add_endpoint("/known-towers/delete/<id>", "del_known_tower", self.delete_known_tower)
         self.add_endpoint("/reclassify-towers", "reclassify_towers", self.reclassify_towers, methods=['POST'])
         self.add_endpoint("/gps", "get_gps", self.get_gps)
+        self.add_endpoint("/logs", "get_logs", self.get_logs)
 
         app_thread = Thread(target=self.app.run, kwargs={'host':'0.0.0.0'})
         app_thread.start()
@@ -240,6 +241,18 @@ class Webui:
     def get_gps(self):
         coords = self.watchdog.get_gps()._asdict()
         return jsonify(coords)
+
+    def get_logs(self):
+        logdir = '/var/log/crocodilehunter.log'
+        if not os.path.isfile(logdir):
+            return render_template('logs.html', name=self.watchdog.project_name,
+                                   logs="no logfile exists.")
+
+
+        with open(logdir, 'r') as f:
+            log = f.read()
+            return render_template('logs.html', name=self.watchdog.project_name,
+                                   logs=log)
 
 
     def map(self):
