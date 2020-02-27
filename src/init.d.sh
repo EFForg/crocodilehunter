@@ -1,8 +1,8 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          crocodilehunter
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
+# Required-Start:    $remote_fs $syslog $sshd
+# Required-Stop:     $remote_fs $syslog $sshd
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Description:       Run Crocodile Hunter fake base station detection
