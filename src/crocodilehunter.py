@@ -46,6 +46,7 @@ class CrocodileHunter():
         self.config.read(self.config_fp)
         self.earfcn_list = []
         signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
 
         if args.project_name:
             self.project_name = args.project_name
@@ -68,10 +69,12 @@ class CrocodileHunter():
 
     def start(self):
         self.logger.info(f"starting crododile hunter project: {self.project_name}")
+        """
         if not self.debug:
             spn = Thread(target=self.show_spinner)
             spn.start()
             self.threads.append(spn)
+            """
 
         # Bootstrap srsUE dependencies
         if self.disable_gps:
