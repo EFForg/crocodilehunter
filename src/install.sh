@@ -11,7 +11,7 @@ cd `pwd`/../..
 if [ ! -d  /opt ]; then
   mkdir /opt
 fi
-cp -r crocodilehunter /opt
+rsync -au crocodilehunter /opt/
 cp /opt/crocodilehunter/src/init.d.sh /etc/init.d/crocodilehunter
 chmod +x /etc/init.d/crocodilehunter
 chmod +x /opt/crocodilehunter/src/crocodilehunter.py
