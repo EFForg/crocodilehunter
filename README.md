@@ -41,6 +41,8 @@ Install the required python packages:
 ```
 pip3 install -r src/requirements.txt
 ```
+if you get an error about a missing msyql_config run the following command:
+`sudo ln -s /usr/bin/mariadb_config /usr/bin/mysql_config`
 
 Additionally, you'll either need [Wigle](https://wigle.net/) [API credentials](https://api.wigle.net/) or you'll need to set the `enable_wigle` flag in `watchdog.py` to `False`. Note that the free API access only allows 10 `GET` queries per day.
 
