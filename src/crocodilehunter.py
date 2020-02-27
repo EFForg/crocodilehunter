@@ -38,7 +38,6 @@ class CrocodileHunter():
         """
         self.threads = []
         self.subprocs = []
-        self.project_name = args.project_name
         self.debug = args.debug
         self.disable_gps = args.disable_gps
         self.disable_wigle = args.disable_wigle
@@ -47,6 +46,11 @@ class CrocodileHunter():
         self.config.read(self.config_fp)
         self.earfcn_list = []
         signal.signal(signal.SIGINT, self.signal_handler)
+
+        if args.project_name:
+            self.project_name = args.project_name
+        else:
+            self.project_name = self.config['general']['default_project']
 
         if self.project_name not in self.config:
             self.config[self.project_name] = {}
@@ -63,6 +67,7 @@ class CrocodileHunter():
         self.watchdog = Watchdog(args)
 
     def start(self):
+        self.logger.info(f"starting crododile hunter project: {self.project_name}")
         if not self.debug:
             spn = Thread(target=self.show_spinner)
             spn.start()
@@ -185,7 +190,7 @@ class CrocodileHunter():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
-    parser.add_argument('-p', '--project-name', dest='project_name', default='default', help="specify the project's name. defaults to 'default'", action='store')
+    parser.add_argument('-p', '--project-name', dest='project_name', default=None, help="specify the project's name. defaults to 'default'", action='store')
     parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true',)
     parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
     parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
