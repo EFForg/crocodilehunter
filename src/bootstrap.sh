@@ -42,9 +42,15 @@ else
     if [ -e /dev/ttyUSB0 ]; then
         sudo gpsd /dev/ttyUSB0
         echo -e "Waiting for GPS to sync"
+        TRIES=0
         until ../experiments/gps.sh | grep -v null  > /dev/null; do
             echo -e "GPS failed to sync."
             sleep 1
+            TRIES=$[ $TRIES + 1 ]
+            if [ $TRIES -ge 5 ]; then
+              echo -e "GPS couldn't get a fix, giving up"
+              break;
+            fi
         done
         echo -e "GPS successfully got location"
     else
