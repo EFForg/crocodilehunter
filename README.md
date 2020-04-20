@@ -38,6 +38,7 @@ Please make sure you have python3.6 installed on your system. Additional package
 ```
 sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq  libfftw3-dev libboost-dev libboost-program-options-dev libconfig++-dev gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libuhd-dev  libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev
 ```
+In case there is an error locating the package ```libpolarssl-dev``` it can be changed to ```libmbedtls-dev```
 
 Install the required python packages:
 ```
