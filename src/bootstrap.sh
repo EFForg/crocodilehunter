@@ -47,7 +47,7 @@ else
             echo -e "GPS failed to sync."
             sleep 1
             TRIES=$[ $TRIES + 1 ]
-            if [ $TRIES -ge 5 ]; then
+            if [ $TRIES -ge 10]; then
               echo -e "GPS couldn't get a fix, giving up"
               break;
             fi
