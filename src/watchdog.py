@@ -461,7 +461,7 @@ class Watchdog():
         self.logger.info(f"Calculating suspiciousness for {tower}")
         us_centric = self.config.getboolean('general', 'run_us_centeric_heuristics')
         if us_centric:
-            self.logger.warning(f"RUNNING US CENTRIC HEURISTICS THIS WILL RESULT IN FALSE POSITIVES IF YOU ARE NOT IN THE US")
+            self.logger.warning(f"RUNNING US CENTRIC HEURISTICS; THIS WILL RESULT IN FALSE POSITIVES IF YOU ARE NOT IN THE US")
             self.check_mcc(tower)
             self.check_mnc(tower)
         self.check_existing_rssi(tower)
