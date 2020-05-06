@@ -6,6 +6,7 @@ wigle_key = deadbeef
 ocid_key = 1312acab
 default_project = default
 crash_timeout = 30 ;number of seconds until we assume process has crashed. On a raspberry pi this needs to be more like 120
+run_us_centeric_heuristics = false ;run US based heuristics like MCC and MNC checks
 
 ;api server settings, if you are running an API set these to the host and port you are running on and your contact info. If you are a client set these to the host and port the provider gave you.
 [api]
