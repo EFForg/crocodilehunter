@@ -1,0 +1,17 @@
+[Unit]
+Description=Crocodile Hunter fake base station detector
+After=mysqld.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+WorkingDirectory=/opt/crocodilehunter/src
+ExecStart=/opt/crocodilehunter/src/crocodilehunter.py
+Restart=always
+StandardOutput=syslog+journal
+StandardError=syslog+journal
+SyslogIdentifier=crocodilehunter
+User=root
+Group=root
+

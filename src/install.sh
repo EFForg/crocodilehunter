@@ -12,6 +12,6 @@ if [ ! -d  /opt ]; then
   mkdir /opt
 fi
 rsync -au crocodilehunter /opt/
-cp /opt/crocodilehunter/src/init.d.sh /etc/init.d/crocodilehunter
-chmod +x /etc/init.d/crocodilehunter
+cp /opt/crocodilehunter/src/service /etc/systemd/system/crocodilehunter.service
+systemctl enable crocodilehunter 
 chmod +x /opt/crocodilehunter/src/crocodilehunter.py
