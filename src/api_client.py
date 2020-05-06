@@ -82,7 +82,7 @@ class ApiClient:
         self.api_key = self.config['api']['api_key']
 
     def _make_api_url(self, fragment):
-        return f"http://{self.api_host}:{self.api_port}/api/{fragment}"
+        return f"https://{self.api_host}:{self.api_port}/api/{fragment}"
 
 if __name__ == "__main__":
     from watchdog import Watchdog
