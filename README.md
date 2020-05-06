@@ -15,7 +15,9 @@ You'll need to install the required drivers for either the bladeRF or USRP.
 
 **Note:** our bootstrapping script will take care of updating the firmware + FPGA on your bladeRF to the latest version when you try to run the Crocodile Hunter project.
 
-**Note:** installing from apt on debian or raspbian will install an incompatible version of libbladerf. The version must be at least 7.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
+**Note:** installing from apt on debian or raspbian will install an incompatible version of libbladerf. The version must be at least 2018.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
+
+**Note:** If you are on ubuntu or the version of libbladerf is >= 2018 you can install from repos like so: `sudo apt install libbladerf-dev`
 
 
 ### Project Setup
@@ -34,8 +36,9 @@ git submodule update --recursive
 
 Please make sure you have python3.6 installed on your system. Additional packages you need to install if you're on Ubuntu:
 ```
-sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq  libfftw3-dev libboost-dev libboost-program-options-dev libconfig++-dev gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libuhd-dev libbladerf-dev libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev
+sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq  libfftw3-dev libboost-dev libboost-program-options-dev libconfig++-dev gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libuhd-dev  libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev
 ```
+In case there is an error locating the package ```libpolarssl-dev``` it can be changed to ```libmbedtls-dev```
 
 Install the required python packages:
 ```
@@ -50,17 +53,19 @@ You may also wish to get an [Open Cell ID](https://opencellid.org) API key for G
 
 If you choose to enable Wigle and/or Open Cell ID access, you'll need to set the appropriate options in your config.ini file described below.
 
-### Running
-You'll need to make a copy of `/src/config.ini.example` in `/src` named `config.ini` and update it with your credentials for wigle, opencellid, and mysql, and default gps coordinates to use for testing.  
+You may also wish to set up the API to sync data back to a central server. For information on that see the API section below. 
 
-You will want to get wigle pro API keys or you will hit your request limit very quickly.
+### Running
+You'll need to make a copy of `/src/config.ini.example` in `/src` named `config.ini` and update it with your credentials for wigle, opencellid, and mysql, and default gps coordinates to use for testing, (get them from google maps.) You can also set your default project, this is necessary for starting crocodile hunter automatically using the provided init.d script. 
+
+You will want to get wigle pro API keys or you will hit your request limit very quickly. You should be able to get those by emailing the wigle project and introducing yourself.
 
 
 To run the full project, use:
 
 ```
 cd src
-./crocodilehunter.py <arguments> -p <project name>
+./crocodilehunter.py <arguments>
 ```
 
 ### Usage
@@ -80,7 +85,7 @@ optional arguments:
 
 ### Web UI
 Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
-The best way to keep an eye on it on the go is to connect your laptop to a mobile hotspot and then use your phone to view the web UI (that way your computer will still have internet access for making wigle queries.)
+The best way to keep an eye on it on the go is to connect your laptop or pi to a mobile hotspot and then use your phone to view the web UI (that way your computer will still have internet access for making wigle queries.)
 
 If you want to run the webUI without running the scanner simply run the following command:
 `export CH_PROJ=<project_name>; python3 webui.py`
@@ -96,6 +101,8 @@ To run migrations:
 `export CH_PROJ=<projectname>; sudo -E python3 ./webui.py db upgrade`
 
 ### Importing known towers:
+To import a list of FCC known towers in the US run the following commands:
+
 `curl http://ge.fccinfo.com/googleEarthASR.php?LOOK=-122.2092858690129,37.71980519866521,50915.07,0,60.7 | grep coordinates`
 `vim %s/\s*<coordinates>\([0-9\.\-]*\),\([0-9\.\-]*\),0<.coordinates>/\2,\1,imported from ge.fccinfo.com/g`
 `python3 src/add_known_towers.py <project> <csv_file>`
@@ -108,6 +115,14 @@ Then to push new towers to the server run
 `export CH_PROJ=<projectname>; python3 api_client.py add_towers`
 
 It is reccomended to add this command to a cron job to regularly push towers. 
+
+### Raspberry Pi
+Crocodile hunter works on a raspberry pi 4! Some considerations to take into account:
+* We do not support the raspberry pi 3. It may work but I suspect it doesn't have enough processing power. YMMV. 
+* Fast Fourier Transforms, which are necessary for digital signal processing can be slow on the pi. The first few towers you find may take a while to process, after that the transforms are cached so it will go quicker. 
+* You can speed up the process by overclocking the raspberry pi. Details can be found here:  https://www.tomshardware.com/reviews/raspberry-pi-4-b-overclocking,6188.html
+* installing from apt raspbian will install an incompatible version of libbladerf. The version must be at least 7.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
+
 
 
 ### Important notes

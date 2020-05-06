@@ -10,3 +10,4 @@ verboselogs==1.7
 geopy==1.20.0
 requests==2.22.0
 access-points==0.4.66
+sqlalchemy_utils
