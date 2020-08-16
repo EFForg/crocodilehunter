@@ -53,6 +53,7 @@ class CrocodileHunter():
             self.project_name = args.project_name
         else:
             self.project_name = self.config['general']['default_project']
+            args.project_name = self.config['general']['default_project']
 
         if self.project_name not in self.config:
             self.config[self.project_name] = {}
