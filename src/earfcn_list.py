@@ -5,7 +5,7 @@ from wigle import Wigle
 
 def main(args, config):
     wigle = Wigle(config['wigle_name'], config['wigle_key'])
-    print("seraching earfcns...")
+    print("searching earfcns...")
     earfcn_list = ",".join(map(str, wigle.earfcn_search(args.lat, args.lon, args.radius)))
     print(f"earfcns = {earfcn_list}")
 

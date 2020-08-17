@@ -53,6 +53,7 @@ class CrocodileHunter():
             self.project_name = args.project_name
         else:
             self.project_name = self.config['general']['default_project']
+            args.project_name = self.config['general']['default_project']
 
         if self.project_name not in self.config:
             self.config[self.project_name] = {}
@@ -69,7 +70,7 @@ class CrocodileHunter():
         self.watchdog = Watchdog(args)
 
     def start(self):
-        self.logger.info(f"starting crododile hunter project: {self.project_name}")
+        self.logger.info(f"starting crocodile hunter project: {self.project_name}")
         """
         if not self.debug:
             spn = Thread(target=self.show_spinner)
