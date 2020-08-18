@@ -9,7 +9,7 @@ crash_timeout = 30 ;number of seconds until we assume process has crashed. On a 
 run_us_centeric_heuristics = false ;run US based heuristics like MCC and MNC checks
 check_geographic_codes = true ;check if towers are operating with the MCCs and MNCs below, they vary by country. If not sure leave it to false
 expected_mccs = 730
-expected_mncs = 6,11,15,03,10,1,14,9,5,4,19,2,7,12,0,13,8
+expected_mncs = 1,3
 
 ;api server settings, if you are running an API set these to the host and port you are running on and your contact info. If you are a client set these to the host and port the provider gave you.
 [api]
