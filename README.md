@@ -2,7 +2,7 @@
 
 Crocodile Hunter is a tool to hunt fake eNodeBs, also known commonly as hailstorm, stingray, cell site simulators, or IMSI catchers. It works by listening for broadcast messages from all of the 4G stations in the area, inferring their location, and looking for unusual activity. 
 
-This repository is part of an EFF project studying the newest generation (i.e. 4G/LTE) of Cell Site Simulators. We reccomend you read our guide to IMSI Catchers: [Gotta Catch 'Em All](https://www.eff.org/wp/gotta-catch-em-all-understanding-how-imsi-catchers-exploit-cell-networks). 
+This repository is part of an EFF project studying the newest generation (i.e. 4G/LTE) of Cell Site Simulators. We recommend you read our guide to IMSI Catchers: [Gotta Catch 'Em All](https://www.eff.org/wp/gotta-catch-em-all-understanding-how-imsi-catchers-exploit-cell-networks). 
 
 The main project is located in `/src` and is based off of [srsLTE](https://github.com/srsLTE/srsLTE) and our setup currently supports the USRP B200 and the bladeRF x40.
 
@@ -15,9 +15,9 @@ You'll need to install the required drivers for either the bladeRF or USRP.
 
 **Note:** our bootstrapping script will take care of updating the firmware + FPGA on your bladeRF to the latest version when you try to run the Crocodile Hunter project.
 
-**Note:** installing from apt on debian or raspbian will install an incompatible version of libbladerf. The version must be at least 2018.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
+**Note:** installing from apt on Debian or Raspbian will install an incompatible version of libbladerf. The version must be at least 2018.0 or higher. If on a Raspberry Pi it is reccomended to install from source instead of from repos. 
 
-**Note:** If you are on ubuntu or the version of libbladerf is >= 2018 you can install from repos like so: `sudo apt install libbladerf-dev`
+**Note:** If you are on Ubuntu or the version of libbladerf is >= 2018 you can install from repos like so: `sudo apt install libbladerf-dev`
 
 
 ### Project Setup
@@ -114,14 +114,14 @@ To use the API first configure the host and port in config.ini and then get an A
 Then to push new towers to the server run
 `export CH_PROJ=<projectname>; python3 api_client.py add_towers`
 
-It is reccomended to add this command to a cron job to regularly push towers. 
+It is recommended to add this command to a cron job to regularly push towers. 
 
 ### Raspberry Pi
-Crocodile hunter works on a raspberry pi 4! Some considerations to take into account:
-* We do not support the raspberry pi 3. It may work but I suspect it doesn't have enough processing power. YMMV. 
+Crocodile hunter works on a Raspberry Pi 4! Some considerations to take into account:
+* We do not support the Raspberry Pi 3. It may work but I suspect it doesn't have enough processing power. YMMV. 
 * Fast Fourier Transforms, which are necessary for digital signal processing can be slow on the pi. The first few towers you find may take a while to process, after that the transforms are cached so it will go quicker. 
-* You can speed up the process by overclocking the raspberry pi. Details can be found here:  https://www.tomshardware.com/reviews/raspberry-pi-4-b-overclocking,6188.html
-* installing from apt raspbian will install an incompatible version of libbladerf. The version must be at least 7.0 or higher. If on a raspberry pi it is reccomended to install from source instead of from repos. 
+* You can speed up the process by overclocking the Raspberry Pi. Details can be found here:  https://www.tomshardware.com/reviews/raspberry-pi-4-b-overclocking,6188.html
+* installing from apt Raspbian will install an incompatible version of libbladerf. The version must be at least 7.0 or higher. If on a Raspberry Pi it is recommended to install from source instead of from repos. 
 
 
 
