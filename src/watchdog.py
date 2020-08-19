@@ -283,12 +283,12 @@ class Watchdog():
     def check_mcc(self, tower):
         """ In case mcc isn't a standard value."""
         expected_mccs = [int(e) for e in self.config['general']['expected_mccs'].split(',')]
-        if tower.mcc not in (expected_mccs):
+        if tower.mcc not in expected_mccs:
             tower.suspiciousness += 30
 
     def check_mnc(self, tower):
         """ In case mnc isn't a standard value."""
-        known_mncs = [int(e) for e in self.config['general']['expected_mncs'].split(',')]
+        expected_mncs = [int(e) for e in self.config['general']['expected_mncs'].split(',')]
         """
         known_mncs = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 23, 24,
                 25, 26, 30, 31, 32, 34, 38, 40, 46, 50, 60, 70, 80, 90, 100, 110, 120, 130,
@@ -301,7 +301,7 @@ class Watchdog():
         """
         # TODO: the above are all known MNCs in the USA from cell finder's db, but do we really
         # want to include all of them?
-        if tower.mnc not in known_mncs:
+        if tower.mnc not in expected_mncs:
             tower.suspiciousness += 20
 
     def check_existing_rssi(self, tower):
