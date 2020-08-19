@@ -285,7 +285,7 @@ class Watchdog():
         expected_mccs = [int(e) for e in self.config['general']['expected_mccs'].split(',')]
         if tower.mcc not in (expected_mccs):
             tower.suspiciousness += 30
-            
+
     def check_mnc(self, tower):
         """ In case mnc isn't a standard value."""
         known_mncs = [int(e) for e in self.config['general']['expected_mncs'].split(',')]
