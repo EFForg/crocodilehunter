@@ -289,7 +289,6 @@ class Watchdog():
     def check_mnc(self, tower):
         """ In case mnc isn't a standard value."""
         known_mncs = [int(e) for e in self.config['general']['expected_mncs'].split(',')]
-        # known_mncs = [410,260,480,120]
         """
         known_mncs = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 23, 24,
                 25, 26, 30, 31, 32, 34, 38, 40, 46, 50, 60, 70, 80, 90, 100, 110, 120, 130,
@@ -461,10 +460,9 @@ class Watchdog():
         tower.suspiciousness = 0
         # TODO: let's try some ML?
         self.logger.info(f"Calculating suspiciousness for {tower}")
-        #us_centric = self.config.getboolean('general', 'run_us_centeric_heuristics')
         check_geo_codes = self.config.getboolean('general', 'check_geographic_codes')
         if check_geo_codes:
-            self.logger.warning(f"CHECKING COUNTRY AND NETWORK CODES, IF YOU DIDN'T CONFIGURED THIS IN CONFIG.INI IT CAN LEAD TO FALSE POSITIVES. IN THAT CASE WE SUGGEST TO TURN check_geographic_codes TO false")
+            self.logger.warning(f"CHECKING COUNTRY AND CARRIER CODES, IF YOU DIDN'T CONFIGURED THIS IN CONFIG.INI IT CAN LEAD TO FALSE POSITIVES. IN THAT CASE WE SUGGEST TO TURN check_geographic_codes TO false")
             self.check_mcc(tower)
             self.check_mnc(tower)
         self.check_existing_rssi(tower)
