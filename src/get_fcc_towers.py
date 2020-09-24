@@ -20,7 +20,7 @@ latlon = []
 lines = []
 
 http = urllib3.PoolManager()
-lines_match = re.compile("^[ ]+<coordinates>([0-9\-\.]+),([0-9\-\.]+),[0-9]+</coordinates>$")
+lines_match = re.compile(r"^[ ]+<coordinates>([0-9\-\.]+),([0-9\-\.]+),[0-9]+</coordinates>$")
 
 config_fp = 'config.ini'
 config = configparser.ConfigParser()
@@ -44,7 +44,7 @@ try:
 except AttributeError:
     latlon = config['general']['gps_default'].split(", ")
 
-print("Checking towers for: %s, %s" %(latlon[0], latlon[1]))
+print("Geting towers around: %s, %s" %(latlon[0], latlon[1]))
 
 # TODO: Figure out how to make the radius configurable.
 target_url = "http://ge.fccinfo.com/googleEarthASR.php?LOOK=%s,%s,50915.07,0,60.7" \
