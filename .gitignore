@@ -109,6 +109,9 @@ venv.bak/
 # vscode
 **/.vscode
 
+# srsLTE
+srsLTE/build
+
 **.swp
 **.swo
 src/ue.conf
