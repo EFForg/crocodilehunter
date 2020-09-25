@@ -202,3 +202,15 @@ class EnodeB(Base):
 
     def __repr__(self):
         return f"{self.plmn}_{self.enodeb_id}: {classification}"
+
+class OcidCellCache(Base):
+    __tablename__ = "ocid_cell_cache"
+    hash = Column(String, primary_key=True)
+    expires = Column(DateTime)
+    response = Column(String)
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def __repr__(self):
+        return json.dumps(self.to_dict)
