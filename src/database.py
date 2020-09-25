@@ -213,4 +213,4 @@ class OcidCellCache(Base):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
-        return json.dumps(self.to_dict)
+        return self.response
