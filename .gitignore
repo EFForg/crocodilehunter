@@ -125,6 +125,3 @@ data/*
 .vscode/ipch*
 *.ipynb
 src/config.ini
-
-# VS code.
-.vscode
