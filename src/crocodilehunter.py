@@ -18,6 +18,8 @@ from time import sleep, strftime
 from threading import Thread
 import coloredlogs, verboselogs
 
+import gpsd
+
 from watchdog import Watchdog
 from webui import Webui
 from nbstreamreader import NonBlockingStreamReader as NBSR
@@ -29,12 +31,12 @@ class CrocodileHunter():
     def __init__(self, args):
         """
         1. Bootstrap dependencies
-            a. test gps
-            b. check for SDR
-        2. Start srsue with config file
+            a. check for SDR
+        2. Check GPS status.
+        3. Start srsue with config file
             a. watch srsue for crashes and restart
-        3. Start watchdog daemon
-        4. Start web daemon
+        4. Start watchdog daemon
+        5. Start web daemon
         """
         self.threads = []
         self.subprocs = []
@@ -86,10 +88,7 @@ class CrocodileHunter():
             return
 
         # Bootstrap srsUE dependencies
-        if self.disable_gps:
-            args = "./bootstrap.sh -g"
-        else:
-            args = "./bootstrap.sh"
+        args = "./bootstrap.sh"
 
         proc = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -101,6 +100,27 @@ class CrocodileHunter():
         if return_code:
             self.logger.critical("Bootstrapping failed")
             self.cleanup(True)
+        
+        # Test GPSD
+        if self.disable_gps:
+            self.logger.info("GPS disabled. Skipping test.")
+        else:
+            gpsd.connect()
+            packet = gpsd.get_current()
+            if packet.mode < 2:
+                self.logger.info("GPS fix detected!")
+            else:
+                self.logger.info("No GPS fix detected. Waiting for fix.")
+                packet = gpsd.get_current()
+                tries = 1
+                while packet.mode < 2:
+                    if tries < 10:
+                        self.logger.debug("Try %s waiting for fix.")
+                        packet = gpsd.get_current()
+                        tries += 1
+                    else:
+                        self.logger.critical("No GPS fix detected. Exiting.")
+                        exit(1)
 
         #Start watchdog dæmon
         self.watchdog.start_daemon()
