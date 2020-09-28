@@ -107,8 +107,8 @@ class CrocodileHunter():
         else:
             gpsd.connect()
             packet = gpsd.get_current()
-            if packet.mode < 2:
-                self.logger.info("GPS fix detected!")
+            if packet.mode > 1:
+                self.logger.info("GPS fix detected")
             else:
                 self.logger.info("No GPS fix detected. Waiting for fix.")
                 packet = gpsd.get_current()
