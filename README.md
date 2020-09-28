@@ -102,10 +102,13 @@ To run migrations:
 
 ### Importing known towers:
 To import a list of FCC known towers in the US run the following commands:
+```bash
+cd src/
+./get_fcc_towers.py
+python3 src/add_known_towers.py <project> fccinfo-towers.csv
+```
 
-`curl http://ge.fccinfo.com/googleEarthASR.php?LOOK=-122.2092858690129,37.71980519866521,50915.07,0,60.7 | grep coordinates`
-`vim %s/\s*<coordinates>\([0-9\.\-]*\),\([0-9\.\-]*\),0<.coordinates>/\2,\1,imported from ge.fccinfo.com/g`
-`python3 src/add_known_towers.py <project> <csv_file>`
+The script will use GPS data if available. If not it will use the coordinates from gps_default in config.ini to query the datasource.
 
 ### API:
 To run the API Server set the appropriate paramaters in config.ini and then run `python3 api_server.py` 

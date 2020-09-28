@@ -90,6 +90,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# FCC tower data
+**/fccinfo-towers.csv
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -102,6 +105,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# vscode
+**/.vscode
 
 **.swp
 **.swo
