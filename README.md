@@ -38,12 +38,22 @@ Please make sure you have python3.6 installed on your system. Additional package
 ```
 sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq  libfftw3-dev libboost-dev libboost-program-options-dev libconfig++-dev gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libuhd-dev  libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev lib32z1-dev
 ```
-In case there is an error locating the package ```libpolarssl-dev``` it can be changed to ```libmbedtls-dev```
+In case there is an error locating the package `libpolarssl-dev` it can be changed to `libmbedtls-dev`
 
 Install the required python packages:
 ```
 pip3 install -r src/requirements.txt
 ```
+
+#### Database Setup
+The easiest way to set up the database is through the included docker compose file, simply run 
+```
+sudo docker-compose up
+``` 
+in the project directory. 
+
+If you want to set up the database without docekr follow the [instructions for setting up MariaDB.](https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04)
+
 if you get an error about a missing msyql_config run the following command:
 `sudo ln -s /usr/bin/mariadb_config /usr/bin/mysql_config`
 
