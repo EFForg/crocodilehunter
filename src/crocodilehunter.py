@@ -61,8 +61,7 @@ class CrocodileHunter():
             self.config[self.project_name] = {}
 
         # GPSD settings
-        args.gpsd = self.config['gpsd']
-        gpsd_args = {
+        self.gpsd_args = {
             'host': self.config['gpsd']['host'],
             'port': int(self.config['gpsd']['port'])
         }
@@ -112,7 +111,12 @@ class CrocodileHunter():
         if self.disable_gps:
             self.logger.info("GPS disabled. Skipping test.")
         else:
-            gpsd.connect(**gpsd_args)
+            # We'll rely on our ability to 
+            try:
+                gpsd.connect(**self.gpsd_args)
+            except (ConnectionRefusedError, ConnectionResetError):
+                raise RuntimeError("Connection to GPSD failed. Please ensure GPSD is set up as " \
+                    "described in the \"Configuring GPSD\" section of README.md and is running.")
             packet = gpsd.get_current()
             if packet.mode > 1:
                 self.logger.info("GPS fix detected")
