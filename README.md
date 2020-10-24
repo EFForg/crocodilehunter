@@ -19,6 +19,37 @@ You'll need to install the required drivers for either the bladeRF or USRP.
 
 **Note:** If you are on Ubuntu or the version of libbladerf is >= 2018 you can install from repos like so: `sudo apt install libbladerf-dev`
 
+### Configure GPSD
+This project leverages GPSD which allows one or more applications to share a GPS on a host system, or to use a networked GPS. If GPSD is not set up you can't get real-time position information.
+
+The instructions below details how to set GPSD up on a Debian-based system such as Raspbian, Debian Linux or Ubuntu Linux. If you're running a Raspberry Pi with Rasbian and have a GPS **attached to the UART** you can use [Adafruit's wonderful guide](https://learn.adafruit.com/adafruit-ultimate-gps-hat-for-raspberry-pi/) to get GPSD set up. Those instructions are specific to their product they should be generic enough to work with most GPS units connected the the UART once your hardware is properly connected.
+
+If you're on a Debian-based system using a USB or other hardware serial device running `systemd` these instructions should work for you:
+* Open a terminal.
+* If using a USB GPS device:
+  * Plug in your USB GPS device
+  * Run `dmesg | tail -n 50` in your terminal.
+  * You should see a message indicating that a new USB serial device has been connected. Its path should be something like `/dev/ttyUSB0`, `/dev/ttyAMA0`, or `/dev/ttyACM0`. The number on the end may or may not be zero. Take note of this of that device path for use when setting the `DEVICES` configuration proerty.
+* Install GPSD and its client utilities using your terminal: `sudo apt-get install -y gpsd gpsd-clients`.
+* Configure GPSD by editing `/etc/default/gpsd`.
+  * You'll want to ensure `START_DAEMON` is set to `true`.
+  * `USBAUTO` should be set to `false`.
+  * Add your device path to `DEVICES` by setting `DEVICES="/dev/<whatever your GPS device is>"`. If you're not using a USB GPS device you'll likely have it attached to one of the serial ports `/dev/ttyS<n>` where `<n>` is the appropriate port number. 
+  * Set `GPSD_OPTIONS` to `-n`. This tells GPSD to immediately acquire a position on start instead of waiting for a client to connect and request the location. This will speed up the process of getting a GPS fix.
+  * An example configuration with a GPS device path of `/dev/ttyUSB0` is provided below.
+* In your terminal tell GPSD to start with your system: `sudo systemctl enable gpsd`
+* Start GPSD by issuing this command in your terminal: `sudo systemctl start gpsd`
+* You can now test your configuration by running `cgps` in your terminal. You should see your position information appear once the GPS has a fix. You may need to move near a window or outodoors for the GPS to acquire a fix.
+
+Example `/etc/default/gpsd` configuration:
+```
+START_DAEMON="true"
+GPSD_OPTIONS="-n"
+DEVICES="/dev/ttyUSB0"
+USBAUTO="false"
+GPSD_SOCKET="/var/run/gpsd.sock"
+```
+
 
 ### Project Setup
 
