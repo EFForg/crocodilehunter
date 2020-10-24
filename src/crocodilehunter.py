@@ -151,7 +151,9 @@ class CrocodileHunter():
             self.earfcn_list = map(int, self.config[self.project_name]['earfcns'].split(','))
         else:
             if self.disable_wigle:
-                self.logger.critical("Wigle is disabled so we cant fetch an EARFCN list, either run again with wigle enabled or copy an EARFCN list from another project in config.ini")
+                self.logger.critical("Wigle is disabled so we cant fetch an EARFCN list, either " \
+                    "run again with wigle enabled or copy an EARFCN list from another project in " \
+                    "config.ini")
                 self.cleanup()
             self.logger.warning("Getting earcn list for the first time, this might take a while")
             gps = self.watchdog.get_gps()
@@ -160,12 +162,16 @@ class CrocodileHunter():
         self.logger.notice(f"Using earfcn list {self.config[self.project_name]['earfcns']}")
 
     def start_srslte(self):
-        # TODO Intelligently handle srsUE output (e.g. press a key to view output or something, maybe in another window)
+        # TODO Intelligently handle srsUE output (e.g. press a key to view output or something,
+        #      maybe in another window)
         """ Start srsUE """
         earfcns = ",".join(map(str, self.earfcn_list))
         self.logger.info(f"EARFCNS: {earfcns}")
         self.logger.info(f"Running srsUE")
-        proc = Popen(["./srsLTE/build/lib/examples/cell_measurement", "-z", earfcns], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = Popen([
+            "./srsLTE/build/lib/examples/cell_measurement", "-z", earfcns],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
         self.logger.success(f"srsUE started with pid {proc.pid}")
         return proc
 
@@ -225,11 +231,16 @@ class CrocodileHunter():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
-    parser.add_argument('-p', '--project-name', dest='project_name', default=None, help="specify the project's name. defaults to 'default'", action='store')
-    parser.add_argument('-d', '--debug', dest='debug', help="print debug messages", action='store_true',)
-    parser.add_argument('-g', '--disable-gps', dest='disable_gps', help="disable GPS connection and return a default coordinate", action='store_true')
-    parser.add_argument('-w', '--disable-wigle', dest='disable_wigle', help='disable Wigle API access', action='store_true')
-    parser.add_argument('-o', '--web-only', dest='web_only', help='only start the web interface', action='store_true')
+    parser.add_argument('-p', '--project-name', dest='project_name', default=None,
+                        help="specify the project's name. defaults to 'default'", action='store')
+    parser.add_argument('-d', '--debug', dest='debug', help="print debug messages",
+                        action='store_true',)
+    parser.add_argument('-g', '--disable-gps', dest='disable_gps',
+                        help="disable GPS connection and return a default coordinate", action='store_true')
+    parser.add_argument('-w', '--disable-wigle', dest='disable_wigle',
+                        help='disable Wigle API access', action='store_true')
+    parser.add_argument('-o', '--web-only', dest='web_only', help='only start the web interface',
+                        action='store_true')
 
     # Clear screen
     print(chr(27)+'[2j')
