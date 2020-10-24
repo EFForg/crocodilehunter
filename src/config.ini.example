@@ -10,8 +10,11 @@ crash_timeout = 30 ;number of seconds until we assume process has crashed. On a 
 check_geographic_codes = false ;check if towers are operating with the MCCs and MNCs below, they vary by country. If not sure leave it to false
 expected_mccs = 310,311,316 ;example for USA
 expected_mncs = 410,260,480,120 ;example for USA
-gpsd_host = 127.0.0.1 ; GPSD host to connect to. The default is 127.0.0.1.
-gpsd_port = 2947 ; GPSD port to connect to on the host. The default is 2947.
+
+; You probably don't need to mess with these settings unless you have a specific need.
+[gpsd]
+host = 127.0.0.1 ; GPSD host to connect to. The default is 127.0.0.1.
+port = 2947 ; GPSD port to connect to on the host. The default is 2947.
 
 ;api server settings, if you are running an API set these to the host and port you are running on and your contact info. If you are a client set these to the host and port the provider gave you.
 [api]
