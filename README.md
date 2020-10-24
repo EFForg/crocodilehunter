@@ -19,7 +19,7 @@ You'll need to install the required drivers for either the bladeRF or USRP.
 
 **Note:** If you are on Ubuntu or the version of libbladerf is >= 2018 you can install from repos like so: `sudo apt install libbladerf-dev`
 
-### Configure GPSD
+### Configuring GPSD
 This project leverages [GPSD](https://gpsd.gitlab.io/gpsd/) which allows one or more applications to share a GPS on a host system, or to use a networked GPS. If GPSD is not set up you can't get real-time position information. If you haven't already installed and configured GPSD you should do so.
 
 The instructions below details how to set GPSD up on a Debian-based system such as Raspbian, Debian Linux or Ubuntu Linux. If you're running a Raspberry Pi with Rasbian and have a GPS **attached to the UART** you can use [Adafruit's wonderful guide](https://learn.adafruit.com/adafruit-ultimate-gps-hat-for-raspberry-pi/) to get GPSD set up. Those instructions are specific to their product they should be generic enough to work with most GPS units connected the the UART once your hardware is properly connected.

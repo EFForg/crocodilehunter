@@ -34,6 +34,9 @@ class Watchdog():
         if not self.disable_wigle:
             self.wigle = Wigle(self.config['general']['wigle_name'],
                                self.config['general']['wigle_key'])
+        self.gpsd_args = {
+            'host': self.config['gpsd']['host'],
+            'port': int(self.config['gpsd']['port'])}
         
         # Clean our cache.
         ocid.ocid_clean_cell_search_cache(self.db_session)
@@ -223,7 +226,11 @@ class Watchdog():
             packet = Packet(float(gps[0]), float(gps[1]))
         else:
             gpsd.logger.setLevel("WARNING")
-            gpsd.connect()
+            try:
+                gpsd.connect(**self.gpsd_args)
+            except (ConnectionRefusedError, ConnectionResetError):
+                raise RuntimeError("Connection to GPSD failed. Please ensure GPSD is set up as " \
+                    "described in the \"Configuring GPSD\" section of README.md and is running.")
             packet = gpsd.get_current()
             tries = 1
             while packet.mode < 2:

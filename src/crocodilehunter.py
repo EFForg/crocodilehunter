@@ -48,7 +48,6 @@ class CrocodileHunter():
         self.config = args.config = configparser.ConfigParser()
         self.config.read(self.config_fp)
         self.earfcn_list = []
-        self.gpsd = None
         signal.signal(signal.SIGINT, self.signal_handler)
         signal.signal(signal.SIGTERM, self.signal_handler)
 
@@ -60,6 +59,13 @@ class CrocodileHunter():
 
         if self.project_name not in self.config:
             self.config[self.project_name] = {}
+
+        # GPSD settings
+        args.gpsd = self.config['gpsd']
+        gpsd_args = {
+            'host': self.config['gpsd']['host'],
+            'port': int(self.config['gpsd']['port'])
+        }
 
         # Set up logging
         self.logger = args.logger = verboselogs.VerboseLogger("crocodile-hunter")
@@ -106,19 +112,18 @@ class CrocodileHunter():
         if self.disable_gps:
             self.logger.info("GPS disabled. Skipping test.")
         else:
-            self.gpsd = gpsd(host='127.0.0.1', port=2947)
-            self.gpsd.connect()
-            packet = self.gpsd.get_current()
+            gpsd.connect(**gpsd_args)
+            packet = gpsd.get_current()
             if packet.mode > 1:
                 self.logger.info("GPS fix detected")
             else:
                 self.logger.info("No GPS fix detected. Waiting for fix.")
-                packet = self.gpsd.get_current()
+                packet = gpsd.get_current()
                 tries = 1
                 while packet.mode < 2:
                     if tries < 10:
                         self.logger.debug("Try %s waiting for fix.")
-                        packet = self.gpsd.get_current()
+                        packet = gpsd.get_current()
                         tries += 1
                     else:
                         self.logger.critical("No GPS fix detected. Exiting.")
