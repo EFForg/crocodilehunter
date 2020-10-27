@@ -6,7 +6,7 @@ import enum
 
 import configparser
 
-from sqlalchemy import Table, Column, Integer, Float, String, DateTime, MetaData, Text, create_engine, func, Enum, ForeignKey
+from sqlalchemy import Table, Column, BLOB, Boolean, Integer, Float, String, DateTime, MetaData, Text, create_engine, func, Enum, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import create_database, database_exists
@@ -203,3 +203,19 @@ class EnodeB(Base):
 
     def __repr__(self):
         return f"{self.plmn}_{self.enodeb_id}: {classification}"
+
+class OcidCellCache(Base):
+    __tablename__ = "ocid_cell_cache"
+    cell_hash = Column(String(length=64), primary_key=True)
+    expires = Column(Integer)
+    response = Column(BLOB)
+
+    def to_dict(self):
+        data = {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        return data
+
+    def __repr__(self):
+        as_dict = self.to_dict()
+        as_dict['response'] = as_dict['response'].decode("utf-8")
+        return json.dumps(as_dict)
+        #return f'{self.response}'

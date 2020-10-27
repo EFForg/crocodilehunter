@@ -34,6 +34,9 @@ class Watchdog():
         if not self.disable_wigle:
             self.wigle = Wigle(self.config['general']['wigle_name'],
                                self.config['general']['wigle_key'])
+        
+        # Clean our cache.
+        ocid.ocid_clean_cell_search_cache(self.db_session)
 
     def last_ten(self):
         return self.db_session.query(Tower.id, Tower, func.max(Tower.timestamp)).group_by(Tower.cid).order_by(Tower.timestamp.desc())[0:10]
@@ -432,7 +435,9 @@ class Watchdog():
         if (not tower.external_db == ExternalTowers.wigle) \
         and self.config.get('general', 'ocid_key'):
 
-            resp = ocid.ocid_search_cell(self.config['general']['ocid_key'],
+            resp = ocid.ocid_search_cell(
+                                        self.db_session,
+                                        self.config['general']['ocid_key'],
                                         tower.mcc,
                                         tower.mnc,
                                         tower.tac,

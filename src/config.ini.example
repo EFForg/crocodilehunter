@@ -3,6 +3,7 @@ gps_default = 0, 0
 mysql_path = mysql://root:toor@localhost:3306
 wigle_name = AIC1234
 wigle_key = deadbeef
+ocid_cache_len = 120 ;OpenCellID cell tower cache timeout in minutes.
 ocid_key = 1312acab
 default_project = default
 crash_timeout = 30 ;number of seconds until we assume process has crashed. On a raspberry pi this needs to be more like 120
