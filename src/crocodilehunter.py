@@ -242,7 +242,8 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--debug', dest='debug', help="print debug messages",
                         action='store_true',)
     parser.add_argument('-g', '--disable-gps', dest='disable_gps',
-                        help="disable GPS connection and return a default coordinate", action='store_true')
+                        help="disable GPS connection and return a default coordinate",
+                        action='store_true')
     parser.add_argument('-w', '--disable-wigle', dest='disable_wigle',
                         help='disable Wigle API access', action='store_true')
     parser.add_argument('-o', '--web-only', dest='web_only', help='only start the web interface',
