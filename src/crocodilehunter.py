@@ -115,7 +115,8 @@ class CrocodileHunter():
                 gpsd.connect(**self.gpsd_args)
             except (ConnectionRefusedError, ConnectionResetError, TimeoutError):
                 raise RuntimeError("Connection to GPSD failed. Please ensure GPSD is set up as " \
-                    "described in the \"Configuring GPSD\" section of README.md and it's running.")
+                    "described in the \"Configuring GPSD\" section of README.md and that " \
+                    "it's running.")
             packet = gpsd.get_current()
             if packet.mode > 1:
                 self.logger.info("GPS fix detected")
@@ -213,9 +214,12 @@ class CrocodileHunter():
             sys.stdout.write('\b')            # erase the last written char
             sleep(0.1)
 
-    def cleanup(self, error=False):
+    def cleanup(self, error=False, error_message=None):
         """ Gracefully exit when program is quit """
         global EXIT
+
+        if error_message is not None:
+            self.logger.error(error_message)
 
         self.logger.error(f"Exiting...")
 
@@ -266,4 +270,4 @@ if __name__ == "__main__":
     try:
         crocodile_hunter.start()
     except RuntimeError as runtime_error:
-        print(runtime_error)
+        crocodile_hunter.cleanup(1, str(runtime_error))
