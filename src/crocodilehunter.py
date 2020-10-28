@@ -10,6 +10,7 @@ import configparser
 import itertools
 import os
 import signal
+from socket import gaierror
 import subprocess
 import sys
 
@@ -117,6 +118,8 @@ class CrocodileHunter():
                 raise RuntimeError("Connection to GPSD failed. Please ensure GPSD is set up as " \
                     "described in the \"Configuring GPSD\" section of README.md and that " \
                     "it's running.")
+            except gaierror:
+                raise RuntimeError(f"Couldn't resolve GPSD hostname: {self.gpsd_args['host']}")
             packet = gpsd.get_current()
             if packet.mode > 1:
                 self.logger.info("GPS fix detected")
