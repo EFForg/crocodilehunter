@@ -71,12 +71,22 @@ Please make sure you have python3.6 installed on your system. Additional package
 ```
 sudo apt-get install python3-pip python3-scipy libpolarssl-dev jq  libfftw3-dev libboost-dev libboost-program-options-dev libconfig++-dev gpsd gpsd-clients mariadb-server python3-dev libmariadb-dev cmake libitpp-dev librtlsdr-dev libuhd-dev  libopenblas-dev libncurses5-dev libpcsclite-dev libatlas-base-dev lib32z1-dev
 ```
-In case there is an error locating the package ```libpolarssl-dev``` it can be changed to ```libmbedtls-dev```
+In case there is an error locating the package `libpolarssl-dev` it can be changed to `libmbedtls-dev`
 
 Install the required python packages:
 ```
 pip3 install -r src/requirements.txt
 ```
+
+#### Database Setup
+The easiest way to set up the database is through the included docker compose file, simply run 
+```
+sudo docker-compose up
+``` 
+in the project directory. 
+
+If you want to set up the database without docekr follow the [instructions for setting up MariaDB.](https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04)
+
 if you get an error about a missing msyql_config run the following command:
 `sudo ln -s /usr/bin/mariadb_config /usr/bin/mysql_config`
 
@@ -135,10 +145,13 @@ To run migrations:
 
 ### Importing known towers:
 To import a list of FCC known towers in the US run the following commands:
+```bash
+cd src/
+./get_fcc_towers.py
+python3 src/add_known_towers.py <project> fccinfo-towers.csv
+```
 
-`curl http://ge.fccinfo.com/googleEarthASR.php?LOOK=-122.2092858690129,37.71980519866521,50915.07,0,60.7 | grep coordinates`
-`vim %s/\s*<coordinates>\([0-9\.\-]*\),\([0-9\.\-]*\),0<.coordinates>/\2,\1,imported from ge.fccinfo.com/g`
-`python3 src/add_known_towers.py <project> <csv_file>`
+The script will use GPS data if available. If not it will use the coordinates from gps_default in config.ini to query the datasource.
 
 ### API:
 To run the API Server set the appropriate paramaters in config.ini and then run `python3 api_server.py` 
