@@ -19,6 +19,7 @@ from subprocess import Popen
 from time import sleep, strftime
 from threading import Thread
 import coloredlogs, verboselogs
+import gpsd
 
 from watchdog import Watchdog
 from webui import Webui
