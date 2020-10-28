@@ -13,6 +13,7 @@ import signal
 from socket import gaierror
 import subprocess
 import sys
+from traceback import format_exc
 
 from subprocess import Popen
 from time import sleep, strftime
@@ -275,3 +276,6 @@ if __name__ == "__main__":
         crocodile_hunter.start()
     except RuntimeError as runtime_error:
         crocodile_hunter.cleanup(1, str(runtime_error))
+    except:
+        exc_message = "Unhandled exception:\n%s" %format_exc()
+        crocodile_hunter.cleanup(1, str(exc_message))
