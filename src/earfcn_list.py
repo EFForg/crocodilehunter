@@ -15,8 +15,8 @@ if __name__ == "__main__":
     parser.add_argument('lon', help="Longitude", type=float, action='store')
     parser.add_argument('-r', '--radius', dest="radius", help="radius to search", type=float, default=0.2, action='store')
     args = parser.parse_args()
-
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+    config_fp = 'config.ini'
+    config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
+    config.read(config_fp)
 
     main(args, config["general"])

@@ -139,8 +139,9 @@ if __name__ == "__main__":
     class Args:
         db_name = "crocodilehunter_api"
         logger = logger
-        config = configparser.ConfigParser()
-        config.read('config.ini')
+        config_fp = 'config.ini'
+        config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
+        config.read(config_fp)
 
     controller = ApiController(Args)
     apiView = ApiView(controller)

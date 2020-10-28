@@ -15,7 +15,7 @@ Base = declarative_base()
 
 def init_db(project_name):
     config_fp = 'config.ini'
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
     config.read(config_fp)
 
     MYSQL_PATH = config['general']['mysql_path']

@@ -46,7 +46,7 @@ class CrocodileHunter():
         self.disable_wigle = args.disable_wigle
         self.web_only = args.web_only
         self.config_fp = 'config.ini'
-        self.config = args.config = configparser.ConfigParser()
+        self.config = args.config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
         self.config.read(self.config_fp)
         self.earfcn_list = []
         signal.signal(signal.SIGINT, self.signal_handler)
