@@ -228,7 +228,6 @@ class CrocodileHunter():
             thread.join()
         for proc in self.subprocs:
             proc.kill()
-        subprocess.run("killall gpsd", shell=True, stderr=subprocess.DEVNULL)
         self.watchdog.shutdown()
         self.logger.success(f"See you space cowboy...")
         os._exit(int(error))
