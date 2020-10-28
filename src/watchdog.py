@@ -34,6 +34,9 @@ class Watchdog():
         if not self.disable_wigle:
             self.wigle = Wigle(self.config['general']['wigle_name'],
                                self.config['general']['wigle_key'])
+        self.gpsd_args = {
+            'host': self.config['gpsd']['host'],
+            'port': int(self.config['gpsd']['port'])}
         
         # Clean our cache.
         ocid.ocid_clean_cell_search_cache(self.db_session)
@@ -223,7 +226,11 @@ class Watchdog():
             packet = Packet(float(gps[0]), float(gps[1]))
         else:
             gpsd.logger.setLevel("WARNING")
-            gpsd.connect()
+            try:
+                gpsd.connect(**self.gpsd_args)
+            except (ConnectionRefusedError, ConnectionResetError):
+                raise RuntimeError("Connection to GPSD failed. Please ensure GPSD is set up as " \
+                    "described in the \"Configuring GPSD\" section of README.md and is running.")
             packet = gpsd.get_current()
             tries = 1
             while packet.mode < 2:
@@ -369,12 +376,14 @@ class Watchdog():
         lats = numpy.unique([x.lat for x in existing_towers])
         lons = numpy.unique([x.lon for x in existing_towers])
         if abs(max(lats) - min(lats)) < 0.01 or abs(max(lons) - min(lons)) < 0.01:
-            # Skip calculation until diameter is of a certain size ... half of 1/100th of a lat or lon.
+            # Skip calculation until diameter is of a certain size ... 
+            # half of 1/100th of a lat or lon.
             return
 
         center_point = (numpy.mean(lats), numpy.mean(lons))
         center_point_std_dev = (numpy.std(lats), numpy.std(lons))
-        border_point = (center_point[0] + center_point_std_dev[0], center_point[1] + center_point_std_dev[1])
+        border_point = (center_point[0] + center_point_std_dev[0],
+                        center_point[1] + center_point_std_dev[1])
 
         self.logger.info(f"tower: {tower.lat}, {tower.lon}")
         self.logger.info(f"center_point: {center_point}")
@@ -399,7 +408,8 @@ class Watchdog():
 
     def check_rssi(self, tower):
         """ If a given tower has a power signal significantly stronger than we've ever seen."""
-        # TODO: maybe we should modify this to be anything over a certain threshold, like -50 db or something.
+        # TODO: maybe we should modify this to be anything over a certain threshold,
+        #       like -50 db or something.
         existing_towers = self.db_session.query(Tower).filter(Tower.rssi.isnot(None)).all()
         rssis = [x.rssi for x in existing_towers]
         if tower.rssi is not None and len(rssis) > 3:
@@ -410,10 +420,17 @@ class Watchdog():
                 tower.suspiciousness += tower.rssi - rssi_mean
 
     def check_wigle(self, tower):
-        precache = self.db_session.query(Tower).filter(Tower.mcc == tower.mcc, Tower.mnc == tower.mnc, Tower.tac == tower.tac, Tower.cid == tower.cid, Tower.external_db != ExternalTowers.unknown).all()
+        precache = self.db_session.query(Tower).filter(
+            Tower.mcc == tower.mcc,
+            Tower.mnc == tower.mnc,
+            Tower.tac == tower.tac,
+            Tower.cid == tower.cid,
+            Tower.external_db != ExternalTowers.unknown) \
+            .all()
 
         if len(precache) > 0 and tower.external_db == ExternalTowers.unknown:
-            self.logger.info(f"Marking external DB tower as {precache[0].external_db} based on existing db records")
+            self.logger.info(f"Marking external DB tower as {precache[0].external_db} " \
+                "based on existing db records")
             tower.external_db = precache[0].external_db
             if tower.classification == TowerClassification.unknown:
                 tower.classification = precache[0].classification
@@ -458,7 +475,8 @@ class Watchdog():
         elif tower.external_db in [ExternalTowers.wigle, ExternalTowers.opencellid]:
             self.logger.warning(f"Tower externally confirmed {tower}")
 
-        self.logger.info(f"saving tower {tower.external_db}, {tower.classification} score: {tower.suspiciousness}")
+        self.logger.info(f"saving tower {tower.external_db}, {tower.classification} " \
+                          "score: {tower.suspiciousness}")
         self.db_session.commit()
 
     def calculate_suspiciousness(self, tower):
@@ -467,7 +485,9 @@ class Watchdog():
         self.logger.info(f"Calculating suspiciousness for {tower}")
         check_geo_codes = self.config.getboolean('general', 'check_geographic_codes')
         if check_geo_codes:
-            self.logger.warning(f"CHECKING COUNTRY AND CARRIER CODES, IF YOU DIDN'T CONFIGURED THIS IN CONFIG.INI IT CAN LEAD TO FALSE POSITIVES. IN THAT CASE WE SUGGEST TO TURN check_geographic_codes TO false")
+            self.logger.warning(f"CHECKING COUNTRY AND CARRIER CODES, IF YOU DIDN'T CONFIGURED " \
+                                 "THIS IN CONFIG.INI IT CAN LEAD TO FALSE POSITIVES. IN THAT " \
+                                 "CASE WE SUGGEST TO TURN check_geographic_codes TO false")
             self.check_mcc(tower)
             self.check_mnc(tower)
         self.check_existing_rssi(tower)
@@ -485,7 +505,7 @@ class Watchdog():
 
     def trilaterate_enodeb_location(self, towers, run_checks=True):
         """
-        perform trilateration on tower readings and distance estimates to estimate location of enodeb
+        perform trilateration on tower readings and distance estimates to estimate enodeb location
         return - tuple (est_lat, est_lon, confidence)
         """
         centroid = self.get_centroid(towers)
@@ -503,19 +523,20 @@ class Watchdog():
         def _mse(x, locations, distances):
             mse = 0.0
             for location, distance in zip(locations, distances):
-                distance_calculated = self._great_circle_distance(x[0], x[1], location[0], location[1])
+                distance_calculated = self._great_circle_distance(
+                    x[0], x[1], location[0], location[1])
                 mse += math.pow(distance_calculated - distance, 2.0)
             return mse / len(locations)
 
 
         result = minimize(
-            _mse,                         # The error function
-            centroid,            # The initial guess
+            _mse,                        # The error function
+            centroid,                    # The initial guess
             args=(locations, distances), # Additional parameters for mse
             method='L-BFGS-B',           # The optimisation algorithm
             options={
-                'ftol':1e-5,         # Tolerance
-                'maxiter': 1000      # Maximum iterations
+                'ftol':1e-5,             # Tolerance
+                'maxiter': 1000          # Maximum iterations
             })
         #print(f"result {result}")
         location = result.x

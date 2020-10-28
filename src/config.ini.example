@@ -3,13 +3,18 @@ gps_default = 0, 0
 mysql_path = mysql://root:toor@localhost:3306
 wigle_name = AIC1234
 wigle_key = deadbeef
-ocid_cache_len = 120 ;OpenCellID cell tower cache timeout in minutes.
+ocid_cache_len = 120
 ocid_key = 1312acab
 default_project = default
 crash_timeout = 30 ;number of seconds until we assume process has crashed. On a raspberry pi this needs to be more like 120
 check_geographic_codes = false ;check if towers are operating with the MCCs and MNCs below, they vary by country. If not sure leave it to false
 expected_mccs = 310,311,316 ;example for USA
 expected_mncs = 410,260,480,120 ;example for USA
+
+; You probably don't need to mess with these settings unless you have a specific need. The default host and port are 127.0.0.1 and 2947, respectively
+[gpsd]
+host = 127.0.0.1
+port = 2947
 
 ;api server settings, if you are running an API set these to the host and port you are running on and your contact info. If you are a client set these to the host and port the provider gave you.
 [api]

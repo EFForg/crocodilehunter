@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+
+[packages]
+"gpsd-py3" = "==0.3.0"
+mysqlclient = "==1.4.2.post1"
+numpy = "==1.17.4"
+coloredlogs = "==10.0"
+verboselogs = "==1.7"
+geopy = "==1.20.0"
+requests = "==2.22.0"
+SQLAlchemy = "*"
+Flask = "*"
+Flask-Migrate = "*"
+Flask-Script = "*"
+access_points = "==0.4.66"
+SQLAlchemy-Utils = "*"
+scipy = "*"
+
+[requires]
+python_version = "3.7"
