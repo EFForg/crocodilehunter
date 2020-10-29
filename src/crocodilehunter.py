@@ -22,6 +22,7 @@ import coloredlogs, verboselogs
 import gpsd
 
 from watchdog import Watchdog
+from wigle import WigleError
 from webui import Webui
 from nbstreamreader import NonBlockingStreamReader as NBSR
 
@@ -95,11 +96,7 @@ class CrocodileHunter():
             return
 
         # Bootstrap srsUE dependencies
-        if self.disable_gps:
-            args = "./bootstrap.sh -g"
-        else:
-            args = "./bootstrap.sh"
-
+        args = "./bootstrap.sh"
         proc = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
         for stdout_line in iter(proc.stdout.readline, b""):
@@ -167,7 +164,13 @@ class CrocodileHunter():
                 self.cleanup()
             self.logger.warning("Getting earcn list for the first time, this might take a while")
             gps = self.watchdog.get_gps()
-            self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.2)
+            try:
+                self.earfcn_list = self.watchdog.wigle.earfcn_search(gps.lat, gps.lon, 0.05)
+            except WigleError as e:
+                self.logger.error(e)
+                self.logger.critical("Wigle couldn't fetch an EARFCN list for your area. Please " \
+                                     "specify EARFCN list manually in config.ini")
+                self.cleanup()
             self.config[self.project_name]['earfcns'] = ",".join(map(str, self.earfcn_list))
         self.logger.notice(f"Using earfcn list {self.config[self.project_name]['earfcns']}")
 

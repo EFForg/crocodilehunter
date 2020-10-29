@@ -10,6 +10,9 @@ import os
 import urllib
 import requests
 
+class WigleError(Exception):
+    pass
+
 class Wigle():
 
     base_url = "https://api.wigle.net/api"
@@ -27,13 +30,13 @@ class Wigle():
         v3_url = f"{self.base_url}/v3/{api_stub}?{query}"
         resp = requests.request(method, v3_url,
                                 auth=(self.api_name, self.api_key,))
-        print(v3_url)
+        #print(v3_url)
 
+        res = json.loads(resp.text)
         if resp.status_code >= 400:
-            print(resp.content)
-            return resp
+            raise WigleError(res['message'])
 
-        return json.loads(resp.text)
+        return res
 
 
     def _old_api_request(self, api_stub, qs_params, method="GET"):
@@ -51,11 +54,11 @@ class Wigle():
         resp = requests.request(method, v2_url,
                                 auth=(self.api_name, self.api_key,))
         if resp.status_code >= 400:
-            return resp
+            raise WigleError(resp)
 
         resp = json.loads(resp.text)
         prev_resp = resp
-        while prev_resp['searchAfter'] is not None:
+        while 'searchAfter' in prev_resp and prev_resp['searchAfter'] is not None:
             qs_params['searchAfter'] = prev_resp['searchAfter']
             query = urllib.parse.urlencode(qs_params)
             v2_url = f"https://api.wigle.net/api/v2/{api_stub}?{query}"
@@ -86,9 +89,12 @@ class Wigle():
             "longitude2": lon - gps_offset
         }
         res = self._api_request("cellChannel/LTE", params)
+
+        if not res['success']:
+            raise WigleError(res['message'])
+
         def _noneorzero(element):
             return element is not None and element != 0
-
         return set(filter(_noneorzero, [x['channel'] for x in res['results']] ))
 
     def cell_search(self, lat, lon, gps_offset, cell_id = None, tac = None):
@@ -111,22 +117,7 @@ class Wigle():
         return self._old_api_request("cell/search", params)
 
     def earfcn_search(self, lat, lon, offset):
-        qs_params = {
-            "latrange1": lat + offset,
-            "latrange2": lat - offset,
-            "longrange1": lon + offset,
-            "longrange2": lon - offset,
-            "showGsm": False,
-            "showCdma": False,
-            "showWcdma": False,
-            "showLte": True
-        }
-        res = self._old_api_request("cell/search", qs_params)
-
-        def _noneorzero(element):
-            return element is not None and element != 0
-
-        return set(filter(_noneorzero, [x['channel'] for x in res['results']] ))
+        return self.channel_search(lat, lon, offset)
 
 
 
@@ -146,7 +137,7 @@ class Wigle():
         resp = self.earfcn_search(37.72, -122.156, 0.05)
         print(f"\n=============\nLocal EARFCN\n{resp}\n============")
 
-        resp = self.channel_search(37.72, -122.156, 0.05)
+        resp = self.channel_search(1, 1, 0.05)
         print(f"\n=============\nChannel Search\n{resp}\n============")
 
 
