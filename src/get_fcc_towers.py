@@ -23,7 +23,7 @@ http = urllib3.PoolManager()
 lines_match = re.compile(r"^[ ]+<coordinates>([0-9\-\.]+),([0-9\-\.]+),[0-9]+</coordinates>$")
 
 config_fp = 'config.ini'
-config = configparser.ConfigParser()
+config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
 config.read(config_fp)
 
 try:

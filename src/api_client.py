@@ -105,8 +105,9 @@ if __name__ == "__main__":
         debug = False
         project_name = os.environ['CH_PROJ']
         logger = logger
-        config = configparser.ConfigParser()
-        config.read('config.ini')
+        config_fp = 'config.ini'
+        config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
+        config.read(config_fp)
 
     w = Watchdog(Args)
     apic = ApiClient(w)

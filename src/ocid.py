@@ -11,7 +11,7 @@ from access_points import get_scanner
 from database import OcidCellCache
 
 config_fp = 'config.ini'
-config = configparser.ConfigParser()
+config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
 config.read(config_fp)
 expire_offset = int(config['general']['ocid_cache_len'])
 
