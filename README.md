@@ -4,10 +4,53 @@ Crocodile Hunter is a tool to hunt fake eNodeBs, also known commonly as hailstor
 
 This repository is part of an EFF project studying the newest generation (i.e. 4G/LTE) of Cell Site Simulators. We recommend you read our guide to IMSI Catchers: [Gotta Catch 'Em All](https://www.eff.org/wp/gotta-catch-em-all-understanding-how-imsi-catchers-exploit-cell-networks). 
 
-The main project is located in `/src` and is based off of [srsLTE](https://github.com/srsLTE/srsLTE) and our setup currently supports the USRP B200 and the bladeRF x40.
+The main project is located in `/src` and is based off of [srsLTE](https://github.com/srsLTE/srsLTE) and our setup has been tested and is known to work on the Lime SDR, USRP B200, and the bladeRF x40, but should work with any hardware supported by srsLTE. 
+
+For a complete list of necessary hardware check out our [hardware guide](https://github.com/cooperq/crocodilehunter/blob/master/HARDWARE-REQUIREMENTS.md). 
+
+## Build instructions
+Crocodile hunter works best on ubuntu 20.04 or later. On intel/amd based systems (most laptops) you can simply run the following command to get started:
+```
+https://github.com/EFForg/crocodilehunter.git
+cd crocodilehunter
+sudo ./setup.sh 
+```
+
+Before you run this command we reccomend getting all of the hardware in place and a [Wigle.net](https://wigle.net) api key. 
+
+## Usage
+```
+crocodilehunter.py [-h] [-p PROJECT_NAME] [-d] [-g] [-w]
+
+Hunt stingrays. Get revenge for Steve.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PROJECT_NAME, --project-name PROJECT_NAME
+                        specify the project's name. defaults to 'default'
+  -d, --debug           print debug messages
+  -g, --disable-gps     disable GPS connection and return a default coordinate
+  -w, --disable-wigle   disable Wigle API access
+  -o, --web-only        only start the web interface
+
+```
+
+## Web UI
+Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
+The best way to keep an eye on it on the go is to connect your laptop or pi to a mobile hotspot and then use your phone to view the web UI (that way your computer will still have internet access for making wigle queries.)
+
+If you want to run the webUI without running the scanner simply run the following command:
+`./crocodilehunter -o <-p project name>`
+
+## Help
+If you want help or to connect with others using crocodile hunter check out our mattermost channel at: [opensource.eff.org](https://opensource.eff.org)
+You may also wish to watch a video of @cooperq speaking about crocodile hunter at the [enigma conference](https://youtu.be/tCGCKzP9VBA)
+
+
+## The nitty gritty stuff
 
 ### Hardware Setup 
-You'll need to install the required drivers for either the bladeRF or USRP.
+You'll need to install the required drivers for your software defined radio.
 
 [Driver installation for the USRP B200](https://files.ettus.com/manual/page_install.html#install_linux).
 
@@ -85,7 +128,7 @@ sudo docker-compose up
 ``` 
 in the project directory. 
 
-If you want to set up the database without docekr follow the [instructions for setting up MariaDB.](https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04)
+If you want to set up the database without docker follow the [instructions for setting up MariaDB.](https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04)
 
 if you get an error about a missing msyql_config run the following command:
 `sudo ln -s /usr/bin/mariadb_config /usr/bin/mysql_config`
@@ -110,28 +153,6 @@ To run the full project, use:
 cd src
 ./crocodilehunter.py <arguments>
 ```
-
-### Usage
-```
-crocodilehunter.py [-h] [-p PROJECT_NAME] [-d] [-g] [-w]
-
-Hunt stingrays. Get revenge for Steve.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -p PROJECT_NAME, --project-name PROJECT_NAME
-                        specify the project's name. defaults to 'default'
-  -d, --debug           print debug messages
-  -g, --disable-gps     disable GPS connection and return a default coordinate
-  -w, --disable-wigle   disable Wigle API access
-```
-
-### Web UI
-Once the project is running the Web UI to monitor results can be accessed at `http://localhost:5000`
-The best way to keep an eye on it on the go is to connect your laptop or pi to a mobile hotspot and then use your phone to view the web UI (that way your computer will still have internet access for making wigle queries.)
-
-If you want to run the webUI without running the scanner simply run the following command:
-`export CH_PROJ=<project_name>; python3 webui.py`
 
 ### Migrations
 If the database is changed or if you wish to change the database you can do so with migrations. **Note:** Migrations do not need to be run when setting up a new project, only when upgrading an existing project to a new database schema. 
