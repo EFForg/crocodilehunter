@@ -10,7 +10,7 @@ class ApiController():
         self.db_name = args.db_name
         self.db_session = init_db(self.db_name)
         self.logger = args.logger
-        self.config = args.
+        self.config = args.config
 
     def user_tower_count(self, api_key):
         if ApiTower.query.filter(ApiTower.api_key == api_key).count():
