@@ -10,7 +10,7 @@ class ApiController():
         self.db_name = args.db_name
         self.db_session = init_db(self.db_name)
         self.logger = args.logger
-        self.config = args.config
+        self.config = args.
 
     def user_tower_count(self, api_key):
         if ApiTower.query.filter(ApiTower.api_key == api_key).count():
@@ -35,6 +35,7 @@ class ApiController():
             t = ApiTower(**tower)
             self.db_session.add(t)
             self.db_session.commit()
+            self.db_session.close()
         delta_tc = self.all_tower_count() - old_tc
 
         return (delta_tc, self.user_tower_count(api_key))
@@ -51,6 +52,7 @@ class ApiController():
 
         self.db_session.add(user)
         self.db_session.commit()
+        self.db_session.close()
         return user
 
     def is_key_authorized(self, api_key):
