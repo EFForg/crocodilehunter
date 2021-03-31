@@ -12,6 +12,9 @@ class ApiController():
         self.logger = args.logger
         self.config = args.config
 
+    def __del__(self):
+        self.db_session.close()
+
     def user_tower_count(self, project, api_key):
         if ApiTower.query.filter(ApiTower.api_key == api_key).filter(ApiTower.project == project).count():
             tower = ApiTower.query.filter(ApiTower.api_key == api_key).filter(ApiTower.project == project).order_by(ApiTower.ext_id.desc())[0]
@@ -36,7 +39,6 @@ class ApiController():
             t = ApiTower(**tower)
             self.db_session.add(t)
             self.db_session.commit()
-            #self.db_session.close()
         delta_tc = self.all_tower_count() - old_tc
 
         return (delta_tc, self.user_tower_count(project, api_key))
@@ -53,7 +55,6 @@ class ApiController():
 
         self.db_session.add(user)
         self.db_session.commit()
-        #self.db_session.close()
         return user
 
     def is_key_authorized(self, api_key):
