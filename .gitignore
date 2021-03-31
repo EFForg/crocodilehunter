@@ -107,7 +107,7 @@ venv.bak/
 .mypy_cache/
 
 # vscode
-**/.vscode
+**/.vscode/**
 
 # srsLTE
 srsLTE/build

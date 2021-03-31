@@ -12,9 +12,9 @@ class ApiController():
         self.logger = args.logger
         self.config = args.config
 
-    def user_tower_count(self, api_key):
-        if ApiTower.query.filter(ApiTower.api_key == api_key).count():
-            tower = ApiTower.query.filter(ApiTower.api_key == api_key).order_by(ApiTower.ext_id.desc())[0]
+    def user_tower_count(self, project, api_key):
+        if ApiTower.query.filter(ApiTower.api_key == api_key).filter(ApiTower.project == project).count():
+            tower = ApiTower.query.filter(ApiTower.api_key == api_key).filter(ApiTower.project == project).order_by(ApiTower.ext_id.desc())[0]
             return tower.ext_id
         else:
             return 0
@@ -25,20 +25,21 @@ class ApiController():
     def user_count(self):
         return ApiUser.query.count()
 
-    def add_towers(self, api_key, towers):
+    def add_towers(self, api_key, project, towers):
         old_tc = self.all_tower_count()
         for tower in towers:
             tower["ext_id"] = tower["id"]
             tower.pop("id")
             tower["api_key"] = api_key
+            tower["project"] = project
             tower["uploaded"] = datetime.now()
             t = ApiTower(**tower)
             self.db_session.add(t)
             self.db_session.commit()
-            self.db_session.close()
+            #self.db_session.close()
         delta_tc = self.all_tower_count() - old_tc
 
-        return (delta_tc, self.user_tower_count(api_key))
+        return (delta_tc, self.user_tower_count(project, api_key))
 
 
     def add_user(self, name, contact, description):
@@ -52,7 +53,7 @@ class ApiController():
 
         self.db_session.add(user)
         self.db_session.commit()
-        self.db_session.close()
+        #self.db_session.close()
         return user
 
     def is_key_authorized(self, api_key):

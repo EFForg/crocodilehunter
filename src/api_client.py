@@ -20,7 +20,8 @@ class ApiClient:
             sys.exit(1)
 
     def signup(self):
-        if self.config.has_option('api', 'api_key'):
+        if self.config.has_option('api', 'api_key') \
+                and self.config['api']['api_key']:
             self.logger.success(f"Your API key is {self.config['api']['api_key']}")
             return
         packet = {}
@@ -43,11 +44,12 @@ class ApiClient:
     def statistics(self):
         self.check_api_key()
         j = {
-            'api_key': self.api_key
+            'api_key': self.api_key,
+            'project': self.watchdog.project_name
         }
         r = requests.post(self._make_api_url("statistics"), json=j)
         resp = r.json()
-        if r.status_code == requests.codes.okay:
+        if r.ok:
             self.logger.info(f"Success: {resp}")
             return resp
         else:
@@ -62,12 +64,13 @@ class ApiClient:
         towers = [t.to_dict() for t in self.watchdog.get_all_towers_after(starting_id)]
         j = {
             'api_key': self.api_key,
-            'towers': towers
+            'project': self.watchdog.project_name,
+            'towers': towers,
         }
-        self.logger.debug(j)
+        #self.logger.debug(j)
         r = requests.post(self._make_api_url("add-towers"), json=j)
         resp = r.json()
-        if r.status_code == requests.codes.okay:
+        if r.ok:
             self.logger.info(f"Success: {resp}")
             sys.exit(0)
         else:
@@ -82,7 +85,7 @@ class ApiClient:
         self.api_key = self.config['api']['api_key']
 
     def _make_api_url(self, fragment):
-        return f"https://{self.api_host}:{self.api_port}/api/{fragment}"
+        return f"http://{self.api_host}:{self.api_port}/api/{fragment}"
 
 if __name__ == "__main__":
     from watchdog import Watchdog
@@ -96,28 +99,30 @@ if __name__ == "__main__":
     fmt=f"\b * %(asctime)s crocodile-hunter - %(levelname)s %(message)s"
     coloredlogs.install(level="DEBUG", fmt=fmt, datefmt='%H:%M:%S')
 
-    if not 'CH_PROJ' in os.environ:
-        print("Please set the CH_PROJ environment variable")
-        sys.exit()
-    class Args:
-        disable_gps = True
-        disable_wigle = False
-        debug = False
-        project_name = os.environ['CH_PROJ']
-        logger = logger
-        config_fp = 'config.ini'
-        config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
-        config.read(config_fp)
-
-    w = Watchdog(Args)
-    apic = ApiClient(w)
-
     parser = argparse.ArgumentParser(description="Hunt stingrays. Get revenge for Steve.")
+    parser.add_argument('-p', '--project-name', dest='project_name', default=None,
+                        help="specify the project's name. defaults to 'default'", action='store')
     subparsers = parser.add_subparsers(dest="command", help="command")
     subparsers.add_parser('signup', help="sign up for an API key")
     subparsers.add_parser('add_towers', help="submit new towers to the API Server")
     subparsers.add_parser('statistics', help="get some statisitcs from teh API server")
     args = parser.parse_args()
+
+    class Args:
+        disable_gps = True
+        disable_wigle = False
+        debug = False
+        project_name = args.project_name
+        logger = logger
+        config_fp = 'config.ini'
+        config = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
+        config.read(config_fp)
+
+    if not Args.project_name:
+        args.project_name = Args.config['general']['default_project']
+
+    w = Watchdog(Args)
+    apic = ApiClient(w)
 
     if args.command is None:
         parser.print_help(sys.stderr)

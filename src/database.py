@@ -157,6 +157,7 @@ class Tower(BaseTower):
 class ApiTower(BaseTower):
     __tablename__ = "api_tower_data"
     api_key = Column(String(32), ForeignKey('api_users.api_key'), nullable=False)
+    project = Column(String(255), nullable=False)
     ext_id = Column(Integer, nullable=False)
     uploaded = Column(DateTime, nullable=False)
 

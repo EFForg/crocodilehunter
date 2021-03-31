@@ -56,10 +56,11 @@ class ApiView:
             abort(400)
 
         api_key = request.json['api_key']
+        project = request.json['project']
         towers = request.json['towers']
         self.check_key_auth(api_key)
 
-        (towers_added, last_record) = self.api_controller.add_towers(api_key, towers)
+        (towers_added, last_record) = self.api_controller.add_towers(api_key, project, towers)
         return jsonify({
             "error": None,
             "response": {
@@ -74,14 +75,16 @@ class ApiView:
             abort(400)
 
         api_key = request.json['api_key']
+        project = request.json['project']
         self.check_key_auth(api_key)
 
 
         tower_count = self.api_controller.all_tower_count()
-        user_tower_count = self.api_controller.user_tower_count(api_key)
+        user_tower_count = self.api_controller.user_tower_count(project, api_key)
         return jsonify({
             "error": None,
             "response": {
+                "project": project,
                 "user_last_tower": user_tower_count,
                 "total_towers": tower_count,
             }
