@@ -80,7 +80,7 @@ class BaseTower(Base):
     external_db = Column(Enum(ExternalTowers), default=ExternalTowers.unknown, nullable=False)
 
 class Tower(BaseTower):
-    api_key = Column(String(32), ForeignKey('api_users.api_key'), nullable=False)
+    api_key = Column(String(32), nullable=False)
     ext_id = Column(Integer, nullable=False)
     uploaded = Column(DateTime, nullable=False)
 
