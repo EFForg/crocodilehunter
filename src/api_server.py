@@ -79,14 +79,12 @@ class ApiView:
         self.check_key_auth(api_key)
 
 
-        tower_count = self.api_controller.all_tower_count()
         user_tower_count = self.api_controller.user_tower_count(project, api_key)
         return jsonify({
             "error": None,
             "response": {
                 "project": project,
                 "user_last_tower": user_tower_count,
-                "total_towers": tower_count,
             }
         })
 
@@ -99,15 +97,15 @@ class ApiView:
             abort(400)
 
         user = self.api_controller.add_user(signup['name'], signup['contact'], signup['description'])
-        self.logger.success(f'add user {user}')
+        self.logger.success(f'add user {user[1]}')
 
         return jsonify({
             "error": None,
             "response": {
-                "api_key": user.api_key,
-                "name": user.name,
-                "contact": user.contact,
-                "description": user.description,
+                "name": user[0],
+                "contact": user[1],
+                "description": user[2],
+                "api_key": user[3],
             }
         })
 

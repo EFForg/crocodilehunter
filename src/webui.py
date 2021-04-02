@@ -113,6 +113,9 @@ class Webui:
             "mnc",
             "suspiciousness",
             "external_db",
+            "api_key",
+            "ext_id",
+            "uploaded",
             "tx_pwr"
         ]
         showcols = list(set(tower.params()) - set(hidecols))
@@ -138,10 +141,10 @@ class Webui:
             "lon",
             "raw_sib1",
             "id",
-            "mcc",
-            "mnc",
-            "tac",
             "enodeb_id",
+            "api_key",
+            "ext_id",
+            "uploaded",
         ]
         showcols = list(set(t.params()) - set(hidecols))
         showcols.sort()

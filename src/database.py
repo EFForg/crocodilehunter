@@ -80,6 +80,10 @@ class BaseTower(Base):
     external_db = Column(Enum(ExternalTowers), default=ExternalTowers.unknown, nullable=False)
 
 class Tower(BaseTower):
+    api_key = Column(String(32), ForeignKey('api_users.api_key'), nullable=False)
+    ext_id = Column(Integer, nullable=False)
+    uploaded = Column(DateTime, nullable=False)
+
     def __repr__(self):
         repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
             f"{self.lon}, time: {self.timestamp}, freq: {self.frequency}>"
@@ -153,13 +157,6 @@ class Tower(BaseTower):
         # The last 8 bits are sector id.
         return self.cid & 255
 
-
-class ApiTower(BaseTower):
-    __tablename__ = "api_tower_data"
-    api_key = Column(String(32), ForeignKey('api_users.api_key'), nullable=False)
-    project = Column(String(255), nullable=False)
-    ext_id = Column(Integer, nullable=False)
-    uploaded = Column(DateTime, nullable=False)
 
 class ApiUser(Base):
     __tablename__ = "api_users"
