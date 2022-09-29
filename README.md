@@ -11,7 +11,7 @@ For a complete list of necessary hardware check out our [hardware guide](https:/
 ## Build instructions
 Crocodile hunter works best on ubuntu 20.04 or later. On intel/amd based systems (most laptops) you can simply run the following command to get started:
 ```
-https://github.com/EFForg/crocodilehunter.git
+git clone https://github.com/EFForg/crocodilehunter.git
 cd crocodilehunter
 sudo ./setup.sh 
 ```
