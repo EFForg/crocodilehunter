@@ -80,9 +80,9 @@ class BaseTower(Base):
     external_db = Column(Enum(ExternalTowers), default=ExternalTowers.unknown, nullable=False)
 
 class Tower(BaseTower):
-    api_key = Column(String(32), nullable=False)
-    ext_id = Column(Integer, nullable=False)
-    uploaded = Column(DateTime, nullable=False)
+    api_key = Column(String(32), nullable=True)
+    ext_id = Column(Integer, nullable=True)
+    uploaded = Column(DateTime, nullable=True)
 
     def __repr__(self):
         repr = f"<Tower: {self.mcc}-{self.mnc}-{self.tac}-{self.enodeb_id}, loc: {self.lat}," + \
