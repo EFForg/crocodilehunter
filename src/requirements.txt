@@ -16,7 +16,7 @@ humanfriendly==9.1
 idna==2.8
 itsdangerous==1.1.0
 jinja2==2.11.3
-mako==1.1.4
+mako==1.2.2
 markupsafe==1.1.1
 mysqlclient==1.4.2.post1
 numpy==1.17.4
