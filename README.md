@@ -1,5 +1,9 @@
 # Crocodile Hunter
 
+### As of December 2022 this project is no longer maintained and will  not be supported going forward. It will be left up here for archival and historical purposes. We do not reccommend using this software in new projects going forward. 
+
+---
+
 Crocodile Hunter is a tool to hunt fake eNodeBs, also known commonly as hailstorm, stingray, cell site simulators, or IMSI catchers. It works by listening for broadcast messages from all of the 4G stations in the area, inferring their location, and looking for unusual activity. 
 
 This repository is part of an EFF project studying the newest generation (i.e. 4G/LTE) of Cell Site Simulators. We recommend you read our guide to IMSI Catchers: [Gotta Catch 'Em All](https://www.eff.org/wp/gotta-catch-em-all-understanding-how-imsi-catchers-exploit-cell-networks). 
