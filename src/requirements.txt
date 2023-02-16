@@ -29,4 +29,4 @@ sqlalchemy-utils
 sqlalchemy
 urllib3
 verboselogs==1.7
-werkzeug==1.0.1
+werkzeug==2.2.3
